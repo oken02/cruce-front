@@ -1,0 +1,53 @@
+{
+  "name": "cruce",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/icons": "^1.0.15",
+    "@chakra-ui/react": "^1.6.8",
+    "@material-ui/core": "^4.12.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.4",
+    "bcrypt": "^5.0.1",
+    "concurrently": "^6.2.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "redux-logger": "^3.0.6",
+    "redux-toolkit": "^1.1.2",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "concurrently 'npm run server' 'npm run client'",
+    "server": "nodemon api/server.js",
+    "client": "react-scripts start",
+    "build": "react-scripts build",
+    "seed": "node api/seed"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
