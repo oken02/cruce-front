@@ -1,19 +1,40 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express')
+const mongooseLoader = require('./db')
+
+const app = express()
+
+app.use(express.json())
+
+
+
+mongooseLoader()
+.then(() => {
+	console.log("Db loaded and connected");
+	app.listen(3001, () => {
+		console.log(`Example app listening at http://localhost:3001`);
+	})
+}).catch(err => console.log(err))
+
+
+
+
+// --------------------------------------
+
+/* const cors = require("cors");
 const http = require("http");
-const { Server } = require("socket.io");
-const routes = require("./routes/index");
-require("./mongo");
+const { Server } = require("socket.io"); */
+/* const routes = require("./routes/index"); */
+/* require("./mongo"); */
 
-const app = express();
 
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+//app.use(cors());
+/* app.use(express.urlencoded({ extended: true })); */
 
-app.use("/api", routes);
 
-app.use(function (err, req, res, next) {
+
+/* app.use("/api", routes); */
+
+/* app.use(function (err, req, res, next) {
   if (err.name === "ValidationError") {
     console.log("ERROR AL VALIDAR LOS CAMPOS");
   }
@@ -44,12 +65,13 @@ io.on("connection", (socket) => {
   //   console.log("NUMBERS", numbers);
   //   io.emit("numbers", numbers);
   // }, 2000);
-});
+}); */
 
-server.listen(3001, () => {
+//dentro de la fn conect
+
+/* server.listen(3001, () => {
   console.log("SERVER ON PORT", 3001);
-});
+}); */
 
 // app.listen(3001, () => {
 //   console.log("SERVER ON PORT", 3001);
-// });
