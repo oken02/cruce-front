@@ -12,4 +12,5 @@ router.use("/Local", LocalRouter)
 router.use("/Shipping", ShippingRouter)
 router.use("/User", UserRouter)
 
-module.exports = router;
+
+module.exports = router
