@@ -1,11 +1,15 @@
 const express = require('express')
 const mongooseLoader = require('./db')
+const routes = require("./routes")
 
 const app = express()
 
 app.use(express.json())
 
 
+//FIJARSE EL TEMA DE MIDDLEWARES NECESARIOS
+
+app.use("/api", routes)
 
 mongooseLoader()
 .then(() => {
