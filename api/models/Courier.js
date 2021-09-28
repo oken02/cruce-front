@@ -1,13 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const courierSchema = new Schema({
-    name : String,
-    direction : String,
-    onCharge : String,
-    phone : Number
-})
+  name: String,
+  direction: String,
+  onCharge: String,
+  phone: Number,
+});
 
-const Courier = mongoose.model("Courier", courierSchema)
+const Courier = mongoose.model("Courier", courierSchema);
 
-module.exports = Courier
+module.exports = Courier;

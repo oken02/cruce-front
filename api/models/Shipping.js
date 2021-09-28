@@ -1,4 +1,6 @@
-import mongoose from 'mongoose';
+
+const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const clientAddressSchema = new Schema({
