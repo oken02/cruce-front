@@ -6,7 +6,7 @@ const LocalRouter = require("./local");
 const ShippingRouter = require("./shipping");
 const UserRouter = require("./user");
 const authRouter = require("./auth.routes");
-
+ 
 router.use("/Courier", CourierRouter);
 router.use("/Local", LocalRouter);
 router.use("/Shipping", ShippingRouter);
