@@ -14,4 +14,4 @@ router.use("/User", UserRouter);
 
 router.use("/auth", authRouter);
 
-module.exports = router;
+module.exports = router
