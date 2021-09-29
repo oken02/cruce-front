@@ -47,11 +47,24 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
-  console.log("BODY", req.body);
-  const user = await User.create(req.body);
 
-  res.json(user);
+ router.post("/create", async (req, res, next) => {
+   console.log("BODY", req.body);
+   const {fullName, email, dniCuil, password, rol, direction} = req.body
+   const saltRounds = 10
+   const passwordHashed = await bcrypt.hash(password, saltRounds)
+   const user = await new User({
+     fullName : fullName,
+     email: email,
+     dniCuil : dniCuil,
+     password: passwordHashed,
+     rol: rol,
+     direction : direction,
+   });
+   await user.save()
+
+   res.json(user);
+
  });
 
 module.exports = router;
