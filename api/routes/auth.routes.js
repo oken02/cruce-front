@@ -31,8 +31,8 @@ router.post("/login", async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      // if (user && password === user.password) {
+    //if (user && (await bcrypt.compare(password, user.password))) {
+      if (user && password === user.password) {
       const token = generateJWT({
         id: user._id,
         role: user.role,
@@ -46,6 +46,7 @@ router.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
 
  router.post("/create", async (req, res, next) => {
    console.log("BODY", req.body);
@@ -63,6 +64,7 @@ router.post("/login", async (req, res, next) => {
    await user.save()
 
    res.json(user);
+
  });
 
 module.exports = router;
