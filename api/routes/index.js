@@ -17,5 +17,9 @@ router.use("/User", UserRouter);
 
 router.use("/auth", authRouter);
 
+router.use('/Courier', CourierRouter);
+router.use('/Local', LocalRouter);
+router.use('/Shipping', ShippingRouter);
+router.use('/User', UserRouter);
 
 module.exports = router
