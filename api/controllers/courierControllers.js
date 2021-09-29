@@ -44,9 +44,10 @@ const courierUpdate = async (req, res, next) => {
     let courier = req.body;
     //courier._id = id;
 
-    await Courier.updateOne(id,courier);
+     await Courier.updateOne(id,courier);
+     const resultado = await Courier.findById(id);
 
-    res.json(courier);
+    res.status(202,"Acepted").json(resultado);
   } catch (err) {
     next(err);
   }
