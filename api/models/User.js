@@ -7,7 +7,7 @@ const userSchema = new Schema({
   email: String,
   dniCuil: Number,
   password: String,
-  rol: String,
+  role: String,
   direction: String,
   courierId: {
     type: Schema.Types.ObjectId,
