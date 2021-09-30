@@ -1,6 +1,8 @@
 import {
   Avatar,
   Box,
+  Button,
+  ButtonGroup,
   Collapse,
   Drawer,
   DrawerContent,
@@ -26,10 +28,12 @@ import {
 } from "react-icons/md";
 import React from "react";
 import LoginForm from "./Forms/LoginForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, useHistory, Switch } from "react-router-dom";
 import OrdersList from "../components/Tables/OrdersList";
 import Messengers from "../components/Tables/Messengers";
+import UserCreationForm from "../components/Forms/UserCreationForm"
+import { logoutUser } from "../store/reducers/usersReducer";
 
 const itemsSidebar = {
   courier: [
@@ -49,8 +53,14 @@ const itemsSidebar = {
 export default function Sidebar() {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
+  const dispatch = useDispatch()
   const history = useHistory();
   const { loggedUser } = useSelector((state) => state.user);
+
+  const logout = () => {
+    dispatch(logoutUser())
+    history.push("/login")
+  }
 
   const NavItem = ({ icon, children, url, ...rest }) => {
     // const { icon, children, ...rest,url } = props;
@@ -136,6 +146,11 @@ export default function Sidebar() {
             {item.name}
           </NavItem>
         ))}
+
+
+          <ButtonGroup variant="outline" spacing="6">
+            <Button colorScheme="blue" onClick={logout} >Logout</Button >
+          </ButtonGroup>
         {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
           Driver
           <Icon
@@ -221,6 +236,7 @@ export default function Sidebar() {
                 {loggedUser.role}
               </h1>
             </Route>
+            <Route exact path="/dashboard/messenger" render={() => <UserCreationForm />} />
             <Route
               exact
               path="/dashboard/orders"

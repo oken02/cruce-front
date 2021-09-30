@@ -1,5 +1,5 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
 
 import {
   TableContainer,
@@ -19,27 +19,15 @@ import useTables from "../../hooks/useTables";
 import { Box } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
-const cadetes = [
-  { id: 1, fullName: "Juan Perez", email: "jperez@gmail.com", dni: 30301031 },
-  { id: 2, fullName: "Miguel Perez", email: "mperez@gmail.com", dni: 30301031 },
-  {
-    id: 3,
-    fullName: "Roberto Rodriguez",
-    email: "rr@gmail.com",
-    dni: 25452887,
-  },
-  {
-    id: 4,
-    fullName: "Jorge García",
-    email: "jgarcia@gmail.com",
-    dni: 30301031,
-  },
-];
 
 
 
 const Messengers = () => {
+  const history = useHistory()
+  const token = localStorage.getItem("token")
   const {
     records,
     setRecords,
@@ -50,11 +38,22 @@ const Messengers = () => {
     handleSearchText,
   } = useTables({});
 
+  const [messengers, setMessengers] = useState([])
+
+useEffect(()=>{
+  axios.get("http://localhost:3001/api/user/messenger/", {headers: {
+    Authorization: "Bearer " + token,
+  }})
+  .then(res => setMessengers(res.data))
+},[])
+
+console.log(messengers)
+
   useEffect(() => {
-    if (cadetes) {
-      setRecords(cadetes);
+    if (messengers) {
+      setRecords(messengers);
     }
-  }, [cadetes]);
+  }, [messengers]);
 
   // useEffect(() => {
   //   if (searchText) {
@@ -67,7 +66,7 @@ const Messengers = () => {
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
         <h1>Lista de cadetes</h1>
-        <Button colorScheme="teal" size="sm">
+        <Button colorScheme="teal" size="sm" onClick={() => history.push("/dashboard/messenger")}>
           Crear cadete
         </Button>
       </Box>
@@ -88,13 +87,13 @@ const Messengers = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {records.map((row, index) => {
+              {messengers.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{index+1}</TableCell>
                     <TableCell>{row.fullName}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.dni}</TableCell>
+                    <TableCell>{row.dniCuil}</TableCell>
                   </TableRow>
                 );
               })}
