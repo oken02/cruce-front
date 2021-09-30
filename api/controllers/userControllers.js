@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 
 const createMessengerUser = async (req, res,next) => {
     try {
-        console.log(req.payload)
     const {courierId} = req.payload
     const { userName, userEmail, userDniCuil, userPassword, userAddress } = req.body
     const saltRounds = 10
@@ -61,8 +60,9 @@ const updateUser = async (req, res, next) => {
 
 const userMessengerList = async (req, res, next) => {
     try{
-        const { courId } = req.payload
-        const user = await User.find({role : "messenger", courId : courId});
+        const { courierId } = req.payload
+        console.log(req.payload)
+        const user = await User.find({role : "messenger", courierId : courierId});
         const users = await Courier.populate(user, { path: "courierId"})
         res.json(user);
     } catch (err) { next(err) }

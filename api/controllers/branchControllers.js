@@ -40,7 +40,7 @@ const updateBranch = async (req, res, next) => {
       next(error);
     }
   };
-  
+
 const deleteBranch = async (req, res, next) => {
     const id = req.params.id;
   
