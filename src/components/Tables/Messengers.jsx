@@ -17,12 +17,24 @@ import SearchBar from "./SearchBar";
 //Hooks
 import useTables from "../../hooks/useTables";
 import { Box } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import { Input } from "@chakra-ui/input";
 
 const cadetes = [
   { id: 1, fullName: "Juan Perez", email: "jperez@gmail.com", dni: 30301031 },
   { id: 2, fullName: "Miguel Perez", email: "mperez@gmail.com", dni: 30301031 },
-  {id: 3, fullName: "Roberto Rodriguez", email: "rr@gmail.com", dni: 25452887},
-  {id: 4, fullName: "Jorge García", email: "jgarcia@gmail.com", dni: 30301031},
+  {
+    id: 3,
+    fullName: "Roberto Rodriguez",
+    email: "rr@gmail.com",
+    dni: 25452887,
+  },
+  {
+    id: 4,
+    fullName: "Jorge García",
+    email: "jgarcia@gmail.com",
+    dni: 30301031,
+  },
 ];
 
 const Messengers = () => {
@@ -44,17 +56,27 @@ const Messengers = () => {
 
   // useEffect(() => {
   //   if (searchText) {
-  //     const Searched = 
+  //     const Searched =
   //   }
 
   // }, [])
 
   return (
-    <Box>
-      <h1>Lista de cadetes</h1>
-      <Card style={{ margin: "50px" }}>
+    <Box p="4">
+      <Box display="flex" justifyContent="space-between" mb="4">
+        <h1>Lista de cadetes</h1>
+        <Button colorScheme="teal" size="sm">
+          Crear cadete
+        </Button>
+      </Box>
+
+      <Card>
         <TableContainer>
-          <SearchBar searchText={searchText} onSearchText={handleSearchText}/>
+          <Box p="3">
+          {/* <Input placeholder="Basic usage" /> */}
+          <SearchBar searchText={searchText} onSearchText={handleSearchText} />
+
+          </Box>
           <Table size="small">
             <TablesHead
               order={order}

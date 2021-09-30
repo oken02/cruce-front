@@ -14,7 +14,7 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   MdHome,
   MdKeyboardArrowRight,
@@ -23,28 +23,49 @@ import {
   MdLocationOn,
   MdPerson,
   MdSettings,
-} from 'react-icons/md';
-import React from 'react';
-import LoginForm from './Forms/LoginForm';
-import { Route } from 'react-router';
+} from "react-icons/md";
+import React from "react";
+import LoginForm from "./Forms/LoginForm";
+import { useSelector } from "react-redux";
+import { Route, useHistory, Switch } from "react-router-dom";
+import OrdersList from "../components/Tables/OrdersList";
+import Messengers from "../components/Tables/Messengers";
+
+const itemsSidebar = {
+  courier: [
+    { name: "home", url: "", icon: MdHome },
+    { name: "Cadetes", url: "/messengers", icon: MdPerson },
+  ],
+  messenger: [
+    { name: "home", url: "", icon: MdHome },
+    { name: "Pedidos", url: "/orders", icon: MdLocationOn },
+  ],
+  // ecommerce: [
+  //   { name: "home", url: "/home" },
+  //   // { name: "Pedidos", url: "/orders" },
+  // ],
+};
 
 export default function Sidebar() {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
+  const history = useHistory();
+  const { loggedUser } = useSelector((state) => state.user);
 
-  const NavItem = (props) => {
-    const { icon, children, ...rest } = props;
+  const NavItem = ({ icon, children, url, ...rest }) => {
+    // const { icon, children, ...rest,url } = props;
     return (
       <Flex
+        onClick={() => history.push(url)}
         align="center"
         px="4"
         pl="4"
         py="3"
         cursor="pointer"
-        color={useColorModeValue('inherit', 'gray.400')}
+        color={useColorModeValue("inherit", "gray.400")}
         _hover={{
-          bg: useColorModeValue('gray.100', 'gray.900'),
-          color: useColorModeValue('gray.900', 'gray.200'),
+          bg: useColorModeValue("gray.100", "gray.900"),
+          color: useColorModeValue("gray.900", "gray.200"),
         }}
         role="group"
         fontWeight="semibold"
@@ -77,8 +98,8 @@ export default function Sidebar() {
       pb="10"
       overflowX="hidden"
       overflowY="auto"
-      bg={useColorModeValue('white', 'gray.800')}
-      borderColor={useColorModeValue('inherit', 'gray.700')}
+      bg={useColorModeValue("white", "gray.800")}
+      borderColor={useColorModeValue("inherit", "gray.700")}
       borderRightWidth="1px"
       w="60"
       {...props}
@@ -87,7 +108,7 @@ export default function Sidebar() {
         <Text
           fontSize="2xl"
           ml="2"
-          color={useColorModeValue('brand.500', 'white')}
+          color={useColorModeValue("brand.500", "white")}
           fontWeight="semibold"
         >
           CRUCE
@@ -100,16 +121,27 @@ export default function Sidebar() {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem icon={MdHome}>Home</NavItem>
+        {/* <NavItem icon={MdHome}>Home</NavItem>
+
         <NavItem icon={MdLocationOn}>Pedidos</NavItem>
         <NavItem icon={MdStore}>Sucursales</NavItem>
-        <NavItem icon={MdLocalShipping}>Mensajerias</NavItem>
-        <NavItem icon={MdPerson} onClick={integrations.onToggle}>
+        <NavItem icon={MdLocalShipping}>Mensajerias</NavItem> */}
+
+        {itemsSidebar[loggedUser.role].map((item) => (
+          <NavItem
+            url={`/dashboard${item.url}`}
+            key={item.name}
+            icon={item.icon}
+          >
+            {item.name}
+          </NavItem>
+        ))}
+        {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
           Driver
           <Icon
             as={MdKeyboardArrowRight}
             ml="auto"
-            transform={integrations.isOpen && 'rotate(90deg)'}
+            transform={integrations.isOpen && "rotate(90deg)"}
           />
         </NavItem>
         <Collapse in={integrations.isOpen}>
@@ -123,17 +155,17 @@ export default function Sidebar() {
             Zapier
           </NavItem>
         </Collapse>
-        <NavItem icon={MdSettings}>Settings</NavItem>
+        <NavItem icon={MdSettings}>Settings</NavItem> */}
       </Flex>
     </Box>
   );
   return (
     <Box
       as="section"
-      bg={useColorModeValue('gray.50', 'gray.700')}
+      bg={useColorModeValue("gray.50", "gray.700")}
       minH="100vh"
     >
-      <SidebarContent display={{ base: 'none', md: 'unset' }} />
+      <SidebarContent display={{ base: "none", md: "unset" }} />
       <Drawer
         isOpen={sidebar.isOpen}
         onClose={sidebar.onClose}
@@ -182,7 +214,21 @@ export default function Sidebar() {
 
         <Box as="main" p="4">
           {/* Add content here, remove div below  */}
-          <Route exact path="/" render={() => <LoginForm />} />
+          <Switch>
+            <Route exact path="/dashboard">
+              <h1>BIENVENIDO USUARIO ROLE: === {loggedUser.role}</h1>
+            </Route>
+            <Route
+              exact
+              path="/dashboard/orders"
+              render={() => <OrdersList />}
+            />
+            <Route
+              exact
+              path="/dashboard/messengers"
+              render={() => <Messengers />}
+            />
+          </Switch>
         </Box>
       </Box>
     </Box>
