@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const courierSchema = new Schema({
   name: String,
-  direction: String,
-  onCharge: String,
+  address: String,
+  manager: String,
   phone: Number,
 });
 

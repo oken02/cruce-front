@@ -32,10 +32,11 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      // if (user && password === user.password) {
+    /*   if (user && password === user.password) { */
       const token = generateJWT({
         id: user._id,
         role: user.role,
+        courierId: user.courierId,
       });
       console.log("USER LOGGED", user);
       return res.json({ ok: true, user, token });
@@ -47,11 +48,24 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// router.post("/create", async (req, res, next) => {
-//   console.log("BODY", req.body);
-//   const user = await User.create(req.body);
 
-//   res.json(user);
-// });
+ router.post("/create", async (req, res, next) => {
+   console.log("BODY", req.body);
+   const {fullName, email, dniCuil, password, role, direction} = req.body
+   const saltRounds = 10
+   const passwordHashed = await bcrypt.hash(password, saltRounds)
+   const user = await new User({
+     fullName : fullName,
+     email: email,
+     dniCuil : dniCuil,
+     password: passwordHashed,
+     role: role,
+     direction : direction,
+   });
+   await user.save()
+
+   res.json(user);
+
+ });
 
 module.exports = router;

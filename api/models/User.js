@@ -3,11 +3,27 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  fullName: String,
-  email: String,
-  dniCuil: Number,
+  fullName: {
+    type: String,
+    required: true,
+    lowercase: true
+  },
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+    unique: true,
+  },
+  dniCuil: {
+    type: Number,
+    required : true,
+  },
   password: String,
-  rol: String,
+  role: {
+    type: String,
+    required: true,
+    immutable: true
+  },
   direction: String,
   courierId: {
     type: Schema.Types.ObjectId,
