@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import OrdersList from "../components/Tables/OrdersList";
 import Order from "../components/Order";
 import Branches from "../components/Tables/Branches";
@@ -37,16 +37,17 @@ function App() {
 
   return (
     <div className="App">
-      <p style={{ marginLeft: "50px" }}>
+      {/* <p style={{ marginLeft: "50px" }}>
         {JSON.stringify({ isValidated, loggedUser })}
-      </p>
+      </p> */}
 
       <BrowserRouter>
         <Switch>
+          <Redirect exact from="/" to="/dashboard" />
           <Route exact path="/login" render={() => <LoginForm />} />
 
           <Route path="/dashboard">
-            <h1>HOLA</h1>
+            {/* <h1>HOLA</h1> */}
             <Sidebar />
           </Route>
 

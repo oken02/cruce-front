@@ -54,13 +54,13 @@ const stateSchema = new Schema({
 //---------------------------------
 //Verificar el ActualState con hook
 
-const shippingSchema = new Schema({
+const orderSchema = new Schema({
     client : clientSchema,
     product : [productSchema],
     observations : String,
-    localId : {
+    branchId : {
         type : Schema.Types.ObjectId,
-        ref: "Local"
+        ref: "Branch"
     },
     userId : {
         type: Schema.Types.ObjectId,
@@ -77,7 +77,7 @@ const shippingSchema = new Schema({
     //*********/
 })
 
-const Shipping = mongoose.model("Shipping", shippingSchema)
+const Order = mongoose.model("Order", orderSchema)
 
-module.exports = Shipping
+module.exports = Order
 

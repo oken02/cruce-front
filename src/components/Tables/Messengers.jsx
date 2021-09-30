@@ -37,6 +37,8 @@ const cadetes = [
   },
 ];
 
+
+
 const Messengers = () => {
   const {
     records,
@@ -73,9 +75,11 @@ const Messengers = () => {
       <Card>
         <TableContainer>
           <Box p="3">
-          {/* <Input placeholder="Basic usage" /> */}
-          <SearchBar searchText={searchText} onSearchText={handleSearchText} />
-
+            {/* <Input placeholder="Basic usage" /> */}
+            <SearchBar
+              searchText={searchText}
+              onSearchText={handleSearchText}
+            />
           </Box>
           <Table size="small">
             <TablesHead

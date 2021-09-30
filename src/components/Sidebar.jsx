@@ -216,7 +216,10 @@ export default function Sidebar() {
           {/* Add content here, remove div below  */}
           <Switch>
             <Route exact path="/dashboard">
-              <h1>BIENVENIDO USUARIO ROLE: === {loggedUser.role}</h1>
+              <h1>
+                BIENVENIDO USUARIO {loggedUser.fullName} CON ROLE :::
+                {loggedUser.role}
+              </h1>
             </Route>
             <Route
               exact
