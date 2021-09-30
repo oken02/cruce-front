@@ -1,7 +1,7 @@
 const Courier = require ("./Courier")
-const Local = require ("./Local")
-const Shipping = require ("./Shipping")
+const Branch = require ("./Branch")
+const Order = require ("./Order")
 const User = require ("./User")
 
-module.exports = {Courier, Local, Shipping, User}
+module.exports = {Courier, Branch, Order, User}
 

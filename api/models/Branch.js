@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const localSchema = new Schema({
+const branchSchema = new Schema({
     name : String,
     address : String,
     manager : String,
     phone : Number
 })
 
-const Local = mongoose.model("Local", localSchema)
+const Branch = mongoose.model("Branch", branchSchema)
 
-module.exports = Local
+module.exports = Branch

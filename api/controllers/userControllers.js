@@ -1,8 +1,8 @@
 const { User , Courier } = require("../models")
 const bcrypt = require('bcrypt')
 
-//crea un cadete  FALTA MIDDLEWARE 
-const createDeliveryUser = async (req, res,next) => {
+
+const createMessengerUser = async (req, res,next) => {
     try {
     const {courierId} = req.payload
     const { fullName, email, dniCuil, password, direction } = req.body
@@ -11,30 +11,29 @@ const createDeliveryUser = async (req, res,next) => {
     const courier = await Courier.findById(courierId)
 
 
-    const newDeliveryUser = new User({
+    const newMessengerUser = new User({
         fullName : fullName,
         email : email,
         dniCuil : dniCuil,
         password : passwordHashed,
-        role : "delivery",
+        role : "messenger",
         direction : direction,
         courierId : courier
     })
-    await newDeliveryUser.save()
-    res.status(201).send(newDeliveryUser)
+    await newMessengerUser.save()
+    res.status(201).send(newMessengerUser)
 
     } 
     catch (err) {next(err)}
 }
 
-// delivery details
+
 const userDetails = async (req, res, next) => {
     try{
         const id = req.params.id
-        console.log(id)
-    const user = await User.findById(id)
-    res.status(200).send(user)
-    }catch(err){ next (err)}
+        const user = await User.findById(id)
+        res.status(200).send(user)
+    } catch(err){ next (err)}
 }
 
 
@@ -59,33 +58,28 @@ const updateUser = async (req, res, next) => {
     }catch(err){next(err)}
 }
 
-// users deliveryList
-const userDeliveryList = async (req, res, next) => {
+const userMessengerList = async (req, res, next) => {
     try{
-           const user = await User.find({role : "delivery" });
-           
-            res.json(user);
-        } catch (err) {
-            next(err)
-    }
+        const user = await User.find({role : "messenger" });
+        const users = await Courier.populate(user, { path: "courierId"})
+        res.json(user);
+    } catch (err) { next(err) }
 };
-// users courierList
+
+
 const userCourierList = async (req, res, next) => {
     try{
-           const user = await User.find({role : "courier" });
-           
-            res.json(user);
-        } catch (err) {
-            next(err)
-    }
+        const user = await User.find({role : "courier" });
+        res.json(user);
+    } catch (err) { next(err) }
 };
 
 
 
 module.exports = { 
-    createDeliveryUser,
+    createMessengerUser,
     userDetails,
-    userDeliveryList, 
+    userMessengerList, 
     userCourierList, 
     deleteUser,
     updateUser 
