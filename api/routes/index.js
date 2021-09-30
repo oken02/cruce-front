@@ -16,6 +16,7 @@ router.use("/Local", [validateJWT, roleEcommerce ],LocalRouter);
 router.use("/Shipping", ShippingRouter);
 router.use("/User", validateJWT, UserRouter);
 
+
 router.use("/auth", authRouter);
 
 
