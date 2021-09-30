@@ -60,7 +60,7 @@ const orderSchema = new Schema({
     observations : String,
     branchId : {
         type : Schema.Types.ObjectId,
-        ref: "branch"
+        ref: "Branch"
     },
     userId : {
         type: Schema.Types.ObjectId,
