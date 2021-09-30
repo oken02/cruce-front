@@ -4,20 +4,20 @@ const validateJWT = require('../middlewares/validateJWT');
 const { roleEcommerce } = require('../middlewares/validateRole');
 
 
-const CourierRouter = require("./courier");
-const LocalRouter = require("./local");
-const ShippingRouter = require("./shipping");
-const UserRouter = require("./user");
+const CourierRouter = require("./courier.routes");
+const BranchRouter = require("./branch.routes");
+const OrderRouter = require("./order.routes");
+const UserRouter = require("./user.routes");
 const authRouter = require("./auth.routes");
 
  
-router.use("/Courier", [validateJWT, roleEcommerce ], CourierRouter);
-router.use("/Local", [validateJWT, roleEcommerce ],LocalRouter);
-router.use("/Shipping", ShippingRouter);
-router.use("/User", validateJWT, UserRouter);
-
-
+router.use("/courier", [validateJWT, roleEcommerce ], CourierRouter);
+router.use("/branch", [validateJWT, roleEcommerce ], BranchRouter);
+router.use("/order", OrderRouter);
+router.use("/user", validateJWT, UserRouter);
 router.use("/auth", authRouter);
 
 
+
 module.exports = router
+
