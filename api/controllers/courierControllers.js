@@ -3,11 +3,11 @@ const { Courier } = require("../models");
 // create Courier /cadeterias
 const courierCreate = async (req, res, next) => {
   try {
-    let { name, direction, onCharge, phone } = req.body;
+    let { name, address, manager, phone } = req.body;
     courier = await Courier.create({
       name,
-      direction,
-      onCharge,
+      address,
+      manager,
       phone,
     });
 
@@ -37,10 +37,11 @@ const courierFind = async (req, res, next) => {
     }
 };
 
+
 // update Courier
 const courierUpdate = async (req, res, next) => {
     try {
-    let  id  = {_id : req.params.id};
+    let  id  = req.params.id;
     let courier = req.body;
     //courier._id = id;
 
@@ -52,10 +53,10 @@ const courierUpdate = async (req, res, next) => {
     next(err);
   }
 };
-
+// Delete Courier
 const courierDelete = async (req, res, next) => {
   try {
-		const id = { _id : req.params.id};
+		const id = req.params.id;
 		await Courier.findByIdAndDelete(id);
 		const result = {
 			message: `User with id: ${id._id} deleted`,

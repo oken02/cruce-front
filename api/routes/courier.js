@@ -6,8 +6,13 @@ const { courierCreate, courierUpdate, courierList, courierFind, courierDelete } 
 
 router.get('/', courierList);
 router.get('/:id', courierFind);
+
+//Crear un courier
 router.post('/courierAdd', courierCreate);
+
 router.put('/:id', courierUpdate); //auth? validatejwt
 router.delete('/:id', courierDelete)
 
 module.exports = router
+
+
