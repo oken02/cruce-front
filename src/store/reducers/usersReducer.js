@@ -1,30 +1,56 @@
-import axios from 'axios';
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 // import { useToast } from '@chakra-ui/react';
 
 export const loginUser = createAsyncThunk(
-  'LOGIN_USER',
+  "LOGIN_USER",
   ({ email, password }) => {
     return axios
-      .post('http://localhost:3001/api/auth/login', { email, password })
+      .post("http://localhost:3001/api/auth/login", { email, password })
       .then((response) => {
-        return response.data;
+        return response.data; //{ ok: true, user, token }
       });
   }
 );
 
-export const logoutUser = createAsyncThunk('LOGOUT_USER', () => {
+export const sendValidation = createAsyncThunk(
+  "SEND_VALIDATION",
+  (data, thunkAPI) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) return thunkAPI.rejectWithValue();
+
+    console.log("TOKEN", token);
+    
+    return axios
+      .post(
+        "http://localhost:3001/api/auth/validate",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then(({ data }) => data);
+  }
+);
+
+export const logoutUser = createAsyncThunk("LOGOUT_USER", () => {
   return axios
-    .post('http://localhost:3001/api/users/logout')
+    .post("http://localhost:3001/api/users/logout")
     .then((response) => {
       return response.data;
     });
 });
 
 const initialState = {
-  loggedUser: JSON.parse(localStorage.getItem('user')) || null,
-  allUsers: [],
-  allOrders: [],
+  // loggedUser: JSON.parse(localStorage.getItem('user')) || null,
+  loggedUser: {},
+  // allUsers: [],
+  // allOrders: [],
+  isValidated: !localStorage.getItem("token"),
+  isAuthenticated: false,
 };
 
 // const toast = useToast();
@@ -32,14 +58,16 @@ const initialState = {
 
 const userReducer = createReducer(initialState, {
   [loginUser.fulfilled]: (state, action) => {
-    localStorage.setItem('user', JSON.stringify(action.payload));
-    state.loggedUser = action.payload;
+    // action.payload = { ok: true, user:{name:"kevin"}, token }
+    localStorage.setItem("token", action.payload.token);
+    state.loggedUser = action.payload.user;
+    state.isAuthenticated = true;
     // toast({
     //   title: `Usuario logueado con exito`,
     //   status: 'success',
     //   isClosable: true,
     // });
-    return state;
+    // return state;
   },
   [loginUser.pending]: (state, action) => {
     // toast({
@@ -56,6 +84,17 @@ const userReducer = createReducer(initialState, {
     //   isClosable: true,
     // });
     return state;
+  },
+
+  [sendValidation.fulfilled]: (state, action) => {
+    state.loggedUser = action.payload.user;
+    state.isValidated = true;
+    state.isAuthenticated = true;
+  },
+  [sendValidation.rejected]: (state, action) => {
+    localStorage.removeItem("token");
+    state.validated = true;
+    state.isAuthenticated = false;
   },
 });
 

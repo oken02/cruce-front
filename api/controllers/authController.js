@@ -5,17 +5,27 @@ const { validateJWT } = require("../middlewares");
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
 
+// router.post("/validate", validateJWT, (req, res, next) => {
+//   const { id: userID } = req.payload;
 
-/* router.post("/validate", validateJWT, (req, res, next) => {
+//   User.findById(userID)
+//     .then((user) => {
+//       if (!user) return res.sendStatus(404);
+//       res.json({ user });
+//     })
+//     .catch(next);
+// });
+
+const validate = (req, res, next) => {
   const { id: userID } = req.payload;
 
   User.findById(userID)
     .then((user) => {
-      if (!user) return res.sendStatus(404);
+      if (!user) return res.status(404).send("el usuario fue borrado");
       res.json({ user });
     })
     .catch(next);
-}); */
+};
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -31,7 +41,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-    /*   if (user && password === user.password) { */
+      /*   if (user && password === user.password) { */
       const token = generateJWT({
         id: user._id,
         role: user.role,
@@ -48,23 +58,25 @@ const login = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
-   try {console.log("BODY", req.body);
-   const {fullName, email, dniCuil, password, role, direction} = req.body
-   const saltRounds = 10
-   const passwordHashed = await bcrypt.hash(password, saltRounds)
-   const user = await new User({
-     fullName : fullName,
-     email: email,
-     dniCuil : dniCuil,
-     password: passwordHashed,
-     role: role,
-     direction : direction,
-   });
-   await user.save()
+  try {
+    console.log("BODY", req.body);
+    const { fullName, email, dniCuil, password, role, direction } = req.body;
+    const saltRounds = 10;
+    const passwordHashed = await bcrypt.hash(password, saltRounds);
+    const user = await new User({
+      fullName: fullName,
+      email: email,
+      dniCuil: dniCuil,
+      password: passwordHashed,
+      role: role,
+      direction: direction,
+    });
+    await user.save();
 
-   res.json(user);
-    }catch(err) { next(err) }
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
 
- };
-
- module.exports = {login, create}
+module.exports = { login, create, validate };
