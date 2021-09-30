@@ -17,10 +17,13 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useHistory } from 'react-router';
+
+
 
 function UserCreationForm() {
   // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
-
+  const history = useHistory()
   const formik = useFormik({
     initialValues: {
       userEmail: '',
@@ -47,33 +50,14 @@ function UserCreationForm() {
         .min(8, 'Requiere minimo 8 caracteres'),
     }),
 
-    /* {
-      "userEmail": "123@gmail.com",
-      "userPassword": "123456",
-      "userName": "ezequiel valeriano",
-      "userDniCuil": 10200300,
-      "userAddress": "carranza 1234",
-      "userCourierId": ""
-    } */
+  
     onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        console.log('%c Alta Usuario -->', 'color: #FFEE57', values);
-        alert(JSON.stringify(values, null, 2));
-        console.log(JSON.stringify(values, null, 2))
-        setSubmitting(false);
-      }, 1000);
-      const datos = (values)
-      const email = datos.userEmail
-      const password = datos.userPassword
-      const fullName = datos.userName
-      const dniCuil = datos.userDniCuil
-      const address = datos.userAddress
-      const obj = {email, password, fullName, dniCuil, address}
 
-      axios.post("http://localhost:3001/api/user/messenger/add", obj)
+      axios.post("http://localhost:3001/api/user/messenger/add", values)
       .then(res => {
-        console.log("REEEEEEEEEEESSSSSSSSSSS",res)
-        res.send(res)
+        alert(`usuario ${values.userName} creado`)
+        setSubmitting(false)
+        history.push("/messengers")
       })
       .catch(err => console.log(err))
     },

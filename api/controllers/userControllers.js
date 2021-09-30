@@ -5,19 +5,19 @@ const bcrypt = require('bcrypt')
 const createMessengerUser = async (req, res,next) => {
     try {
     /* const {courierId} = req.payload */
-    const { fullName, email, dniCuil, password, address } = req.body
+    const { userName, userEmail, userDniCuil, userPassword, userAddress } = req.body
     const saltRounds = 10
-    const passwordHashed = await bcrypt.hash(password, saltRounds)
+    const passwordHashed = await bcrypt.hash(userPassword, saltRounds)
     /* const courier = await Courier.findById(courierId) */
 
 
     const newMessengerUser = new User({
-        fullName : fullName,
-        email : email,
-        dniCuil : dniCuil,
+        fullName : userName,
+        email : userEmail,
+        dniCuil : userDniCuil,
         password : passwordHashed,
         role : "messenger",
-        address : address,
+        address : userAddress,
     /*     courierId : courier */
     })
     await newMessengerUser.save()
