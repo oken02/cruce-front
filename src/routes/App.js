@@ -43,7 +43,7 @@ function App() {
 
       <BrowserRouter>
         <Switch>
-          <Redirect exact from="/" to="/dashboard" />
+          <Redirect exact from="/" to="/login" />
           <Route exact path="/login" render={() => <LoginForm />} />
 
           <Route path="/dashboard">
