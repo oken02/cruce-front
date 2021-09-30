@@ -9,4 +9,5 @@ router.post("/login", login)
 //crea cualquier tipo de usuario
 router.post("/create", create)
 
+
 module.exports = router;
