@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 const createUserCourier = async (req, res,next) => {
     try {
-    const { fullName, email, dniCuil, password, direction, courierId } = req.body
+    const { fullName, email, dniCuil, password, address, courierId } = req.body
     const saltRounds = 10
     const passwordHashed = await bcrypt.hash(password, saltRounds)
     const courier = await Courier.findById(courierId)
@@ -15,7 +15,7 @@ const createUserCourier = async (req, res,next) => {
         dniCuil : dniCuil,
         password : passwordHashed,
         role : "courier",
-        direction : direction,
+        address : address,
         courierId : courier
     })
     await newCourier.save()

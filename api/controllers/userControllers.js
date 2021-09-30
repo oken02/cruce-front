@@ -4,11 +4,11 @@ const bcrypt = require('bcrypt')
 
 const createMessengerUser = async (req, res,next) => {
     try {
-    const {courierId} = req.payload
-    const { fullName, email, dniCuil, password, direction } = req.body
+    /* const {courierId} = req.payload */
+    const { fullName, email, dniCuil, password, address } = req.body
     const saltRounds = 10
     const passwordHashed = await bcrypt.hash(password, saltRounds)
-    const courier = await Courier.findById(courierId)
+    /* const courier = await Courier.findById(courierId) */
 
 
     const newMessengerUser = new User({
@@ -17,8 +17,8 @@ const createMessengerUser = async (req, res,next) => {
         dniCuil : dniCuil,
         password : passwordHashed,
         role : "messenger",
-        direction : direction,
-        courierId : courier
+        address : address,
+    /*     courierId : courier */
     })
     await newMessengerUser.save()
     res.status(201).send(newMessengerUser)
@@ -60,7 +60,8 @@ const updateUser = async (req, res, next) => {
 
 const userMessengerList = async (req, res, next) => {
     try{
-        const user = await User.find({role : "messenger" });
+        const { courId } = req.payload
+        const user = await User.find({role : "messenger", courId : courId});
         const users = await Courier.populate(user, { path: "courierId"})
         res.json(user);
     } catch (err) { next(err) }

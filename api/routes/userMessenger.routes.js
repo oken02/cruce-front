@@ -10,7 +10,7 @@ router.get("/", roleCourier, userMessengerList)
 router.get("/:id", roleCourier, userDetails)
 
 //Agrega un cadete
-router.post('/add', roleCourier, createMessengerUser);
+router.post('/add', createMessengerUser);
 
 //Elimina un cadete por id
 router.delete('/delete/:id', roleCourier, deleteUser);
