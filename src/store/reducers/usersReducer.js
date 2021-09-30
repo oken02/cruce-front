@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 // import { useToast } from '@chakra-ui/react';
 
 export const loginUser = createAsyncThunk(
@@ -36,13 +36,7 @@ export const sendValidation = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk("LOGOUT_USER", () => {
-  return axios
-    .post("http://localhost:3001/api/users/logout")
-    .then((response) => {
-      return response.data;
-    });
-});
+export const logoutUser = createAction("LOGOUT");
 
 const initialState = {
   // loggedUser: JSON.parse(localStorage.getItem('user')) || null,
@@ -96,6 +90,10 @@ const userReducer = createReducer(initialState, {
     state.validated = true;
     state.isAuthenticated = false;
   },
+  [logoutUser]: (state, action) => {
+    localStorage.removeItem("token")
+    state.isAuthenticated = false;
+  }
 });
 
 export default userReducer;

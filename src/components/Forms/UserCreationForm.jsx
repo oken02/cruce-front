@@ -24,6 +24,8 @@ import { useHistory } from 'react-router';
 function UserCreationForm() {
   // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
   const history = useHistory()
+  const token = localStorage.getItem("token")
+  console.log(token)
   const formik = useFormik({
     initialValues: {
       userEmail: '',
@@ -53,11 +55,14 @@ function UserCreationForm() {
   
     onSubmit: (values, { setSubmitting }) => {
 
-      axios.post("http://localhost:3001/api/user/messenger/add", values)
+      axios.post("http://localhost:3001/api/user/messenger/add", values, 
+      {headers: {
+        Authorization: "Bearer " + token,
+      }})
       .then(res => {
         alert(`usuario ${values.userName} creado`)
         setSubmitting(false)
-        history.push("/messengers")
+        history.push("/dashboard/messengers")
       })
       .catch(err => console.log(err))
     },
