@@ -24,7 +24,7 @@ const userSchema = new Schema({
     required: true,
     immutable: true
   },
-  direction: String,
+  address: String,
   courierId: {
     type: Schema.Types.ObjectId,
     ref: "Courier",

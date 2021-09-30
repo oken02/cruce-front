@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 function UserCreationForm() {
   // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
@@ -24,7 +25,6 @@ function UserCreationForm() {
     initialValues: {
       userEmail: '',
       userPassword: '',
-      userRole: '',
       userName: '',
       userDniCuil: '',
       userAddress: '',
@@ -40,8 +40,6 @@ function UserCreationForm() {
       userName: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      userRole: Yup.string().required('Debes seleccionar un Rol'),
-      // userCourierId: Yup.string().required('Es un campo obligatorio'),
       userDniCuil: Yup.number()
         .required('Es un campo obligatorio')
         .positive()
@@ -49,12 +47,35 @@ function UserCreationForm() {
         .min(8, 'Requiere minimo 8 caracteres'),
     }),
 
+    /* {
+      "userEmail": "123@gmail.com",
+      "userPassword": "123456",
+      "userName": "ezequiel valeriano",
+      "userDniCuil": 10200300,
+      "userAddress": "carranza 1234",
+      "userCourierId": ""
+    } */
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
         console.log('%c Alta Usuario -->', 'color: #FFEE57', values);
         alert(JSON.stringify(values, null, 2));
+        console.log(JSON.stringify(values, null, 2))
         setSubmitting(false);
       }, 1000);
+      const datos = (values)
+      const email = datos.userEmail
+      const password = datos.userPassword
+      const fullName = datos.userName
+      const dniCuil = datos.userDniCuil
+      const address = datos.userAddress
+      const obj = {email, password, fullName, dniCuil, address}
+
+      axios.post("http://localhost:3001/api/user/messenger/add", obj)
+      .then(res => {
+        console.log("REEEEEEEEEEESSSSSSSSSSS",res)
+        res.send(res)
+      })
+      .catch(err => console.log(err))
     },
   });
 
@@ -76,7 +97,7 @@ function UserCreationForm() {
                 fontSize="sm"
                 color={useColorModeValue('gray.600', 'gray.400')}
               >
-                Complete la información con los datos del nuevo Usuario.
+                Completa la información con los datos del nuevo Usuario.
               </Text>
             </Box>
           </GridItem>
@@ -189,41 +210,6 @@ function UserCreationForm() {
                     ) : null}
                   </FormControl>
 
-                  <FormControl as={GridItem} colSpan={[6]}>
-                    <FormLabel
-                      htmlFor="userRole"
-                      fontSize="sm"
-                      fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
-                    >
-                      Rol
-                    </FormLabel>
-                    <Select
-                      id="userRole"
-                      name="userRole"
-                      autoComplete="userRole"
-                      placeholder="Seleccionar"
-                      mt={1}
-                      focusBorderColor="brand.400"
-                      shadow="sm"
-                      size="sm"
-                      w="full"
-                      rounded="md"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.userRole}
-                    >
-                      <option value="Sucursal">Sucursal</option>
-                      <option value="Mensajeria">Mensajeria</option>
-                      <option value="Cadete">Cadete</option>
-                    </Select>
-                    {formik.touched.userRole && formik.errors.userRole ? (
-                      <div>
-                        <Text color="tomato">{formik.errors.userRole}</Text>
-                      </div>
-                    ) : null}
-                  </FormControl>
-
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
                       htmlFor="userDniCuil"
@@ -286,40 +272,6 @@ function UserCreationForm() {
                     ) : null}
                   </FormControl>
 
-                  <FormControl as={GridItem} colSpan={6}>
-                    <FormLabel
-                      htmlFor="userDniCuil"
-                      fontSize="sm"
-                      fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
-                    >
-                      Mensajeria a la que esta asociado (ID):
-                    </FormLabel>
-                    <Input
-                      type="number"
-                      name="userCourierId"
-                      id="userCourierId"
-                      autoComplete="userCourierId"
-                      mt={1}
-                      focusBorderColor="brand.400"
-                      shadow="sm"
-                      size="sm"
-                      w="full"
-                      rounded="md"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.userCourierId}
-                      disabled
-                    />
-                    {formik.touched.userCourierId &&
-                    formik.errors.userCourierId ? (
-                      <div>
-                        <Text color="tomato">
-                          {formik.errors.userCourierId}
-                        </Text>
-                      </div>
-                    ) : null}
-                  </FormControl>
                 </SimpleGrid>
               </Stack>
               <Box
