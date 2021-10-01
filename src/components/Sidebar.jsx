@@ -3,11 +3,13 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Collapse,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
+  flexbox,
   Icon,
   IconButton,
   Input,
@@ -25,6 +27,8 @@ import {
   MdLocationOn,
   MdPerson,
   MdSettings,
+  MdEqualizer,
+  MdMotorcycle
 } from "react-icons/md";
 import React from "react";
 import LoginForm from "./Forms/LoginForm";
@@ -39,10 +43,14 @@ const itemsSidebar = {
   courier: [
     { name: "home", url: "", icon: MdHome },
     { name: "Cadetes", url: "/messengers", icon: MdPerson },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
+
   ],
   messenger: [
     { name: "home", url: "", icon: MdHome },
-    { name: "Pedidos", url: "/orders", icon: MdLocationOn },
+    { name: "Mis Pedidos", url: "/orders", icon: MdMotorcycle },
+    { name: "Pedidos Sin Asignar", url: "/orders", icon: MdLocationOn },
+
   ],
   // ecommerce: [
   //   { name: "home", url: "/home" },
@@ -130,6 +138,7 @@ export default function Sidebar() {
         fontSize="sm"
         color="gray.600"
         aria-label="Main Navigation"
+        ml={2}
       >
         {/* <NavItem icon={MdHome}>Home</NavItem>
 
@@ -147,10 +156,11 @@ export default function Sidebar() {
           </NavItem>
         ))}
 
-
-          <ButtonGroup variant="outline" spacing="6">
+          <ButtonGroup variant="outline" spacing="6" ml={5} mt={10}>
             <Button colorScheme="blue" onClick={logout} >Logout</Button >
           </ButtonGroup>
+
+          
         {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
           Driver
           <Icon
@@ -232,8 +242,7 @@ export default function Sidebar() {
           <Switch>
             <Route exact path="/dashboard">
               <h1>
-                BIENVENIDO USUARIO {loggedUser.fullName} CON ROLE :::
-                {loggedUser.role}
+                Nombre: {loggedUser.fullName.toUpperCase()} - Rol: {loggedUser.role}
               </h1>
             </Route>
             <Route exact path="/dashboard/messenger" render={() => <UserCreationForm />} />
