@@ -18,6 +18,8 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  Alert,
+  Badge,
 } from "@chakra-ui/react";
 import {
   MdHome,
@@ -30,13 +32,16 @@ import {
   MdEqualizer,
   MdMotorcycle
 } from "react-icons/md";
+
+import { BiLogOut } from "react-icons/bi";
+
 import React from "react";
 import LoginForm from "./Forms/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, useHistory, Switch } from "react-router-dom";
 import OrdersList from "../components/Tables/OrdersList";
 import Messengers from "../components/Tables/Messengers";
-import UserCreationForm from "../components/Forms/UserCreationForm"
+import UserCreationForm from "../components/Forms/UserCreationForm";
 import { logoutUser } from "../store/reducers/usersReducer";
 
 const itemsSidebar = {
@@ -61,14 +66,14 @@ const itemsSidebar = {
 export default function Sidebar() {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const history = useHistory();
   const { loggedUser } = useSelector((state) => state.user);
 
   const logout = () => {
-    dispatch(logoutUser())
-    history.push("/login")
-  }
+    dispatch(logoutUser());
+    history.push("/login");
+  };
 
   const NavItem = ({ icon, children, url, ...rest }) => {
     // const { icon, children, ...rest,url } = props;
@@ -106,62 +111,70 @@ export default function Sidebar() {
   };
 
   const SidebarContent = (props) => (
-    <Box
-      as="nav"
-      pos="fixed"
-      top="0"
-      left="0"
-      zIndex="sticky"
-      h="full"
-      pb="10"
-      overflowX="hidden"
-      overflowY="auto"
-      bg={useColorModeValue("white", "gray.800")}
-      borderColor={useColorModeValue("inherit", "gray.700")}
-      borderRightWidth="1px"
-      w="60"
-      {...props}
-    >
-      <Flex px="4" py="5" align="center">
-        <Text
-          fontSize="2xl"
-          ml="2"
-          color={useColorModeValue("brand.500", "white")}
-          fontWeight="semibold"
-        >
-          CRUCE
-        </Text>
-      </Flex>
-      <Flex
-        direction="column"
+    <>
+      <Box
         as="nav"
         fontSize="sm"
         color="gray.600"
         aria-label="Main Navigation"
         ml={2}
+        pos="fixed"
+        top="0"
+        left="0"
+        zIndex="sticky"
+        h="full"
+        pb="10"
+        overflowX="hidden"
+        overflowY="auto"
+        bg={useColorModeValue("white", "gray.800")}
+        borderColor={useColorModeValue("inherit", "gray.700")}
+        borderRightWidth="1px"
+        w="60"
+        {...props}
       >
-        {/* <NavItem icon={MdHome}>Home</NavItem>
+        <Flex px="4" py="5" align="center">
+          <Text
+            fontSize="2xl"
+            ml="2"
+            color={useColorModeValue("brand.500", "white")}
+            fontWeight="semibold"
+          >
+            CRUCE
+          </Text>
+        </Flex>
+        <Flex
+          direction="column"
+          as="nav"
+          fontSize="sm"
+          color="gray.600"
+          aria-label="Main Navigation"
+        >
+          {/* <NavItem icon={MdHome}>Home</NavItem>
 
         <NavItem icon={MdLocationOn}>Pedidos</NavItem>
         <NavItem icon={MdStore}>Sucursales</NavItem>
         <NavItem icon={MdLocalShipping}>Mensajerias</NavItem> */}
 
-        {itemsSidebar[loggedUser.role].map((item) => (
-          <NavItem
-            url={`/dashboard${item.url}`}
-            key={item.name}
-            icon={item.icon}
-          >
-            {item.name}
-          </NavItem>
-        ))}
+          {itemsSidebar[loggedUser.role].map((item) => (
+            <NavItem
+              url={`/dashboard${item.url}`}
+              key={item.name}
+              icon={item.icon}
+            >
+              {item.name}
+            </NavItem>
+          ))}
 
-          <ButtonGroup variant="outline" spacing="6" ml={5} mt={10}>
-            <Button colorScheme="blue" onClick={logout} >Logout</Button >
-          </ButtonGroup>
+          <Box pos="absolute" pb="10" bottom="0" w="full" textAlign="center">
+            <ButtonGroup variant="outline" spacing="6">
+              <Button colorScheme="blue" onClick={logout}>
+                <BiLogOut size="20px" />
+                {"Logout"}
+              </Button>
+            </ButtonGroup>
+          </Box>
 
-          
-        {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
+          {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
           Driver
           <Icon
             as={MdKeyboardArrowRight}
@@ -181,8 +194,9 @@ export default function Sidebar() {
           </NavItem>
         </Collapse>
         <NavItem icon={MdSettings}>Settings</NavItem> */}
-      </Flex>
-    </Box>
+        </Flex>
+      </Box>
+    </>
   );
   return (
     <Box
@@ -244,8 +258,13 @@ export default function Sidebar() {
               <h1>
                 Nombre: {loggedUser.fullName.toUpperCase()} - Rol: {loggedUser.role}
               </h1>
+
             </Route>
-            <Route exact path="/dashboard/messenger" render={() => <UserCreationForm />} />
+            <Route
+              exact
+              path="/dashboard/messenger"
+              render={() => <UserCreationForm />}
+            />
             <Route
               exact
               path="/dashboard/orders"
