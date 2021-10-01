@@ -65,7 +65,7 @@ function App() {
           <Route exact path="/couriers" render={() => <Couriers />} />
           <Route exact path="/courier" render={() => <CourierCreationForm />} />
           <Route exact path="/courier/:id" render={() => <Courier />} />
-          <Route exact path="/reports" render={() => <Reports />} />
+          <Route exact path="/dashboard/reports" render={() => <Reports />} />
           {/* <Route exact path="/messengers" render={() => <Messengers />} /> */}
           <Route exact path="/messenger/:id" render={() => <Messenger />} />
           

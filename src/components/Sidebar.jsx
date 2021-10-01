@@ -3,11 +3,13 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Collapse,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
+  flexbox,
   Icon,
   IconButton,
   Input,
@@ -27,6 +29,8 @@ import {
   MdLocationOn,
   MdPerson,
   MdSettings,
+  MdEqualizer,
+  MdMotorcycle
 } from "react-icons/md";
 
 import { BiLogOut } from "react-icons/bi";
@@ -44,10 +48,14 @@ const itemsSidebar = {
   courier: [
     { name: "home", url: "", icon: MdHome },
     { name: "Cadetes", url: "/messengers", icon: MdPerson },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
+
   ],
   messenger: [
     { name: "home", url: "", icon: MdHome },
-    { name: "Pedidos", url: "/orders", icon: MdLocationOn },
+    { name: "Mis Pedidos", url: "/orders", icon: MdMotorcycle },
+    { name: "Pedidos Sin Asignar", url: "/orders", icon: MdLocationOn },
+
   ],
   // ecommerce: [
   //   { name: "home", url: "/home" },
@@ -106,6 +114,10 @@ export default function Sidebar() {
     <>
       <Box
         as="nav"
+        fontSize="sm"
+        color="gray.600"
+        aria-label="Main Navigation"
+        ml={2}
         pos="fixed"
         top="0"
         left="0"
@@ -243,15 +255,10 @@ export default function Sidebar() {
           {/* Add content here, remove div below  */}
           <Switch>
             <Route exact path="/dashboard">
-              <div>
-                {/* BIENVENIDO USUARIO {loggedUser.fullName} CON ROLE :::
-                {loggedUser.role} */}
-                <Alert status="success">
-                  {/* <AlertIcon /> */}
-                  FullName: {loggedUser.fullName.toUpperCase()} role:{" "}
-                  {loggedUser.role}
-                </Alert>
-              </div>
+              <h1>
+                Nombre: {loggedUser.fullName.toUpperCase()} - Rol: {loggedUser.role}
+              </h1>
+
             </Route>
             <Route
               exact
