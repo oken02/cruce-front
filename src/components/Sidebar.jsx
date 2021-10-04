@@ -30,7 +30,7 @@ import {
   MdPerson,
   MdSettings,
   MdEqualizer,
-  MdMotorcycle
+  MdMotorcycle,
 } from "react-icons/md";
 
 import { BiLogOut } from "react-icons/bi";
@@ -43,6 +43,7 @@ import OrdersList from "../components/Tables/OrdersList";
 import Messengers from "../components/Tables/Messengers";
 import UserCreationForm from "../components/Forms/UserCreationForm";
 import { logoutUser } from "../store/reducers/usersReducer";
+import Couriers from "../components/Tables/Couriers"
 
 const itemsSidebar = {
   courier: [
@@ -57,10 +58,14 @@ const itemsSidebar = {
     { name: "Pedidos Sin Asignar", url: "/orders", icon: MdLocationOn },
 
   ],
-  // ecommerce: [
-  //   { name: "home", url: "/home" },
-  //   // { name: "Pedidos", url: "/orders" },
-  // ],
+  ecommerce: [
+    { name: "home", url: "", icon: MdHome  },
+    { name: "Sucursales", url: "/branches" },
+    { name: "Mensajerías", url: "/couriers" },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
+
+
+  ],
 };
 
 export default function Sidebar() {
@@ -274,6 +279,11 @@ export default function Sidebar() {
               exact
               path="/dashboard/messengers"
               render={() => <Messengers />}
+            />
+            <Route
+              exact
+              path="/dashboard/couriers"
+              render={() => <Couriers />}
             />
           </Switch>
         </Box>

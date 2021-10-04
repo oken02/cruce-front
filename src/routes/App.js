@@ -9,7 +9,6 @@ import Couriers from "../components/Tables/Couriers";
 import Courier from "../components/Courier";
 import Reports from "../components/Reports";
 import Messengers from "../components/Tables/Messengers";
-import NewMessenger from "../components/NewMessenger";
 import NotAssigned from "../components/Tables/NotAssignedOrders";
 import Messenger from "../components/Messenger";
 import LoginForm from "../components/Forms/LoginForm";
@@ -62,11 +61,9 @@ function App() {
           <Route exact path="/branches" render={() => <Branches />} />
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />
-          <Route exact path="/couriers" render={() => <Couriers />} />
           <Route exact path="/courier" render={() => <CourierCreationForm />} />
           <Route exact path="/courier/:id" render={() => <Courier />} />
           <Route exact path="/dashboard/reports" render={() => <Reports />} />
-          {/* <Route exact path="/messengers" render={() => <Messengers />} /> */}
           <Route exact path="/messenger/:id" render={() => <Messenger />} />
           
         </Switch>
