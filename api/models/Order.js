@@ -10,7 +10,6 @@ const clientAddressSchema = new Schema({
     numberStreet : Number,
     complement : String,
     neighborhood : String,
-    reference: String,
     postalCode: Number,
 })
 
@@ -55,6 +54,7 @@ const stateSchema = new Schema({
 //Verificar el ActualState con hook
 
 const orderSchema = new Schema({
+    orderId : String,
     client : clientSchema,
     product : [productSchema],
     observations : String,
@@ -73,9 +73,23 @@ const orderSchema = new Schema({
     stateHistory : [stateSchema],
 
     //**********/
-    actualState : String,
+    actualState : {
+        type : String,
+        default: "sin asignar",
+        lowercase : true
+    }
     //*********/
 })
+
+
+orderSchema.pre("save", function () {
+
+    this.stateHistory.push({
+      state: this.actualState,
+      date: new Date(),
+    });
+  //   console.log("Hello from pre save", this);
+});
 
 const Order = mongoose.model("Order", orderSchema)
 
