@@ -39,7 +39,7 @@ const OrderList = () => {
     handleSearchText,
   } = useTables({});
 
-  const [messengers, setMessengers] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     axios
@@ -48,21 +48,10 @@ const OrderList = () => {
           Authorization: "Bearer " + token,
         },
       })
-      .then((res) => setMessengers(res.data));
+      .then((res) => setOrders(res.data));
   }, []);
 
-  useEffect(() => {
-    if (messengers) {
-      setRecords(messengers);
-    }
-  }, [messengers]);
-
-  // useEffect(() => {
-  //   if (searchText) {
-  //     const Searched =
-  //   }
-
-  // }, [])
+  console.log("PEDIDOOOOOSSS", orders)
 
   return (
     <Box p="4">
@@ -92,20 +81,23 @@ const OrderList = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {messengers.map((row, index) => {
-                // console.log(row._id)
+              {orders.map((row, index) => {
+                console.log("CADA ORDEN",row.orderId)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
                       <Link
-                        to={`/dashboard/messenger/${row._id}`}
-                        style={{ color: blue }}
+                        to={`/dashboard/order/${row._id}`}
                       >
-                        {row.fullName}{" "}
+                        {row.orderId}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.actualState}</TableCell>
+                    <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.dniCuil}</TableCell>
+
                     <TableCell>
                       <AlertDeleteMessenger
                         messID={row._id}
