@@ -46,6 +46,7 @@ import Couriers from '../components/Tables/Couriers';
 import CourierCreationForm from '../components/Forms/CourierCreationForm';
 import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
+import CourierEdit from './Forms/CourierEdit';
 
 const itemsSidebar = {
   courier: [
@@ -61,12 +62,11 @@ const itemsSidebar = {
   ],
 
   ecommerce: [
-    { name: "home", url: "", icon: MdHome  },
-    { name: "Sucursales", url: "/branches" },
-    { name: "Mensajerías", url: "/couriers" , icon: MdLocalShipping },
-    { name: "Reportes", url: "/reports", icon: MdEqualizer },
+    { name: 'home', url: '', icon: MdHome },
+    { name: 'Sucursales', url: '/branches' },
+    { name: 'Mensajerías', url: '/couriers', icon: MdLocalShipping },
+    { name: 'Reportes', url: '/reports', icon: MdEqualizer },
   ],
-
 };
 
 export default function Sidebar() {
@@ -283,7 +283,6 @@ export default function Sidebar() {
             />
             <Route
               exact
-
               path="/dashboard/courier"
               render={() => <CourierCreationForm />}
             />
@@ -293,10 +292,13 @@ export default function Sidebar() {
               render={() => <Couriers />}
             />
             <Route
-                            path="/dashboard/messenger/:id"
+              path="/dashboard/messenger/:id"
               render={() => <MessengerEditUser />}
             />
-
+            <Route
+              path="/dashboard/courier/:id"
+              render={() => <CourierEdit />}
+            />
           </Switch>
         </Box>
       </Box>

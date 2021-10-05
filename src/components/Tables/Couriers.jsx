@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 import {
   TableContainer,
@@ -7,25 +7,24 @@ import {
   TableRow,
   TableBody,
   Card,
-} from "@material-ui/core";
-import { Box } from "@chakra-ui/layout";
-import { Button, IconButton } from "@chakra-ui/button";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { EditIcon } from "@chakra-ui/icons";
-import { Input } from '@chakra-ui/input';
+} from '@material-ui/core';
+import { Box } from '@chakra-ui/layout';
+import { Button, IconButton } from '@chakra-ui/button';
+import { useHistory, Link } from 'react-router-dom';
+import axios from 'axios';
+import { EditIcon } from '@chakra-ui/icons';
 
 //Components
-import TablesHead from "./TablesHead";
-import SearchBar from "./SearchBar";
-import AlertDeleteCourier from "./AlertDeleteCourier";
+import TablesHead from './TablesHead';
+import SearchBar from './SearchBar';
+import AlertDeleteCourier from './AlertDeleteCourier';
 
 //Hooks
-import useTables from "../../hooks/useTables";
+import useTables from '../../hooks/useTables';
 
 const Couriers = () => {
   const history = useHistory();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const {
     records,
@@ -41,9 +40,9 @@ const Couriers = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/courier/", {
+      .get('http://localhost:3001/api/courier/', {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       })
       .then((res) => setCouriers(res.data));
@@ -57,16 +56,14 @@ const Couriers = () => {
     }
   }, [couriers]);
 
-
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
-
         <h1>Lista de Cadeterías</h1>
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push("/dashboard/courier")}
+          onClick={() => history.push('/dashboard/courier')}
         >
           Crear cadetería
         </Button>
@@ -96,15 +93,17 @@ const Couriers = () => {
                     <TableCell>{row.onCharge}</TableCell>
                     <TableCell>{row.phone}</TableCell>
 
-                    <TableCell>        
-                        <AlertDeleteCourier couID = {row._id} name={row.name}/>
-                      <IconButton
-                        variant="ghost"
-                        colorScheme="teal"
-                        fontSize="20 px"
-                        size="xs"
-                        icon={<EditIcon />}
-                      />
+                    <TableCell>
+                      <AlertDeleteCourier couID={row._id} name={row.name} />
+                      <Link to={`/dashboard/courier/${row._id}`}>
+                        <IconButton
+                          variant="ghost"
+                          colorScheme="teal"
+                          fontSize="20 px"
+                          size="xs"
+                          icon={<EditIcon />}
+                        />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );
