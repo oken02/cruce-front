@@ -4,6 +4,7 @@ const { Order } = require("../models")
 const allOrders = async (req, res, next) => {
     try{
         const orders= await Order.find({})
+        .populate("userId", "courierId")
         res.send(orders)
     }catch(err){next(err)}
 }
@@ -18,8 +19,8 @@ const noAssignedOrderList = async (req, res, next) => {
     catch(err){next(err)}
 }
 
-//detalla un pedido por ID
 
+//detalla un pedido por ID
 const orderById = async (req, res, next) => {
     try{
         const id = req.params.id
@@ -168,4 +169,12 @@ const modifyOrder = async (req, res, next)=>{
 }
 
 
-module.exports = { allOrders, newOrder , changingState, noAssignedOrderList, orderById, deleteOrder , orderByCourier, modifyOrder, allOrdersByState}
+module.exports = { allOrders, 
+     newOrder,
+     changingState, 
+     noAssignedOrderList, 
+     orderById, 
+     deleteOrder, 
+     orderByCourier, 
+     modifyOrder, 
+     allOrdersByState}
