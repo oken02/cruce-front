@@ -2,7 +2,7 @@ const { Order } = require("../models")
 
 
 //trae todos los pedidos SIN ASIGNAR
-const orderList = async (req, res, next) => {
+const noAssignedOrderList = async (req, res, next) => {
     try{
         const orders = await Order.find({actualState : "sin asignar"})
         res.send(orders)
@@ -42,6 +42,8 @@ const orderByCourier = async (req, res, next) => {
 const allOrdersByState = async (req, res, next) => {
     try{
         const {state} = req.body
+        const orders = await Order.find({actualState : state})
+        res.send(orders)
         
     }catch(err) {next(err)}
 }
@@ -158,4 +160,4 @@ const modifyOrder = async (req, res, next)=>{
 }
 
 
-module.exports = { newOrder , changingState, orderList, orderById, deleteOrder , orderByCourier, modifyOrder}
+module.exports = { newOrder , changingState, noAssignedOrderList, orderById, deleteOrder , orderByCourier, modifyOrder, allOrdersByState}
