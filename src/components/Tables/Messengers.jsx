@@ -13,12 +13,12 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditIcon } from "@chakra-ui/icons";
+  import { Input } from '@chakra-ui/input';
 
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
 import AlertDeleteMessenger from "./AlertDeleteMessenger";
-
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -48,9 +48,6 @@ const Messengers = () => {
       .then((res) => setMessengers(res.data));
   }, []);
 
-  console.log("Cadetes", messengers);
-
-
   useEffect(() => {
     if (messengers) {
       setRecords(messengers);
@@ -67,13 +64,22 @@ const Messengers = () => {
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
-        <h1>Lista de cadetes</h1>
+        <h1>Lista de Cadetes</h1>
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push("/dashboard/messenger")}
+          onClick={() => history.push('/dashboard/messenger')}
         >
-          Crear cadete
+          Crear Cadete
+        </Button>
+        {/* Para probar editar cadete: */}
+        <Button
+          colorScheme="teal"
+          size="sm"
+          onClick={() => history.push('/dashboard/messenger/1')}
+        >
+          EDITAR Cadete
+
         </Button>
       </Box>
 
@@ -97,7 +103,6 @@ const Messengers = () => {
                 // console.log(row._id)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    {/* <TableCell>{index+1}</TableCell> */}
                     <TableCell>{row.fullName}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>

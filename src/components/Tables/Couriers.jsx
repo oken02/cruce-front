@@ -13,12 +13,12 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditIcon } from "@chakra-ui/icons";
+import { Input } from '@chakra-ui/input';
 
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
 import AlertDeleteCourier from "./AlertDeleteCourier";
-
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -26,6 +26,7 @@ import useTables from "../../hooks/useTables";
 const Couriers = () => {
   const history = useHistory();
   const token = localStorage.getItem("token");
+
   const {
     records,
     setRecords,
@@ -48,12 +49,19 @@ const Couriers = () => {
       .then((res) => setCouriers(res.data));
   }, []);
 
-  console.log("Mensajerías", couriers);
+  // console.log(messengers)
+
+  useEffect(() => {
+    if (couriers) {
+      setRecords(couriers);
+    }
+  }, [couriers]);
 
 
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
+
         <h1>Lista de Cadeterías</h1>
         <Button
           colorScheme="teal"
@@ -80,7 +88,6 @@ const Couriers = () => {
             />
             <TableBody>
               {couriers.map((row, index) => {
-                console.log(row)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     {/* <TableCell>{index+1}</TableCell> */}

@@ -20,7 +20,7 @@ import {
   useDisclosure,
   Alert,
   Badge,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   MdHome,
   MdKeyboardArrowRight,
@@ -31,41 +31,42 @@ import {
   MdSettings,
   MdEqualizer,
   MdMotorcycle,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut } from 'react-icons/bi';
 
-import React from "react";
-import LoginForm from "./Forms/LoginForm";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, useHistory, Switch } from "react-router-dom";
-import OrdersList from "../components/Tables/OrdersList";
-import Messengers from "../components/Tables/Messengers";
-import UserCreationForm from "../components/Forms/UserCreationForm";
-import { logoutUser } from "../store/reducers/usersReducer";
-import Couriers from "../components/Tables/Couriers"
+import React from 'react';
+import LoginForm from './Forms/LoginForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, useHistory, Switch } from 'react-router-dom';
+import OrdersList from '../components/Tables/OrdersList';
+import Messengers from '../components/Tables/Messengers';
+import UserCreationForm from '../components/Forms/UserCreationForm';
+import Couriers from '../components/Tables/Couriers';
+import CourierCreationForm from '../components/Forms/CourierCreationForm';
+import MessengerEditUser from '../components/Forms/MessengerEditUser';
+import { logoutUser } from '../store/reducers/usersReducer';
 
 const itemsSidebar = {
   courier: [
-    { name: "home", url: "", icon: MdHome },
-    { name: "Cadetes", url: "/messengers", icon: MdPerson },
-    { name: "Reportes", url: "/reports", icon: MdEqualizer },
-
+    { name: 'Home', url: '', icon: MdHome },
+    { name: 'Cadetes', url: '/messengers', icon: MdPerson },
+    { name: 'Reportes', url: '/reports', icon: MdEqualizer },
+    { name: 'Editar Cadete', url: '/messenger/1', icon: MdEqualizer },
   ],
   messenger: [
-    { name: "home", url: "", icon: MdHome },
-    { name: "Mis Pedidos", url: "/orders", icon: MdMotorcycle },
-    { name: "Pedidos Sin Asignar", url: "/orders", icon: MdLocationOn },
-
+    { name: 'Home', url: '', icon: MdHome },
+    { name: 'Mis Pedidos', url: '/orders', icon: MdMotorcycle },
+    { name: 'Pedidos Sin Asignar', url: '/orders', icon: MdLocationOn },
   ],
+
   ecommerce: [
     { name: "home", url: "", icon: MdHome  },
     { name: "Sucursales", url: "/branches" },
-    { name: "Mensajerías", url: "/couriers" },
+    { name: "Mensajerías", url: "/couriers" , icon: MdLocalShipping },
     { name: "Reportes", url: "/reports", icon: MdEqualizer },
-
-
   ],
+
 };
 
 export default function Sidebar() {
@@ -77,7 +78,7 @@ export default function Sidebar() {
 
   const logout = () => {
     dispatch(logoutUser());
-    history.push("/login");
+    history.push('/login');
   };
 
   const NavItem = ({ icon, children, url, ...rest }) => {
@@ -90,10 +91,10 @@ export default function Sidebar() {
         pl="4"
         py="3"
         cursor="pointer"
-        color={useColorModeValue("inherit", "gray.400")}
+        color={useColorModeValue('inherit', 'gray.400')}
         _hover={{
-          bg: useColorModeValue("gray.100", "gray.900"),
-          color: useColorModeValue("gray.900", "gray.200"),
+          bg: useColorModeValue('gray.100', 'gray.900'),
+          color: useColorModeValue('gray.900', 'gray.200'),
         }}
         role="group"
         fontWeight="semibold"
@@ -131,8 +132,8 @@ export default function Sidebar() {
         pb="10"
         overflowX="hidden"
         overflowY="auto"
-        bg={useColorModeValue("white", "gray.800")}
-        borderColor={useColorModeValue("inherit", "gray.700")}
+        bg={useColorModeValue('white', 'gray.800')}
+        borderColor={useColorModeValue('inherit', 'gray.700')}
         borderRightWidth="1px"
         w="60"
         {...props}
@@ -141,7 +142,7 @@ export default function Sidebar() {
           <Text
             fontSize="2xl"
             ml="2"
-            color={useColorModeValue("brand.500", "white")}
+            color={useColorModeValue('brand.500', 'white')}
             fontWeight="semibold"
           >
             CRUCE
@@ -174,7 +175,7 @@ export default function Sidebar() {
             <ButtonGroup variant="outline" spacing="6">
               <Button colorScheme="blue" onClick={logout}>
                 <BiLogOut size="20px" />
-                {"Logout"}
+                {'Logout'}
               </Button>
             </ButtonGroup>
           </Box>
@@ -206,10 +207,10 @@ export default function Sidebar() {
   return (
     <Box
       as="section"
-      bg={useColorModeValue("gray.50", "gray.700")}
+      bg={useColorModeValue('gray.50', 'gray.700')}
       minH="100vh"
     >
-      <SidebarContent display={{ base: "none", md: "unset" }} />
+      <SidebarContent display={{ base: 'none', md: 'unset' }} />
       <Drawer
         isOpen={sidebar.isOpen}
         onClose={sidebar.onClose}
@@ -261,9 +262,9 @@ export default function Sidebar() {
           <Switch>
             <Route exact path="/dashboard">
               <h1>
-                Nombre: {loggedUser.fullName.toUpperCase()} - Rol: {loggedUser.role}
+                Nombre: {loggedUser.fullName.toUpperCase()} - Rol:{' '}
+                {loggedUser.role}
               </h1>
-
             </Route>
             <Route
               exact
@@ -282,9 +283,20 @@ export default function Sidebar() {
             />
             <Route
               exact
+
+              path="/dashboard/courier"
+              render={() => <CourierCreationForm />}
+            />
+            <Route
+              exact
               path="/dashboard/couriers"
               render={() => <Couriers />}
             />
+            <Route
+                            path="/dashboard/messenger/:id"
+              render={() => <MessengerEditUser />}
+            />
+
           </Switch>
         </Box>
       </Box>
