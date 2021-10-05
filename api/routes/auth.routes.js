@@ -8,6 +8,7 @@ router.post("/login", login);
 //crea cualquier tipo de usuario
 router.post("/create", create);
 
+
 router.post("/validate", validateJWT, validate);
 
 module.exports = router;

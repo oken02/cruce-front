@@ -1,26 +1,29 @@
 const router = require('express').Router()
-const { newOrder } = require('../controllers/ecommerceControllers')
+const { newOrder, changingState , orderList, orderById , deleteOrder, modifyOrder , orderByCourier} = require('../controllers/orderControllers');
+const { roleMessenger, roleEcommerce, roleCourierAndEcommerce } = require('../middlewares/validateRole');
 
 
-router.post("/post", newOrder)
+//Lista de envíos SIN ASIGNAR
+router.get("/", orderList)
 
-router.put("/:pedidoID", [validateJWT, roleMessenger], async (req, res) => {
-    const { id: messengerID } = req.payload;
-  
-    const pedido = await Order.findById(req.params.pedidoID);
-  
-    if (pedido.actualState === "Sin asignar") {
-      pedido.actualState = "Pendiente de retiro en sucursal";
-      pedido.userId = messengerID;
-    } else if (pedido.actualState === "Pendiente de retiro en sucursal") {
-      pedido.actualState = "En camino";
-    } else {
-      pedido.actualState = req.body.newState;
-    }
-  
-    await pedido.save();
-    
-    res.json(pedido);
-  });
+//Detalla un pedido por ID
+router.get("/:id", orderById)
+
+//Crea todos los envíos del Excel 
+router.post("/post", roleEcommerce , newOrder)
+
+//Trae todos los pedidos de una cadetería - si es ecommerce enviar req.body - 
+router.post("/", roleCourierAndEcommerce, orderByCourier)
+
+//modifica un envío por ID  
+router.put ("/modify/:id",roleEcommerce, modifyOrder  )
+
+//modifica el estado del envío
+router.put("/:orderId", roleMessenger , changingState);
+
+//Elimina un pedido por ID
+router.delete("/:id", roleEcommerce, deleteOrder )
+
+
 
 module.exports = router

@@ -88,7 +88,7 @@ orderSchema.pre("save", function () {
       state: this.actualState,
       date: new Date(),
     });
-  //   console.log("Hello from pre save", this);
+    
 });
 
 const Order = mongoose.model("Order", orderSchema)
