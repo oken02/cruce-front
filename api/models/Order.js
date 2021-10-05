@@ -75,8 +75,7 @@ const orderSchema = new Schema({
     //**********/
     actualState : {
         type : String,
-        default: "sin asignar",
-        lowercase : true
+        default: "Sin Asignar",
     }
     //*********/
 })
