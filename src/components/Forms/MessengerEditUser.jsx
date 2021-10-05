@@ -29,23 +29,23 @@ function MessengerEditUser() {
   console.log('USER --> ', user);
 
   const pathName = location.pathname;
-  const messengerId = parseInt(pathName.slice(10));
+  const messengerId = pathName.slice(21);
   console.log('ID Messenger -->', messengerId);
   // ejemplo de ID 6155e454c4a1bbc964ff037f
 
   const [messenger, setMessenger] = useState([]);
-
   useEffect(() => {
     axios
       .get(
-        'http://localhost:3001/api/user/messenger/6155e454c4a1bbc964ff037f',
+        `http://localhost:3001/api/user/messenger/${messengerId}`,
         {
           headers: {
             Authorization: 'Bearer ' + token,
           },
         }
       )
-      .then((res) => setMessenger(res.data))
+      .then((res) => { console.log("RES DATA",res.data)
+        setMessenger(res.data) } )
       .catch((e) => console.log(e));
   }, []);
 
@@ -82,7 +82,7 @@ function MessengerEditUser() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .put('http://localhost:3001/api/user/messenger/update/:id', values, {
+        .put(`http://localhost:3001/api/user/messenger/update/${messengerId}`, values, {
           headers: {
             Authorization: 'Bearer ' + token,
           },
