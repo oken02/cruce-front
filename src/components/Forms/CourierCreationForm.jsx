@@ -49,7 +49,7 @@ function CourierCreationForm() {
     }),
 
     onSubmit: (values, { setSubmitting }) => {
-      console.log('VALORES --> ', values);
+      // console.log('VALORES --> ', values);
 
       axios
         .post('http://localhost:3001/api/courier/courierAdd', values, {

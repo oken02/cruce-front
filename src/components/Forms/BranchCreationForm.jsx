@@ -16,49 +16,53 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 function BranchCreationForm() {
-  // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
-  const toast = useToast();
+  const history = useHistory();
+  const token = localStorage.getItem('token');
 
   const formik = useFormik({
     initialValues: {
-      branchName: '',
-      branchAddress: '',
-      branchManager: '',
-      branchPhone: '',
+      name: '',
+      address: '',
+      manager: '',
+      phone: '',
     },
     validationSchema: Yup.object({
-      branchName: Yup.string()
+      name: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      branchAddress: Yup.string()
+      address: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      branchManager: Yup.string()
+      manager: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      branchPhone: Yup.number()
+      phone: Yup.number()
         .required('Es un campo obligatorio')
         .positive()
         .integer()
         .min(3, 'Requiere minimo 3 caracteres'),
     }),
     onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        console.log('%c Alta Sucursal -->', 'color: #FFEE57', values);
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 1000);
-      toast({
-        title: 'Submitted!',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
+      axios
+        .post('http://localhost:3001/api/branch', values, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+
+        .then((res) => {
+          // alert(`usuario ${values.name} creado`);
+          setSubmitting(false);
+          history.push('/dashboard/branches');
+        })
+        .catch((err) => console.log(err));
     },
   });
-  console.log('values ->', formik.values);
+
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
       <Box mt={[10, 0]}>
@@ -100,7 +104,7 @@ function BranchCreationForm() {
                 <SimpleGrid columns={6} spacing={6}>
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="branchName"
+                      htmlFor="name"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -109,8 +113,8 @@ function BranchCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="branchName"
-                      id="branchName"
+                      name="name"
+                      id="name"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -119,18 +123,18 @@ function BranchCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.branchName}
+                      value={formik.values.name}
                     />
-                    {formik.touched.branchName && formik.errors.branchName ? (
+                    {formik.touched.name && formik.errors.name ? (
                       <div>
-                        <Text color="tomato">{formik.errors.branchName}</Text>
+                        <Text color="tomato">{formik.errors.name}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="branchManager"
+                      htmlFor="manager"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -139,9 +143,9 @@ function BranchCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="branchManager"
-                      id="branchManager"
-                      autoComplete="branchManager"
+                      name="manager"
+                      id="manager"
+                      autoComplete="manager"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -150,21 +154,18 @@ function BranchCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.branchManager}
+                      value={formik.values.manager}
                     />
-                    {formik.touched.branchManager &&
-                    formik.errors.branchManager ? (
+                    {formik.touched.manager && formik.errors.manager ? (
                       <div>
-                        <Text color="tomato">
-                          {formik.errors.branchManager}
-                        </Text>
+                        <Text color="tomato">{formik.errors.manager}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="branchAddress"
+                      htmlFor="address"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -173,9 +174,9 @@ function BranchCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="branchAddress"
-                      id="branchAddress"
-                      autoComplete="branchAddress"
+                      name="address"
+                      id="address"
+                      autoComplete="address"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -184,21 +185,18 @@ function BranchCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.branchAddress}
+                      value={formik.values.address}
                     />
-                    {formik.touched.branchAddress &&
-                    formik.errors.branchAddress ? (
+                    {formik.touched.address && formik.errors.address ? (
                       <div>
-                        <Text color="tomato">
-                          {formik.errors.branchAddress}
-                        </Text>
+                        <Text color="tomato">{formik.errors.address}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="branchPhone"
+                      htmlFor="phone"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -207,9 +205,9 @@ function BranchCreationForm() {
                     </FormLabel>
                     <Input
                       type="number"
-                      name="branchPhone"
-                      id="branchPhone"
-                      autoComplete="branchPhone"
+                      name="phone"
+                      id="phone"
+                      autoComplete="phone"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -218,11 +216,11 @@ function BranchCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.branchPhone}
+                      value={formik.values.phone}
                     />
-                    {formik.touched.branchPhone && formik.errors.branchPhone ? (
+                    {formik.touched.phone && formik.errors.phone ? (
                       <div>
-                        <Text color="tomato">{formik.errors.branchPhone}</Text>
+                        <Text color="tomato">{formik.errors.phone}</Text>
                       </div>
                     ) : null}{' '}
                   </FormControl>

@@ -40,7 +40,6 @@ function MessengerEditUser() {
         },
       })
       .then((res) => {
-        console.log('RES DATA', res.data);
         setMessenger(res.data);
       })
       .catch((e) => console.log(e));
@@ -88,7 +87,6 @@ function MessengerEditUser() {
           }
         )
         .then((res) => {
-          alert(`usuario ${values.fullName} creado`);
           setSubmitting(false);
           history.push('/dashboard/messengers');
         })
