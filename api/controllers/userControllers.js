@@ -21,7 +21,7 @@ const createMessengerUser = async (req, res,next) => {
         address : address,
         courierId : courier
     })
-    console.log(newMessengerUser)
+
     await newMessengerUser.save()
     res.status(201).send(newMessengerUser)
 
@@ -53,9 +53,7 @@ const updateUser = async (req, res, next) => {
         const update = req.body
         const passwordHashed = await bcrypt.hash(update.password, 10)
         update.password = passwordHashed
-        console.log(id, update)
         const userUpdate = await User.findByIdAndUpdate(id, update, {new : true})
-        console.log(userUpdate)
         res.status(202).send(userUpdate)
     }catch(err){next(err)}
 }
@@ -63,7 +61,6 @@ const updateUser = async (req, res, next) => {
 const userMessengerList = async (req, res, next) => {
     try{
         const { courierId } = req.payload
-        console.log(req.payload)
         const user = await User.find({role : "messenger", courierId : courierId});
         const users = await Courier.populate(user, { path: "courierId"})
         res.json(user);

@@ -10,6 +10,15 @@ const allOrders = async (req, res, next) => {
     }catch(err){next(err)}
 }
 
+//TRAE todos los pedidos de un CADETE
+const myorders = async (req, res, next) => {
+    try{
+        const {id} = req.params
+        const orders = await Order.find({userId : id})
+        res.send(orders)
+    }catch(err){next(err)}
+}
+
 
 //trae todos los pedidos SIN ASIGNAR
 const noAssignedOrderList = async (req, res, next) => {
@@ -180,6 +189,7 @@ const modifyOrder = async (req, res, next)=>{
 
 module.exports = { allOrders, 
      newOrder,
+     myorders,
      changingState, 
      noAssignedOrderList, 
      orderById, 
