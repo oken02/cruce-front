@@ -48,18 +48,20 @@ import CourierCreationForm from '../components/Forms/CourierCreationForm';
 import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
 import CourierEdit from './Forms/CourierEdit';
-import NewOrder from './NewOrder';
+import OrdersNotAssigned from "../components/Tables/OrdersNotAssigned"
+
 
 const itemsSidebar = {
   courier: [
     { name: 'Home', url: '', icon: MdHome },
+    { name: 'Pedidos', url: '/courier/orders', icon: MdMotorcycle },
     { name: 'Cadetes', url: '/messengers', icon: MdPerson },
     { name: 'Reportes', url: '/reports', icon: MdEqualizer },
   ],
   messenger: [
     { name: 'Home', url: '', icon: MdHome },
-    { name: 'Mis Pedidos', url: '/orders', icon: MdMotorcycle },
-    { name: 'Pedidos Sin Asignar', url: '/orders', icon: MdLocationOn },
+    { name: 'Mis Pedidos', url: '/messenger/orders', icon: MdMotorcycle },
+    { name: 'Pedidos Sin Asignar', url: '/notassigned', icon: MdLocationOn },
   ],
 
   ecommerce: [
@@ -245,7 +247,9 @@ export default function Sidebar() {
               path="/dashboard/courier/:id"
               render={() => <CourierEdit />}
             />
-            <Route exact path="/branches" render={() => <Branches />} />
+            <Route exact path="/dashboard/branches" render={() => <Branches />} />
+            <Route exact path="/dashboard/notassigned" render={() => <OrdersNotAssigned />} />
+
           </Switch>
         </Box>
       </Box>

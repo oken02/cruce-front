@@ -9,7 +9,7 @@ import {
   Card,
 } from "@material-ui/core";
 import { Box } from "@chakra-ui/layout";
-import { Button, IconButton } from "@chakra-ui/button";
+import { IconButton } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditIcon } from "@chakra-ui/icons";
@@ -18,15 +18,16 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertDeleteMessenger from "./AlertDeleteMessenger";
+import AlertAssignOrder from "./AlertAssignOrder";
 
 //Hooks
 import useTables from "../../hooks/useTables";
-import { blue } from "@material-ui/core/colors";
 
-const Messengers = () => {
+const OrdersNotAssigned = () => {
   const history = useHistory();
   const token = localStorage.getItem("token");
+  
+
   const {
     records,
     setRecords,
@@ -37,43 +38,24 @@ const Messengers = () => {
     handleSearchText,
   } = useTables({});
 
-  const [messengers, setMessengers] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/user/messenger/", {
+      .get("http://localhost:3001/api/order/noassigned", {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
-      .then((res) => setMessengers(res.data));
+      .then((res) => setOrders(res.data));
   }, []);
 
-  useEffect(() => {
-    if (messengers) {
-      setRecords(messengers);
-    }
-  }, [messengers]);
-
-  // useEffect(() => {
-  //   if (searchText) {
-  //     const Searched =
-  //   }
-
-  // }, [])
-  console.log(messengers)
+  console.log("Sin Asignar>>>", orders)
 
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
-        <h1>Lista de Cadetes</h1>
-        <Button
-          colorScheme="teal"
-          size="sm"
-          onClick={() => history.push("/dashboard/messenger")}
-        >
-          Crear Cadete
-        </Button>
+        <h1>Pedidos Sin Asignar</h1>
       </Box>
 
       <Card>
@@ -91,35 +73,28 @@ const Messengers = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {messengers.map((row, index) => {
-                // console.log(row._id)
+              {orders.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
                       <Link
-                        to={`/dashboard/messenger/${row._id}`}
-                        style={{ color: blue }}
+                        to={`/dashboard/order/${row._id}`}
                       >
-                        {row.fullName.replace(/\b\w/g, l => l.toUpperCase())}{" "}
+                        {row.orderId}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
+                    <TableCell>{row.client.address.city}</TableCell>
+                    <TableCell>{row.actualState}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
+
                     <TableCell>
-                      <AlertDeleteMessenger
+                      <AlertAssignOrder
                         messID={row._id}
                         name={row.fullName}
                       />
 
-                      <Link to={`/dashboard/messenger/${row._id}`}>
-                        <IconButton
-                          variant="ghost"
-                          colorScheme="teal"
-                          fontSize="20 px"
-                          size="xs"
-                          icon={<EditIcon />}
-                        />
-                      </Link>
+                     
                     </TableCell>
                   </TableRow>
                 );
@@ -132,4 +107,4 @@ const Messengers = () => {
   );
 };
 
-export default Messengers;
+export default OrdersNotAssigned;

@@ -20,7 +20,7 @@ export const sendValidation = createAsyncThunk(
 
     if (!token) return thunkAPI.rejectWithValue();
 
-    console.log("TOKEN", token);
+    // console.log("TOKEN", token);
     
     return axios
       .post(
