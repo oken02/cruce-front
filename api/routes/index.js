@@ -15,7 +15,7 @@ router.use("/courier", [validateJWT, roleEcommerce ], CourierRouter);
 router.use("/branch", [validateJWT, roleEcommerce ], BranchRouter);
 router.use("/order",[validateJWT], OrderRouter);
 router.use("/user", [validateJWT] , UserRouter);
-router.use("/auth", authRouter);
+router.use("/auth", authRouter); 
 
 
 

@@ -7,4 +7,4 @@ router.use("/messenger", userMessengerRoute)
 router.use("/courier", useCourierRoute)
 
 
-module.exports = router
+module.exports = router 

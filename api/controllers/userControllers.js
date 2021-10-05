@@ -9,7 +9,8 @@ const createMessengerUser = async (req, res,next) => {
     const saltRounds = 10
     const passwordHashed = await bcrypt.hash(password, saltRounds)
     const courier = await Courier.findById(courierId)
-
+        
+    if(courier === null) res.status(500).send("El usuario no tiene asociado una cadetería")
 
     const newMessengerUser = new User({
         fullName : fullName,
@@ -20,6 +21,7 @@ const createMessengerUser = async (req, res,next) => {
         address : address,
         courierId : courier
     })
+    console.log(newMessengerUser)
     await newMessengerUser.save()
     res.status(201).send(newMessengerUser)
 
