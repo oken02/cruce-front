@@ -25,7 +25,7 @@ router.post("/", roleCourierAndEcommerce, orderByCourier)
 //modifica un envío por ID  
 router.put ("/modify/:id",roleEcommerce, modifyOrder  )
 
-//modifica el estado del envío
+//modifica el ESTADO del envío
 router.put("/:orderId", roleMessenger , changingState);
 
 //Elimina un pedido por ID

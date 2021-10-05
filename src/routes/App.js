@@ -52,7 +52,7 @@ function App() {
             path="/orders/notassigned"
             render={() => <NotAssigned />}
           />
-          <Route exact path="/order" render={() => <NewOrder />} />
+          {/* <Route exact path="/order" render={() => <NewOrder />} /> */}
           <Route path="/order/:id" render={() => <Order />} />
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />

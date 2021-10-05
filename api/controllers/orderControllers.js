@@ -4,7 +4,8 @@ const { Order } = require("../models")
 const allOrders = async (req, res, next) => {
     try{
         const orders= await Order.find({})
-        .populate("userId", "courierId")
+        .populate("userId")
+        .populate("courierId")
         res.send(orders)
     }catch(err){next(err)}
 }
@@ -13,7 +14,8 @@ const allOrders = async (req, res, next) => {
 //trae todos los pedidos SIN ASIGNAR
 const noAssignedOrderList = async (req, res, next) => {
     try{
-        const orders = await Order.find({actualState : "sin asignar"})
+        const orders = await Order.find({actualState : "Sin Asignar"})
+
         res.send(orders)
     }
     catch(err){next(err)}
@@ -25,6 +27,8 @@ const orderById = async (req, res, next) => {
     try{
         const id = req.params.id
         const detailOrder = await Order.findById(id)
+        .populate("userId")
+        .populate("courierId")
         res.send(detailOrder)
     } catch(err){next(err)}
 }
@@ -42,6 +46,8 @@ const orderByCourier = async (req, res, next) => {
         const obj = state ? {courierId : dato, actualState : state} : {courierId : dato}; 
 
         const orders = await Order.find(obj)
+        .populate("userId")
+        .populate("courierId")
         res.send(orders)
     }
     catch(err){next(err)}
@@ -52,6 +58,8 @@ const allOrdersByState = async (req, res, next) => {
     try{
         const {state} = req.body
         const orders = await Order.find({actualState : state})
+        .populate("userId")
+        .populate("courierId")
         res.send(orders)
         
     }catch(err) {next(err)}
@@ -100,7 +108,7 @@ const newOrder = async (req, res, next) => {
             }],
             stateHistory : [
                 {
-                    state : "sin asignar",
+                    state : "Sin Asignar",
                     date : new Date()
                 }
             ]
@@ -125,18 +133,19 @@ const newOrder = async (req, res, next) => {
 const changingState = async (req, res) => {
     const { id , courierId } = req.payload;
     const orderId = req.params.orderId
+    const {newState} = req.body //Entregado o Devuelto a Sucursal
 
     const pedido = await Order.findById(orderId);
-    if (pedido.actualState === "sin asignar") {
-      pedido.actualState = "pendiente de retiro en sucursal";
+    if (pedido.actualState === "Sin Asignar") {
+      pedido.actualState = "Pendiente de Retiro en Sucursal";
       pedido.userId = id
       pedido.courierId = courierId
-    } else if (pedido.actualState === "pendiente de retiro en sucursal") {
-      pedido.actualState = "en camino";
+    } else if (pedido.actualState === "Pendiente de Retiro en Sucursal") {
+      pedido.actualState = "En Camino";
     } else {
-      pedido.actualState = req.body.newState;
+      pedido.actualState = newState;
     }
-
+    console.log(pedido)
     await pedido.save()
     
     res.send(pedido);
@@ -147,7 +156,7 @@ const deleteOrder = async (req, res, next) => {
     const id = req.params.id;
     try {
       const resDel = await Order.deleteOne({ _id: id });
-      res.json({ msg: "deleted", resDel });
+      res.json({ msg: "Deleted", resDel });
     } catch (error) {
       next(error);
     }

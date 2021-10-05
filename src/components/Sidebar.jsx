@@ -50,6 +50,7 @@ import { logoutUser } from '../store/reducers/usersReducer';
 import CourierEdit from './Forms/CourierEdit';
 import OrdersNotAssigned from "../components/Tables/OrdersNotAssigned"
 
+
 const itemsSidebar = {
   courier: [
     { name: 'Home', url: '', icon: MdHome },
@@ -222,6 +223,7 @@ export default function Sidebar() {
               path="/dashboard/orders"
               render={() => <OrdersList />}
             />
+            <Route exact path="/dashboard/order" render={() => <NewOrder />} />
             <Route
               exact
               path="/dashboard/messengers"
