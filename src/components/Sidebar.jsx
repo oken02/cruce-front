@@ -48,6 +48,7 @@ import CourierCreationForm from '../components/Forms/CourierCreationForm';
 import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
 import CourierEdit from './Forms/CourierEdit';
+import NewOrder from './NewOrder';
 
 const itemsSidebar = {
   courier: [
@@ -220,6 +221,7 @@ export default function Sidebar() {
               path="/dashboard/orders"
               render={() => <OrdersList />}
             />
+            <Route exact path="/dashboard/order" render={() => <NewOrder />} />
             <Route
               exact
               path="/dashboard/messengers"

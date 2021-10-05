@@ -31,7 +31,6 @@ function UserCreationForm() {
       fullName: '',
       dniCuil: '',
       address: '',
-      courierId: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -58,7 +57,7 @@ function UserCreationForm() {
           },
         })
         .then((res) => {
-          alert(`usuario ${values.fullName} creado`);
+          // alert(`usuario ${values.fullName} creado`);
           setSubmitting(false);
           history.push('/dashboard/messengers');
         })
@@ -145,7 +144,7 @@ function UserCreationForm() {
                       Password:
                     </FormLabel>
                     <Input
-                      type="text"
+                      type="password"
                       name="password"
                       id="password"
                       mt={1}
