@@ -13,7 +13,7 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { EditIcon } from "@chakra-ui/icons";
-  import { Input } from '@chakra-ui/input';
+import { Link } from "react-router-dom";
 
 //Components
 import TablesHead from "./TablesHead";
@@ -22,6 +22,7 @@ import AlertDeleteMessenger from "./AlertDeleteMessenger";
 
 //Hooks
 import useTables from "../../hooks/useTables";
+import { blue } from "@material-ui/core/colors";
 
 const Messengers = () => {
   const history = useHistory();
@@ -68,25 +69,15 @@ const Messengers = () => {
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push('/dashboard/messenger')}
+          onClick={() => history.push("/dashboard/messenger")}
         >
           Crear Cadete
-        </Button>
-        {/* Para probar editar cadete: */}
-        <Button
-          colorScheme="teal"
-          size="sm"
-          onClick={() => history.push('/dashboard/messenger/1')}
-        >
-          EDITAR Cadete
-
         </Button>
       </Box>
 
       <Card>
         <TableContainer>
           <Box p="3">
-            {/* <Input placeholder="Basic usage" /> */}
             <SearchBar
               searchText={searchText}
               onSearchText={handleSearchText}
@@ -103,18 +94,31 @@ const Messengers = () => {
                 // console.log(row._id)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    <TableCell>{row.fullName}</TableCell>
+                    <TableCell>
+                      <Link
+                        to={`/dashboard/messenger/${row._id}`}
+                        style={{ color: blue }}
+                      >
+                        {row.fullName}{" "}
+                      </Link>
+                    </TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
-                    <TableCell>        
-                        <AlertDeleteMessenger messID = {row._id} name={row.fullName}/>
-                      <IconButton
-                        variant="ghost"
-                        colorScheme="teal"
-                        fontSize="20 px"
-                        size="xs"
-                        icon={<EditIcon />}
+                    <TableCell>
+                      <AlertDeleteMessenger
+                        messID={row._id}
+                        name={row.fullName}
                       />
+
+                      <Link to={`/dashboard/messenger/${row._id}`}>
+                        <IconButton
+                          variant="ghost"
+                          colorScheme="teal"
+                          fontSize="20 px"
+                          size="xs"
+                          icon={<EditIcon />}
+                        />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );

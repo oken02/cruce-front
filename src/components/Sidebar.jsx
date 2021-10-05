@@ -52,7 +52,6 @@ const itemsSidebar = {
     { name: 'Home', url: '', icon: MdHome },
     { name: 'Cadetes', url: '/messengers', icon: MdPerson },
     { name: 'Reportes', url: '/reports', icon: MdEqualizer },
-    { name: 'Editar Cadete', url: '/messenger/1', icon: MdEqualizer },
   ],
   messenger: [
     { name: 'Home', url: '', icon: MdHome },
