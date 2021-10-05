@@ -19,13 +19,11 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-
-
 function UserCreationForm() {
-  // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
-  const history = useHistory()
-  const token = localStorage.getItem("token")
-  console.log(token)
+  const history = useHistory();
+  const token = localStorage.getItem('token');
+  // console.log(token);
+
   const formik = useFormik({
     initialValues: {
       userEmail: '',
@@ -52,19 +50,19 @@ function UserCreationForm() {
         .min(8, 'Requiere minimo 8 caracteres'),
     }),
 
-  
     onSubmit: (values, { setSubmitting }) => {
-
-      axios.post("http://localhost:3001/api/user/messenger/add", values, 
-      {headers: {
-        Authorization: "Bearer " + token,
-      }})
-      .then(res => {
-        alert(`usuario ${values.userName} creado`)
-        setSubmitting(false)
-        history.push("/dashboard/messengers")
-      })
-      .catch(err => console.log(err))
+      axios
+        .post('http://localhost:3001/api/user/messenger/add', values, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+        .then((res) => {
+          alert(`usuario ${values.userName} creado`);
+          setSubmitting(false);
+          history.push('/dashboard/messengers');
+        })
+        .catch((err) => console.log(err));
     },
   });
 
@@ -79,7 +77,7 @@ function UserCreationForm() {
           <GridItem colSpan={{ md: 1 }}>
             <Box px={[4, 0]}>
               <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
-                Alta de Nuevo Usuario
+                Alta de Nuevo Cadete
               </Heading>
               <Text
                 mt={1}
@@ -260,7 +258,6 @@ function UserCreationForm() {
                       </div>
                     ) : null}
                   </FormControl>
-
                 </SimpleGrid>
               </Stack>
               <Box

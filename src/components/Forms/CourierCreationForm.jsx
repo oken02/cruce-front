@@ -15,43 +15,55 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 function CourierCreationForm() {
-  // const [loginInput, setLoginInput] = useState({ email: '', password: '' });
+  const history = useHistory();
+  const token = localStorage.getItem('token');
+
+  const phoneRegExp =
+    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
   const formik = useFormik({
     initialValues: {
-      courierName: '',
-      courierAddress: '',
-      courierManager: '',
-      courierPhone: '',
+      name: '',
+      address: '',
+      manager: '',
+      phone: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Email invalido')
-        .required('El email es requerido'),
-      courierName: Yup.string()
+      name: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      courierAddress: Yup.string()
+      address: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      courierManager: Yup.string()
+      manager: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      courierPhone: Yup.number()
-        .required('Es un campo obligatorio')
-        .positive()
-        .integer()
-        .min(3, 'Requiere minimo 3 caracteres'),
+      phone: Yup.string().matches(
+        phoneRegExp,
+        'El numero de telefono no es valido'
+      ),
     }),
 
     onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        console.log('%c Alta Mensajeria -->', 'color: #FFEE57', values);
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 1000);
+      console.log('VALORES --> ', values);
+
+      axios
+        .post('http://localhost:3001/api/courier/courierAdd', values, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+
+        .then((res) => {
+          alert(`usuario ${values.name} creado`);
+          setSubmitting(false);
+          history.push('/dashboard/couriers');
+        })
+        .catch((err) => console.log(err));
     },
   });
 
@@ -96,17 +108,17 @@ function CourierCreationForm() {
                 <SimpleGrid columns={6} spacing={6}>
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="courierName"
+                      htmlFor="name"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
                     >
-                      Nombre:
+                      Nombre de la mensajeria:
                     </FormLabel>
                     <Input
                       type="text"
-                      name="courierName"
-                      id="courierName"
+                      name="name"
+                      id="name"
                       autoComplete="given-name"
                       mt={1}
                       focusBorderColor="brand.400"
@@ -116,18 +128,18 @@ function CourierCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.courierName}
+                      value={formik.values.name}
                     />
-                    {formik.touched.courierName && formik.errors.courierName ? (
+                    {formik.touched.name && formik.errors.name ? (
                       <div>
-                        <Text color="tomato">{formik.errors.courierName}</Text>
+                        <Text color="tomato">{formik.errors.name}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="courierManager"
+                      htmlFor="manager"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -136,9 +148,9 @@ function CourierCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="courierManager"
-                      id="courierManager"
-                      autoComplete="courierManager"
+                      name="manager"
+                      id="manager"
+                      autoComplete="manager"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -147,21 +159,18 @@ function CourierCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.courierManager}
+                      value={formik.values.manager}
                     />
-                    {formik.touched.courierManager &&
-                    formik.errors.courierManager ? (
+                    {formik.touched.manager && formik.errors.manager ? (
                       <div>
-                        <Text color="tomato">
-                          {formik.errors.courierManager}
-                        </Text>
+                        <Text color="tomato">{formik.errors.manager}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="courierAddress"
+                      htmlFor="address"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -170,9 +179,9 @@ function CourierCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="courierAddress"
-                      id="courierAddress"
-                      autoComplete="courierAddress"
+                      name="address"
+                      id="address"
+                      autoComplete="address"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -181,21 +190,18 @@ function CourierCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.courierAddress}
+                      value={formik.values.address}
                     />
-                    {formik.touched.courierAddress &&
-                    formik.errors.courierAddress ? (
+                    {formik.touched.address && formik.errors.address ? (
                       <div>
-                        <Text color="tomato">
-                          {formik.errors.courierAddress}
-                        </Text>
+                        <Text color="tomato">{formik.errors.address}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="courierPhone"
+                      htmlFor="phone"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -204,9 +210,9 @@ function CourierCreationForm() {
                     </FormLabel>
                     <Input
                       type="number"
-                      name="courierPhone"
-                      id="courierPhone"
-                      autoComplete="courierPhone"
+                      name="phone"
+                      id="phone"
+                      autoComplete="phone"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -215,12 +221,11 @@ function CourierCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.courierPhone}
+                      value={formik.values.phone}
                     />
-                    {formik.touched.courierPhone &&
-                    formik.errors.courierPhone ? (
+                    {formik.touched.phone && formik.errors.phone ? (
                       <div>
-                        <Text color="tomato">{formik.errors.courierPhone}</Text>
+                        <Text color="tomato">{formik.errors.phone}</Text>
                       </div>
                     ) : null}{' '}
                   </FormControl>
