@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertDeleteMessenger from "./AlertDeleteMessenger";
+import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -50,7 +50,7 @@ const OrderList = () => {
       .then((res) => setOrders(res.data));
   }, []);
 
-  console.log("PEDIDOOOOOSSS", orders)
+  // console.log("PEDIDOOOOOSSS", orders)
 
   return (
     <Box p="4">
@@ -81,6 +81,7 @@ const OrderList = () => {
             />
             <TableBody>
               {orders.map((row, index) => {
+                // console.log("COURIER ID NAME",row.courierId.name)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
@@ -93,15 +94,15 @@ const OrderList = () => {
                     <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
                     <TableCell>{row.actualState}</TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.courierId? row.courierId.name : ""}</TableCell>
 
                     <TableCell>
                       <AlertDeleteMessenger
-                        messID={row._id}
-                        name={row.fullName}
+                        // messID={row._id}
+                        // name={row.fullName}
                       />
 
-                      <Link to={`/dashboard/messenger/${row._id}`}>
+                      <Link to={`/dashboard/order/${row._id}`}>
                         <IconButton
                           variant="ghost"
                           colorScheme="teal"

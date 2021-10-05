@@ -1,15 +1,11 @@
 import {
-  Avatar,
   Box,
   Button,
   ButtonGroup,
-  Center,
-  Collapse,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
-  flexbox,
   Icon,
   IconButton,
   Input,
@@ -49,18 +45,20 @@ import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
 import CourierEdit from './Forms/CourierEdit';
 import OrdersNotAssigned from "../components/Tables/OrdersNotAssigned"
-
+import NewOrder from "../components/NewOrder"
+import OrdersCourier from './Tables/OrdersCourier';
+import OrdersMessenger from './Tables/OrdersMessenger';
 
 const itemsSidebar = {
   courier: [
     { name: 'Home', url: '', icon: MdHome },
-    { name: 'Pedidos', url: '/courier/orders', icon: MdMotorcycle },
+    { name: 'Pedidos', url: '/courierorders', icon: MdMotorcycle },
     { name: 'Cadetes', url: '/messengers', icon: MdPerson },
     { name: 'Reportes', url: '/reports', icon: MdEqualizer },
   ],
   messenger: [
     { name: 'Home', url: '', icon: MdHome },
-    { name: 'Mis Pedidos', url: '/messenger/orders', icon: MdMotorcycle },
+    { name: 'Mis Pedidos', url: '/messengerorders', icon: MdMotorcycle },
     { name: 'Pedidos Sin Asignar', url: '/notassigned', icon: MdLocationOn },
   ],
 
@@ -249,7 +247,8 @@ export default function Sidebar() {
             />
             <Route exact path="/dashboard/branches" render={() => <Branches />} />
             <Route exact path="/dashboard/notassigned" render={() => <OrdersNotAssigned />} />
-
+            <Route exact path="/dashboard/courierorders" render={() => <OrdersCourier />} />
+            <Route exact path="/dashboard/messengerorders" render={() => <OrdersMessenger />} />
           </Switch>
         </Box>
       </Box>

@@ -17,7 +17,7 @@ import { EditIcon } from '@chakra-ui/icons';
 //Components
 import TablesHead from './TablesHead';
 import SearchBar from './SearchBar';
-import AlertDeleteCourier from './AlertDeleteCourier';
+import AlertDeleteCourier from './Alerts/AlertDeleteCourier';
 
 //Hooks
 import useTables from '../../hooks/useTables';

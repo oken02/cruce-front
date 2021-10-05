@@ -36,6 +36,21 @@ const labels = {
     { id: "state", label: "Estado", style: {} },
     { id: "courier", label: "Mensajería", style: {} },
     { id: "acciones", label: "Acciones", style: {} },
+  ],
+  courierorders: [
+    { id: "orderId", label: "ID Pedido", style: {} },
+    { id: "date1", label: "Fecha Ingreso", style: {} },
+    { id: "date 2", label: "Fecha Entrega", style: {} },
+    { id: "state", label: "Estado", style: {} },
+    { id: "messenger", label: "Cadete", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
+  ],
+  messengerorders: [
+    { id: "orderId", label: "ID Pedido", style: {} },
+    { id: "date1", label: "Fecha Ingreso", style: {} },
+    { id: "date 2", label: "Fecha Entrega", style: {} },
+    { id: "state", label: "Estado", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
 
   ],
   notassigned: [

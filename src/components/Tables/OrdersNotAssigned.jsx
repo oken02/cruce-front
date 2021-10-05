@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertAssignOrder from "./AlertAssignOrder";
+import AlertAssignOrder from "./Alerts/AlertAssignOrder";
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -85,13 +85,10 @@ const OrdersNotAssigned = () => {
                     </TableCell>
                     <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
                     <TableCell>{row.client.address.city}</TableCell>
-                    <TableCell>{row.actualState}</TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
 
                     <TableCell>
                       <AlertAssignOrder
                         messID={row._id}
-                        name={row.fullName}
                       />
 
                      

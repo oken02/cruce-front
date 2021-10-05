@@ -17,18 +17,19 @@ import {
   import axios from "axios";
   import { useHistory } from "react-router";
   
-  function AlertAssignOrder({ messID, name }) {
+  function AlertAssignOrder({ messID }) {
     const history = useHistory();
     const token = localStorage.getItem("token");
 
   
     const onAssign = (id) => {
-        axios.delete(`http://localhost:3001/api/user/messenger/delete/${id}`,{
+        axios.put(`http://localhost:3001/api/order/${id}`, {}, {
           headers: {
             Authorization: "Bearer " + token,
           },
         })
         .then((data) => {
+            console.log("PEDIDO ASIGNADO", data)
           history.go(0);
         });
       };
@@ -38,9 +39,9 @@ import {
         <PopoverTrigger>
           <Button variant="outline"
                         colorScheme="teal"
-                        fontSize="20px"
+                        fontSize="12px"
                         size="xs"
-                        mr={2} />
+                        mr={2}> Seleccionar Pedido</Button>
         </PopoverTrigger>
         <PopoverContent bg="gray.100" borderColor="teal.500">
           <PopoverHeader pt={4} fontWeight="bold" border="0" color="black">
@@ -60,11 +61,11 @@ import {
             pb={4}
           >
             <ButtonGroup size="sm">
-              <Button bg="teal" color="gray.50" onClick={() => history.go(0)}>
-                Pensándolo mejor, no
+              <Button bg="red.600" color="gray.50" onClick={() => history.go(0)}>
+                Mejor, no
               </Button>
               <Button
-                bg="red.600"
+                bg="teal"
                 color="gray.50"
                 onClick={() => onAssign(messID)}
               >
