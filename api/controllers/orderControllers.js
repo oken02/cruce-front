@@ -1,5 +1,13 @@
 const { Order } = require("../models")
 
+//Trae todos los pedidos SOLO ECOMMERCE
+const allOrders = async (req, res, next) => {
+    try{
+        const orders= await Order.find({})
+        res.send(orders)
+    }catch(err){next(err)}
+}
+
 
 //trae todos los pedidos SIN ASIGNAR
 const noAssignedOrderList = async (req, res, next) => {
@@ -160,4 +168,4 @@ const modifyOrder = async (req, res, next)=>{
 }
 
 
-module.exports = { newOrder , changingState, noAssignedOrderList, orderById, deleteOrder , orderByCourier, modifyOrder, allOrdersByState}
+module.exports = { allOrders, newOrder , changingState, noAssignedOrderList, orderById, deleteOrder , orderByCourier, modifyOrder, allOrdersByState}

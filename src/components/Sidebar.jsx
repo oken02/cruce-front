@@ -62,7 +62,8 @@ const itemsSidebar = {
   ],
 
   ecommerce: [
-    { name: 'home', url: '', icon: MdHome },
+    { name: 'Home', url: '', icon: MdHome },
+    { name: 'Pedidos', url: '/orders', icon: MdMotorcycle },
     { name: 'Sucursales', url: '/branches', icon: MdStore },
     { name: 'Mensajerías', url: '/couriers', icon: MdLocalShipping },
     { name: 'Reportes', url: '/reports', icon: MdEqualizer },
