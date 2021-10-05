@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import {
   TableCell,
@@ -10,39 +10,38 @@ import {
 } from "@material-ui/core";
 import { visuallyHidden } from "@mui/utils";
 
-// const labels = [
-//   { id: "fullName", label: "Nombre", style: {} },
-//   { id: "email", label: "Email", style: {} },
-//   { id: "dni", label: "Dni", style: {} },
-//   { id: "acciones", label: "Acciones", style: {} },
-
-// ];
-
 const labels = {
-  ecommerce : [
+  couriers: [
     { id: "name", label: "Nombre", style: {} },
     { id: "address", label: "Dirección", style: {} },
     { id: "manager", label: "Responsable", style: {} },
     { id: "phone", label: "Teléfono", style: {} },
   ],
-  courier: [
+  messengers: [
     { id: "fullName", label: "Nombre", style: {} },
     { id: "email", label: "Email", style: {} },
     { id: "dni", label: "Dni", style: {} },
     { id: "acciones", label: "Acciones", style: {} },
-  ]
+  ],
+  orders: [
+    { id: "orderId", label: "ID Pedido", style: {} },
+    { id: "date1", label: "Fecha Ingreso", style: {} },
+    { id: "date 2", label: "Fecha Entrega", style: {} },
+    { id: "state", label: "Estado", style: {} },
+    { id: "courier", label: "Mensajería", style: {} },
+    { id: "branch", label: "Sucursal", style: {} },
+  ],
 };
 
-
 const TablesHead = ({ order, orderBy, onRequestSort }) => {
-  const { loggedUser } = useSelector((state) => state.user);
+  const location = useLocation();
+  const pathName = location.pathname.slice(11);
 
-  console.log ("Logged User", loggedUser)
   return (
     <TableHead>
       <TableRow>
-      {/* (labels || []).map((head) */}
-        {labels[loggedUser.role].map((head) => (
+        {/* (labels || []).map((head) */}
+        {labels[pathName].map((head) => (
           <TableCell
             key={head.id}
             sortDirection={orderBy === head.id ? order : false}
