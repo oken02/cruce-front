@@ -16,6 +16,7 @@ router.post("/post", roleEcommerce , newOrder)
 router.post("/ordersbystate", roleEcommerce, allOrdersByState)
 
 //Trae todos los pedidos de una cadetería - si es ecommerce enviar req.body - 
+//también filtra por estado si se lo envía por body
 router.post("/", roleCourierAndEcommerce, orderByCourier)
 
 //modifica un envío por ID  
