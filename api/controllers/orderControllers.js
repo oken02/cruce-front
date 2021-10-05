@@ -133,6 +133,7 @@ const newOrder = async (req, res, next) => {
 const changingState = async (req, res) => {
     const { id , courierId } = req.payload;
     const orderId = req.params.orderId
+    const {newState} = req.body //Entregado o Devuelto a Sucursal
 
     const pedido = await Order.findById(orderId);
     if (pedido.actualState === "Sin Asignar") {
@@ -142,7 +143,7 @@ const changingState = async (req, res) => {
     } else if (pedido.actualState === "Pendiente de Retiro en Sucursal") {
       pedido.actualState = "En Camino";
     } else {
-      pedido.actualState = req.body.newState;
+      pedido.actualState = newState;
     }
     console.log(pedido)
     await pedido.save()
