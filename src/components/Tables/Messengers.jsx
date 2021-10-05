@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 import {
   TableContainer,
@@ -7,24 +7,25 @@ import {
   TableRow,
   TableBody,
   Card,
-} from '@material-ui/core';
+} from "@material-ui/core";
+import { Box } from "@chakra-ui/layout";
+import { Button, IconButton } from "@chakra-ui/button";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { EditIcon } from "@chakra-ui/icons";
+  import { Input } from '@chakra-ui/input';
 
 //Components
-import TablesHead from './TablesHead';
-import SearchBar from './SearchBar';
+import TablesHead from "./TablesHead";
+import SearchBar from "./SearchBar";
+import AlertDeleteMessenger from "./AlertDeleteMessenger";
 
 //Hooks
-import useTables from '../../hooks/useTables';
-import { Box } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/button';
-import { Input } from '@chakra-ui/input';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import useTables from "../../hooks/useTables";
 
 const Messengers = () => {
   const history = useHistory();
-  const token = localStorage.getItem('token');
-
+  const token = localStorage.getItem("token");
   const {
     records,
     setRecords,
@@ -39,15 +40,13 @@ const Messengers = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/user/messenger/', {
+      .get("http://localhost:3001/api/user/messenger/", {
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       })
       .then((res) => setMessengers(res.data));
   }, []);
-
-  // console.log(messengers)
 
   useEffect(() => {
     if (messengers) {
@@ -80,6 +79,7 @@ const Messengers = () => {
           onClick={() => history.push('/dashboard/messenger/1')}
         >
           EDITAR Cadete
+
         </Button>
       </Box>
 
@@ -100,12 +100,22 @@ const Messengers = () => {
             />
             <TableBody>
               {messengers.map((row, index) => {
+                // console.log(row._id)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{row.fullName}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>        
+                        <AlertDeleteMessenger messID = {row._id} name={row.fullName}/>
+                      <IconButton
+                        variant="ghost"
+                        colorScheme="teal"
+                        fontSize="20 px"
+                        size="xs"
+                        icon={<EditIcon />}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}

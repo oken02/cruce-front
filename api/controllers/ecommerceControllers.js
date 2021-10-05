@@ -1,6 +1,8 @@
 const { User , Courier } = require("../models")
 const bcrypt = require('bcrypt')
 
+
+
 const createUserCourier = async (req, res,next) => {
     try {
     const { fullName, email, dniCuil, password, address, courierId } = req.body
@@ -25,4 +27,9 @@ const createUserCourier = async (req, res,next) => {
     catch (err) {next(err)}
 }
 
+
+
+
 module.exports = {createUserCourier}
+
+

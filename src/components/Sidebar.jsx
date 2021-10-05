@@ -59,11 +59,14 @@ const itemsSidebar = {
     { name: 'Mis Pedidos', url: '/orders', icon: MdMotorcycle },
     { name: 'Pedidos Sin Asignar', url: '/orders', icon: MdLocationOn },
   ],
+
   ecommerce: [
-    { name: 'Home', url: '', icon: MdHome },
-    { name: 'Mensajerias', url: '/couriers', icon: MdLocalShipping },
-    // { name: "Pedidos", url: "/orders" },
+    { name: "home", url: "", icon: MdHome  },
+    { name: "Sucursales", url: "/branches" },
+    { name: "Mensajerías", url: "/couriers" , icon: MdLocalShipping },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
   ],
+
 };
 
 export default function Sidebar() {
@@ -280,6 +283,7 @@ export default function Sidebar() {
             />
             <Route
               exact
+
               path="/dashboard/courier"
               render={() => <CourierCreationForm />}
             />
@@ -292,6 +296,7 @@ export default function Sidebar() {
                             path="/dashboard/messenger/:id"
               render={() => <MessengerEditUser />}
             />
+
           </Switch>
         </Box>
       </Box>

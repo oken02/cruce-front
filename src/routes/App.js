@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import OrdersList from '../components/Tables/OrdersList';
-import Order from '../components/Order';
-import Branches from '../components/Tables/Branches';
-import Branch from '../components/Branch';
-import NewOrder from '../components/NewOrder';
-import Couriers from '../components/Tables/Couriers';
-import Courier from '../components/Courier';
-import Reports from '../components/Reports';
-import Messengers from '../components/Tables/Messengers';
-import NewMessenger from '../components/NewMessenger';
-import NotAssigned from '../components/Tables/NotAssignedOrders';
-import Messenger from '../components/Messenger';
-import LoginForm from '../components/Forms/LoginForm';
-import BranchCreationForm from '../components/Forms/BranchCreationForm';
-import CourierCreationForm from '../components/Forms/CourierCreationForm';
-import UserCreationForm from '../components/Forms/UserCreationForm';
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import OrdersList from "../components/Tables/OrdersList";
+import Order from "../components/Order";
+import Branches from "../components/Tables/Branches";
+import Branch from "../components/Branch";
+import NewOrder from "../components/NewOrder";
+import Couriers from "../components/Tables/Couriers";
+import Courier from "../components/Courier";
+import Reports from "../components/Reports";
+import Messengers from "../components/Tables/Messengers";
+import NotAssigned from "../components/Tables/NotAssignedOrders";
+import Messenger from "../components/Messenger";
+import LoginForm from "../components/Forms/LoginForm";
+import BranchCreationForm from "../components/Forms/BranchCreationForm";
+import CourierCreationForm from "../components/Forms/CourierCreationForm";
+import UserCreationForm from "../components/Forms/UserCreationForm";
 
 import Sidebar from '../components/Sidebar';
 import { sendValidation } from '../store/reducers/usersReducer';
@@ -62,13 +61,13 @@ function App() {
           <Route exact path="/branches" render={() => <Branches />} />
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />
-          {/* <Route exact path="/couriers" render={() => <Couriers />} /> */}
           <Route exact path="/courier" render={() => <CourierCreationForm />} />
           <Route exact path="/courier/:id" render={() => <Courier />} />
           <Route exact path="/dashboard/reports" render={() => <Reports />} />
           {/* <Route exact path="/messengers" render={() => <Messengers />} /> */}
           {/* <Route exact path="/messenger/:id" render={() => <Messenger />} /> */}
           <Route exact path="/messEdit" render={() => <Messenger />} />
+
         </Switch>
       </BrowserRouter>
     </div>

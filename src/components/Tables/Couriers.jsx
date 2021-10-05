@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+
 import {
   TableContainer,
   Table,
@@ -6,23 +7,25 @@ import {
   TableRow,
   TableBody,
   Card,
-} from '@material-ui/core';
+} from "@material-ui/core";
+import { Box } from "@chakra-ui/layout";
+import { Button, IconButton } from "@chakra-ui/button";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { EditIcon } from "@chakra-ui/icons";
+import { Input } from '@chakra-ui/input';
 
 //Components
-import TablesHead from './TablesHead';
-import SearchBar from './SearchBar';
+import TablesHead from "./TablesHead";
+import SearchBar from "./SearchBar";
+import AlertDeleteCourier from "./AlertDeleteCourier";
 
 //Hooks
-import useTables from '../../hooks/useTables';
-import { Box } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/button';
-import { Input } from '@chakra-ui/input';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import useTables from "../../hooks/useTables";
 
 const Couriers = () => {
   const history = useHistory();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const {
     records,
@@ -38,9 +41,9 @@ const Couriers = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/user/courier/', {
+      .get("http://localhost:3001/api/courier/", {
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       })
       .then((res) => setCouriers(res.data));
@@ -54,23 +57,24 @@ const Couriers = () => {
     }
   }, [couriers]);
 
+
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
-        <h1>Lista de Mensajerias</h1>
+
+        <h1>Lista de Cadeterías</h1>
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push('/dashboard/courier')}
+          onClick={() => history.push("/dashboard/courier")}
         >
-          Crear Mensajeria
+          Crear cadetería
         </Button>
       </Box>
 
       <Card>
         <TableContainer>
           <Box p="3">
-            {/* <Input placeholder="Basic usage" /> */}
             <SearchBar
               searchText={searchText}
               onSearchText={handleSearchText}
@@ -86,10 +90,22 @@ const Couriers = () => {
               {couriers.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{row.fullName}</TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
+                    {/* <TableCell>{index+1}</TableCell> */}
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.address}</TableCell>
+                    <TableCell>{row.onCharge}</TableCell>
+                    <TableCell>{row.phone}</TableCell>
+
+                    <TableCell>        
+                        <AlertDeleteCourier couID = {row._id} name={row.name}/>
+                      <IconButton
+                        variant="ghost"
+                        colorScheme="teal"
+                        fontSize="20 px"
+                        size="xs"
+                        icon={<EditIcon />}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}
