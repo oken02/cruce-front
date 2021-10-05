@@ -26,24 +26,24 @@ function UserCreationForm() {
 
   const formik = useFormik({
     initialValues: {
-      userEmail: '',
-      userPassword: '',
-      userName: '',
-      userDniCuil: '',
-      userAddress: '',
-      userCourierId: '',
+      email: '',
+      password: '',
+      fullName: '',
+      dniCuil: '',
+      direction: '',
+      courierId: '',
     },
     validationSchema: Yup.object({
-      userEmail: Yup.string()
+      email: Yup.string()
         .email('Email invalido')
         .required('El email es requerido'),
-      userPassword: Yup.string()
+      password: Yup.string()
         .required('El password es requerido')
         .min(6, 'Requiere minimo 6 caracteres'),
-      userName: Yup.string()
+      fullName: Yup.string()
         .required('Es un campo obligatorio')
         .min(3, 'Requiere minimo 3 caracteres'),
-      userDniCuil: Yup.number()
+      dniCuil: Yup.number()
         .required('Es un campo obligatorio')
         .positive()
         .integer()
@@ -58,7 +58,7 @@ function UserCreationForm() {
           },
         })
         .then((res) => {
-          alert(`usuario ${values.userName} creado`);
+          alert(`usuario ${values.fullName} creado`);
           setSubmitting(false);
           history.push('/dashboard/messengers');
         })
@@ -106,7 +106,7 @@ function UserCreationForm() {
                 <SimpleGrid columns={6} spacing={6}>
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="userEmail"
+                      htmlFor="email"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -115,8 +115,8 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="email"
-                      name="userEmail"
-                      id="userEmail"
+                      name="email"
+                      id="email"
                       autoComplete="email"
                       mt={1}
                       focusBorderColor="brand.400"
@@ -126,18 +126,18 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.userEmail}
+                      value={formik.values.email}
                     />
-                    {formik.touched.userEmail && formik.errors.userEmail ? (
+                    {formik.touched.email && formik.errors.email ? (
                       <div>
-                        <Text color="tomato">{formik.errors.userEmail}</Text>
+                        <Text color="tomato">{formik.errors.email}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="userPassword"
+                      htmlFor="password"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -146,8 +146,8 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="userPassword"
-                      id="userPassword"
+                      name="password"
+                      id="password"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -156,19 +156,18 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.userPassword}
+                      value={formik.values.password}
                     />
-                    {formik.touched.userPassword &&
-                    formik.errors.userPassword ? (
+                    {formik.touched.password && formik.errors.password ? (
                       <div>
-                        <Text color="tomato">{formik.errors.userPassword}</Text>
+                        <Text color="tomato">{formik.errors.password}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={[6]}>
                     <FormLabel
-                      htmlFor="userName"
+                      htmlFor="fullName"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -177,8 +176,8 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="userName"
-                      id="userName"
+                      name="fullName"
+                      id="fullName"
                       autoComplete="given-name"
                       mt={1}
                       focusBorderColor="brand.400"
@@ -188,18 +187,18 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.userName}
+                      value={formik.values.fullName}
                     />
-                    {formik.touched.userName && formik.errors.userName ? (
+                    {formik.touched.fullName && formik.errors.fullName ? (
                       <div>
-                        <Text color="tomato">{formik.errors.userName}</Text>
+                        <Text color="tomato">{formik.errors.fullName}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="userDniCuil"
+                      htmlFor="dniCuil"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -208,9 +207,9 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="number"
-                      name="userDniCuil"
-                      id="userDniCuil"
-                      autoComplete="userDniCuil"
+                      name="dniCuil"
+                      id="dniCuil"
+                      autoComplete="dniCuil"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -219,18 +218,18 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.userDniCuil}
+                      value={formik.values.dniCuil}
                     />
-                    {formik.touched.userDniCuil && formik.errors.userDniCuil ? (
+                    {formik.touched.dniCuil && formik.errors.dniCuil ? (
                       <div>
-                        <Text color="tomato">{formik.errors.userDniCuil}</Text>
+                        <Text color="tomato">{formik.errors.dniCuil}</Text>
                       </div>
                     ) : null}
                   </FormControl>
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="userAddress"
+                      htmlFor="direction"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -239,9 +238,9 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="userAddress"
-                      id="userAddress"
-                      autoComplete="userAddress"
+                      name="direction"
+                      id="direction"
+                      autoComplete="direction"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -250,11 +249,11 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.userAddress}
+                      value={formik.values.direction}
                     />
-                    {formik.touched.userAddress && formik.errors.userAddress ? (
+                    {formik.touched.direction && formik.errors.direction ? (
                       <div>
-                        <Text color="tomato">{formik.errors.userAddress}</Text>
+                        <Text color="tomato">{formik.errors.direction}</Text>
                       </div>
                     ) : null}
                   </FormControl>

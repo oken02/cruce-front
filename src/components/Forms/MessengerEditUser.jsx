@@ -26,55 +26,50 @@ function MessengerEditUser() {
   const location = useLocation();
 
   const user = useSelector((state) => state.user);
-  console.log('USER --> ', user);
+  // console.log('USER --> ', user);
 
   const pathName = location.pathname;
   const messengerId = pathName.slice(21);
-  console.log('ID Messenger -->', messengerId);
-  // ejemplo de ID 6155e454c4a1bbc964ff037f
 
   const [messenger, setMessenger] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:3001/api/user/messenger/${messengerId}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      )
-      .then((res) => { console.log("RES DATA",res.data)
-        setMessenger(res.data) } )
+      .get(`http://localhost:3001/api/user/messenger/${messengerId}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      .then((res) => {
+        setMessenger(res.data);
+      })
       .catch((e) => console.log(e));
   }, []);
 
-  console.log('messenger 51 --> ', messenger);
   const formik = useFormik({
     initialValues: {
-      userEmail: messenger.email,
+      email: messenger.email,
       //   userPassword: messenger.password,
-      userPassword: '',
+      password: '',
       confirmUserPassword: '',
-      userName: messenger.fullName,
-      userDniCuil: messenger.dniCuil,
-      userAddress: messenger.direction,
-      userCourierId: messenger.courierId,
+      fullName: messenger.fullName,
+      dniCuil: messenger.dniCuil,
+      direction: messenger.direction,
+      courierId: messenger.courierId,
     },
     validationSchema: Yup.object({
-      userEmail: Yup.string()
+      email: Yup.string()
         .email('Email invalido')
         .required('El email es requerido'),
-      userPassword: Yup.string()
+      password: Yup.string()
         .min(6, 'Requiere minimo 6 caracteres')
-        .required('El password es requerido'),
-      confirmUserPassword: Yup.string()
-        .oneOf([Yup.ref('userPassword'), null], 'El pasword no coincide')
         .required('Debe confirmar su password'),
-      userName: Yup.string()
+      confirmUserPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'El pasword no coincide')
+        .required('El password debe coincidir'),
+      fullName: Yup.string()
         .min(3, 'Requiere minimo 3 caracteres')
         .required('Es un campo obligatorio'),
-      userDniCuil: Yup.number()
+      dniCuil: Yup.number()
         .min(8, 'Requiere minimo 8 caracteres')
         .positive()
         .integer()
@@ -82,13 +77,16 @@ function MessengerEditUser() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .put(`http://localhost:3001/api/user/messenger/update/${messengerId}`, values, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
+        .put(
+          `http://localhost:3001/api/user/courier/update/${messengerId}`,
+          values,
+          {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        )
         .then((res) => {
-          alert(`usuario ${values.userName} creado`);
           setSubmitting(false);
           history.push('/dashboard/messengers');
         })
@@ -138,7 +136,7 @@ function MessengerEditUser() {
                   <SimpleGrid columns={6} spacing={6}>
                     <FormControl as={GridItem} colSpan={[6]}>
                       <FormLabel
-                        htmlFor="userEmail"
+                        htmlFor="email"
                         fontSize="sm"
                         fontWeight="md"
                         color={useColorModeValue('gray.700', 'gray.50')}
@@ -147,8 +145,8 @@ function MessengerEditUser() {
                       </FormLabel>
                       <Input
                         type="email"
-                        name="userEmail"
-                        id="userEmail"
+                        name="email"
+                        id="email"
                         autoComplete="email"
                         mt={1}
                         focusBorderColor="brand.400"
@@ -158,18 +156,18 @@ function MessengerEditUser() {
                         rounded="md"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.userEmail}
+                        value={formik.values.email}
                       />
-                      {formik.touched.userEmail && formik.errors.userEmail ? (
+                      {formik.touched.email && formik.errors.email ? (
                         <div>
-                          <Text color="tomato">{formik.errors.userEmail}</Text>
+                          <Text color="tomato">{formik.errors.email}</Text>
                         </div>
                       ) : null}
                     </FormControl>
 
                     <FormControl as={GridItem} colSpan={[6]}>
                       <FormLabel
-                        htmlFor="userName"
+                        htmlFor="fullName"
                         fontSize="sm"
                         fontWeight="md"
                         color={useColorModeValue('gray.700', 'gray.50')}
@@ -178,8 +176,8 @@ function MessengerEditUser() {
                       </FormLabel>
                       <Input
                         type="text"
-                        name="userName"
-                        id="userName"
+                        name="fullName"
+                        id="fullName"
                         autoComplete="given-name"
                         mt={1}
                         focusBorderColor="brand.400"
@@ -189,18 +187,18 @@ function MessengerEditUser() {
                         rounded="md"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.userName}
+                        value={formik.values.fullName}
                       />
-                      {formik.touched.userName && formik.errors.userName ? (
+                      {formik.touched.fullName && formik.errors.fullName ? (
                         <div>
-                          <Text color="tomato">{formik.errors.userName}</Text>
+                          <Text color="tomato">{formik.errors.fullName}</Text>
                         </div>
                       ) : null}
                     </FormControl>
 
                     <FormControl as={GridItem} colSpan={6}>
                       <FormLabel
-                        htmlFor="userDniCuil"
+                        htmlFor="dniCuil"
                         fontSize="sm"
                         fontWeight="md"
                         color={useColorModeValue('gray.700', 'gray.50')}
@@ -209,9 +207,9 @@ function MessengerEditUser() {
                       </FormLabel>
                       <Input
                         type="number"
-                        name="userDniCuil"
-                        id="userDniCuil"
-                        autoComplete="userDniCuil"
+                        name="dniCuil"
+                        id="dniCuil"
+                        autoComplete="dniCuil"
                         mt={1}
                         focusBorderColor="brand.400"
                         shadow="sm"
@@ -220,21 +218,18 @@ function MessengerEditUser() {
                         rounded="md"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.userDniCuil}
+                        value={formik.values.dniCuil}
                       />
-                      {formik.touched.userDniCuil &&
-                      formik.errors.userDniCuil ? (
+                      {formik.touched.dniCuil && formik.errors.dniCuil ? (
                         <div>
-                          <Text color="tomato">
-                            {formik.errors.userDniCuil}
-                          </Text>
+                          <Text color="tomato">{formik.errors.dniCuil}</Text>
                         </div>
                       ) : null}
                     </FormControl>
 
                     <FormControl as={GridItem} colSpan={6}>
                       <FormLabel
-                        htmlFor="userAddress"
+                        htmlFor="direction"
                         fontSize="sm"
                         fontWeight="md"
                         color={useColorModeValue('gray.700', 'gray.50')}
@@ -243,9 +238,9 @@ function MessengerEditUser() {
                       </FormLabel>
                       <Input
                         type="text"
-                        name="userAddress"
-                        id="userAddress"
-                        autoComplete="userAddress"
+                        name="direction"
+                        id="direction"
+                        autoComplete="direction"
                         mt={1}
                         focusBorderColor="brand.400"
                         shadow="sm"
@@ -254,14 +249,11 @@ function MessengerEditUser() {
                         rounded="md"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.userAddress}
+                        value={formik.values.direction}
                       />
-                      {formik.touched.userAddress &&
-                      formik.errors.userAddress ? (
+                      {formik.touched.direction && formik.errors.direction ? (
                         <div>
-                          <Text color="tomato">
-                            {formik.errors.userAddress}
-                          </Text>
+                          <Text color="tomato">{formik.errors.direction}</Text>
                         </div>
                       ) : null}
                     </FormControl>
@@ -290,7 +282,7 @@ function MessengerEditUser() {
 
                     <FormControl as={GridItem} colSpan={[6]}>
                       <FormLabel
-                        htmlFor="userPassword"
+                        htmlFor="password"
                         fontSize="sm"
                         fontWeight="md"
                         color={useColorModeValue('gray.700', 'gray.50')}
@@ -299,8 +291,8 @@ function MessengerEditUser() {
                       </FormLabel>
                       <Input
                         type="password"
-                        name="userPassword"
-                        id="userPassword"
+                        name="password"
+                        id="password"
                         mt={1}
                         focusBorderColor="brand.400"
                         shadow="sm"
@@ -309,14 +301,11 @@ function MessengerEditUser() {
                         rounded="md"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.userPassword}
+                        value={formik.values.password}
                       />
-                      {formik.touched.userPassword &&
-                      formik.errors.userPassword ? (
+                      {formik.touched.password && formik.errors.password ? (
                         <div>
-                          <Text color="tomato">
-                            {formik.errors.userPassword}
-                          </Text>
+                          <Text color="tomato">{formik.errors.password}</Text>
                         </div>
                       ) : null}
                     </FormControl>

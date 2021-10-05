@@ -43,6 +43,7 @@ import OrdersList from '../components/Tables/OrdersList';
 import Messengers from '../components/Tables/Messengers';
 import UserCreationForm from '../components/Forms/UserCreationForm';
 import Couriers from '../components/Tables/Couriers';
+import Branches from '../components/Tables/Branches';
 import CourierCreationForm from '../components/Forms/CourierCreationForm';
 import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
@@ -61,7 +62,7 @@ const itemsSidebar = {
   ],
 
   ecommerce: [
-    { name: 'home', url: '', icon: MdHome },
+    { name: 'Home', url: '', icon: MdHome },
     { name: 'Pedidos', url: '/orders', icon: MdMotorcycle },
     { name: 'Sucursales', url: '/branches', icon: MdStore },
     { name: 'Mensajerías', url: '/couriers', icon: MdLocalShipping },
@@ -179,27 +180,6 @@ export default function Sidebar() {
               </Button>
             </ButtonGroup>
           </Box>
-
-          {/* <NavItem icon={MdPerson} onClick={integrations.onToggle}>
-          Driver
-          <Icon
-            as={MdKeyboardArrowRight}
-            ml="auto"
-            transform={integrations.isOpen && "rotate(90deg)"}
-          />
-        </NavItem>
-        <Collapse in={integrations.isOpen}>
-          <NavItem pl="12" py="2">
-            Shopify
-          </NavItem>
-          <NavItem pl="12" py="2">
-            Slack
-          </NavItem>
-          <NavItem pl="12" py="2">
-            Zapier
-          </NavItem>
-        </Collapse>
-        <NavItem icon={MdSettings}>Settings</NavItem> */}
         </Flex>
       </Box>
     </>
@@ -222,43 +202,7 @@ export default function Sidebar() {
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
-        {/* <Flex
-          as="header"
-          align="center"
-          justify="space-between"
-          w="full"
-          px="4"
-          bg={useColorModeValue('white', 'gray.800')}
-          borderBottomWidth="1px"
-          borderColor={useColorModeValue('inherit', 'gray.700')}
-          h="14"
-        >
-          <IconButton
-            aria-label="Menu"
-            display={{ base: 'inline-flex', md: 'none' }}
-            onClick={sidebar.onOpen}
-            icon={<FiMenu />}
-            size="sm"
-          />
-          <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
-            <InputLeftElement color="gray.500" children={<FiSearch />} />
-            <Input placeholder="Search for articles..." />
-          </InputGroup>
-
-          <Flex align="center">
-            <Icon color="gray.500" as={FaBell} cursor="pointer" />
-            <Avatar
-              ml="4"
-              size="sm"
-              name="anubra266"
-              src="https://avatars.githubusercontent.com/u/30869823?v=4"
-              cursor="pointer"
-            />
-          </Flex>
-        </Flex> */}
-
         <Box as="main" p="4">
-          {/* Add content here, remove div below  */}
           <Switch>
             <Route exact path="/dashboard">
               <h1>
@@ -299,6 +243,7 @@ export default function Sidebar() {
               path="/dashboard/courier/:id"
               render={() => <CourierEdit />}
             />
+            <Route exact path="/branches" render={() => <Branches />} />
           </Switch>
         </Box>
       </Box>

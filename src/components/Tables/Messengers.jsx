@@ -99,7 +99,7 @@ const Messengers = () => {
                         to={`/dashboard/messenger/${row._id}`}
                         style={{ color: blue }}
                       >
-                        {row.fullName}{" "}
+                        {row.fullName.replace(/\b\w/g, l => l.toUpperCase())}{" "}
                       </Link>
                     </TableCell>
                     <TableCell>{row.email}</TableCell>

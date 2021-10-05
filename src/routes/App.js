@@ -58,7 +58,6 @@ function App() {
           />
           <Route exact path="/order" render={() => <NewOrder />} />
           <Route path="/order/:id" render={() => <Order />} />
-          <Route exact path="/branches" render={() => <Branches />} />
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />
           <Route exact path="/courier" render={() => <CourierCreationForm />} />
