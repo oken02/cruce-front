@@ -10,7 +10,7 @@ router.get("/", roleEcommerce, allOrders)
 router.get("/noassigned", noAssignedOrderList)
 
 //Lista todos los pedidos de un CADETE
-router.get("/myorders/:id", myorders)
+router.get("/myorders/:id", roleMessenger, myorders)
 
 //Detalla un pedido por ID
 router.get("/:id", orderById)
