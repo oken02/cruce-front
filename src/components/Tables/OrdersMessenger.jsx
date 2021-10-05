@@ -22,11 +22,12 @@ import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 
 //Hooks
 import useTables from "../../hooks/useTables";
-import { blue } from "@material-ui/core/colors";
 
-const Messengers = () => {
+const OrdersMessenger = () => {
   const history = useHistory();
   const token = localStorage.getItem("token");
+  
+
   const {
     records,
     setRecords,
@@ -37,43 +38,31 @@ const Messengers = () => {
     handleSearchText,
   } = useTables({});
 
-  const [messengers, setMessengers] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/user/messenger/", {
+      .post("http://localhost:3001/api/order/", {}, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
-      .then((res) => setMessengers(res.data));
+      .then((res) => setOrders(res.data));
   }, []);
 
-  useEffect(() => {
-    if (messengers) {
-      setRecords(messengers);
-    }
-  }, [messengers]);
-
-  // useEffect(() => {
-  //   if (searchText) {
-  //     const Searched =
-  //   }
-
-  // }, [])
-  console.log(messengers)
+  console.log("PEDIDOOOSSS Cadete", orders)
 
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
-        <h1>Lista de Cadetes</h1>
-        <Button
+        <h1>Todos los Pedidos</h1>
+        {/* <Button
           colorScheme="teal"
           size="sm"
           onClick={() => history.push("/dashboard/messenger")}
         >
           Crear Cadete
-        </Button>
+        </Button> */}
       </Box>
 
       <Card>
@@ -91,27 +80,29 @@ const Messengers = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {messengers.map((row, index) => {
-                // console.log(row._id)
+              {orders.map((row, index) => {
+                // console.log("COURIER ID NAME",row.courierId.name)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
                       <Link
-                        to={`/dashboard/messenger/${row._id}`}
-                        style={{ color: blue }}
+                        to={`/dashboard/order/${row._id}`}
                       >
-                        {row.fullName.replace(/\b\w/g, l => l.toUpperCase())}{" "}
+                        {row.orderId}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.actualState}</TableCell>
+                    <TableCell>{row.userId? row.userId.fullName : ""}</TableCell>
+
                     <TableCell>
                       <AlertDeleteMessenger
-                        messID={row._id}
-                        name={row.fullName}
+                        // messID={row._id}
+                        // name={row.fullName}
                       />
 
-                      <Link to={`/dashboard/messenger/${row._id}`}>
+                      <Link to={`/dashboard/order/${row._id}`}>
                         <IconButton
                           variant="ghost"
                           colorScheme="teal"
@@ -132,4 +123,4 @@ const Messengers = () => {
   );
 };
 
-export default Messengers;
+export default OrdersMessenger;

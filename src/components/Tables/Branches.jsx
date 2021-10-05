@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertDeleteMessenger from "./AlertDeleteMessenger";
+import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 
 //Hooks
 import useTables from "../../hooks/useTables";
