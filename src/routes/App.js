@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import OrdersList from "../components/Tables/OrdersList";
 import Order from "../components/Order";
-import Branches from "../components/Tables/Branches";
 import Branch from "../components/Branch";
 import NewOrder from "../components/NewOrder";
-import Couriers from "../components/Tables/Couriers";
 import Courier from "../components/Courier";
 import Reports from "../components/Reports";
-import Messengers from "../components/Tables/Messengers";
 import NotAssigned from "../components/Tables/NotAssignedOrders";
 import Messenger from "../components/Messenger";
 import LoginForm from "../components/Forms/LoginForm";
@@ -66,6 +62,7 @@ function App() {
           {/* <Route exact path="/messengers" render={() => <Messengers />} /> */}
           {/* <Route exact path="/messenger/:id" render={() => <Messenger />} /> */}
           <Route exact path="/messEdit" render={() => <Messenger />} />
+
 
         </Switch>
       </BrowserRouter>

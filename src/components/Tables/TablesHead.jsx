@@ -23,13 +23,25 @@ const labels = {
     { id: "dni", label: "Dni", style: {} },
     { id: "acciones", label: "Acciones", style: {} },
   ],
+  branches: [
+    { id: "branch", label: "Sucursal", style: {} },
+    { id: "address", label: "Dirección", style: {} },
+    { id: "manager", label: "Responsable", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
+  ],
   orders: [
     { id: "orderId", label: "ID Pedido", style: {} },
     { id: "date1", label: "Fecha Ingreso", style: {} },
     { id: "date 2", label: "Fecha Entrega", style: {} },
     { id: "state", label: "Estado", style: {} },
     { id: "courier", label: "Mensajería", style: {} },
-    { id: "branch", label: "Sucursal", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
+
+  ],
+  notassigned: [
+    { id: "orderId", label: "ID Pedido", style: {} },
+    { id: "date1", label: "Fecha Ingreso", style: {} },
+    { id: "city", label: "Ciudad", style: {} },
     { id: "acciones", label: "Acciones", style: {} },
 
   ],
@@ -38,7 +50,7 @@ const labels = {
 const TablesHead = ({ order, orderBy, onRequestSort }) => {
   const location = useLocation();
   const pathName = location.pathname.slice(11);
-
+console.log(pathName)
   return (
     <TableHead>
       <TableRow>
