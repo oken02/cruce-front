@@ -59,7 +59,7 @@ function CourierCreationForm() {
         })
 
         .then((res) => {
-          alert(`usuario ${values.name} creado`);
+          // alert(`usuario ${values.name} creado`);
           setSubmitting(false);
           history.push('/dashboard/couriers');
         })
