@@ -90,7 +90,7 @@ const Couriers = () => {
                     {/* <TableCell>{index+1}</TableCell> */}
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.address}</TableCell>
-                    <TableCell>{row.onCharge}</TableCell>
+                    <TableCell>{row.manager}</TableCell>
                     <TableCell>{row.phone}</TableCell>
 
                     <TableCell>

@@ -62,7 +62,7 @@ const itemsSidebar = {
 
   ecommerce: [
     { name: 'home', url: '', icon: MdHome },
-    { name: 'Sucursales', url: '/branches' },
+    { name: 'Sucursales', url: '/branches', icon: MdStore },
     { name: 'Mensajerías', url: '/couriers', icon: MdLocalShipping },
     { name: 'Reportes', url: '/reports', icon: MdEqualizer },
   ],
