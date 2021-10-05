@@ -30,7 +30,7 @@ function UserCreationForm() {
       password: '',
       fullName: '',
       dniCuil: '',
-      direction: '',
+      address: '',
       courierId: '',
     },
     validationSchema: Yup.object({
@@ -229,7 +229,7 @@ function UserCreationForm() {
 
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
-                      htmlFor="direction"
+                      htmlFor="address"
                       fontSize="sm"
                       fontWeight="md"
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -238,9 +238,9 @@ function UserCreationForm() {
                     </FormLabel>
                     <Input
                       type="text"
-                      name="direction"
-                      id="direction"
-                      autoComplete="direction"
+                      name="address"
+                      id="address"
+                      autoComplete="address"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -249,11 +249,11 @@ function UserCreationForm() {
                       rounded="md"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.direction}
+                      value={formik.values.address}
                     />
-                    {formik.touched.direction && formik.errors.direction ? (
+                    {formik.touched.address && formik.errors.address ? (
                       <div>
-                        <Text color="tomato">{formik.errors.direction}</Text>
+                        <Text color="tomato">{formik.errors.address}</Text>
                       </div>
                     ) : null}
                   </FormControl>
