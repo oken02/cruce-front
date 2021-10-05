@@ -1,7 +1,10 @@
 const router = require('express').Router()
-const { newOrder, changingState , noAssignedOrderList, orderById , deleteOrder, modifyOrder , orderByCourier, allOrdersByState} = require('../controllers/orderControllers');
+const { allOrders, newOrder, changingState , noAssignedOrderList, orderById , deleteOrder, modifyOrder , orderByCourier, allOrdersByState} = require('../controllers/orderControllers');
 const { roleMessenger, roleEcommerce, roleCourierAndEcommerce } = require('../middlewares/validateRole');
 
+
+//Lista TODOS los envíos SOLO ECOMMERCE
+router.get("/", roleEcommerce, allOrders)
 
 //Lista de envíos SIN ASIGNAR
 router.get("/noassigned", noAssignedOrderList)
