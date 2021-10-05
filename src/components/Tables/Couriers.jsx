@@ -87,10 +87,9 @@ const Couriers = () => {
               {couriers.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
-                    {/* <TableCell>{index+1}</TableCell> */}
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.address}</TableCell>
-                    <TableCell>{row.onCharge}</TableCell>
+                    <TableCell>{row.manager}</TableCell>
                     <TableCell>{row.phone}</TableCell>
 
                     <TableCell>
