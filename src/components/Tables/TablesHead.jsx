@@ -30,6 +30,8 @@ const labels = {
     { id: "state", label: "Estado", style: {} },
     { id: "courier", label: "Mensajería", style: {} },
     { id: "branch", label: "Sucursal", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
+
   ],
 };
 
