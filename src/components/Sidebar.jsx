@@ -44,10 +44,11 @@ import CourierCreationForm from '../components/Forms/CourierCreationForm';
 import MessengerEditUser from '../components/Forms/MessengerEditUser';
 import { logoutUser } from '../store/reducers/usersReducer';
 import CourierEdit from './Forms/CourierEdit';
-import OrdersNotAssigned from "../components/Tables/OrdersNotAssigned"
-import NewOrder from "../components/NewOrder"
+import OrdersNotAssigned from '../components/Tables/OrdersNotAssigned';
+import NewOrder from '../components/NewOrder';
 import OrdersCourier from './Tables/OrdersCourier';
 import OrdersMessenger from './Tables/OrdersMessenger';
+import Order from './Order';
 
 const itemsSidebar = {
   courier: [
@@ -222,6 +223,8 @@ export default function Sidebar() {
               render={() => <OrdersList />}
             />
             <Route exact path="/dashboard/order" render={() => <NewOrder />} />
+            <Route path="/dashboard/order/:id" render={() => <Order />} />
+
             <Route
               exact
               path="/dashboard/messengers"
@@ -245,10 +248,26 @@ export default function Sidebar() {
               path="/dashboard/courier/:id"
               render={() => <CourierEdit />}
             />
-            <Route exact path="/dashboard/branches" render={() => <Branches />} />
-            <Route exact path="/dashboard/notassigned" render={() => <OrdersNotAssigned />} />
-            <Route exact path="/dashboard/courierorders" render={() => <OrdersCourier />} />
-            <Route exact path="/dashboard/messengerorders" render={() => <OrdersMessenger />} />
+            <Route
+              exact
+              path="/dashboard/branches"
+              render={() => <Branches />}
+            />
+            <Route
+              exact
+              path="/dashboard/notassigned"
+              render={() => <OrdersNotAssigned />}
+            />
+            <Route
+              exact
+              path="/dashboard/courierorders"
+              render={() => <OrdersCourier />}
+            />
+            <Route
+              exact
+              path="/dashboard/messengerorders"
+              render={() => <OrdersMessenger />}
+            />
           </Switch>
         </Box>
       </Box>
