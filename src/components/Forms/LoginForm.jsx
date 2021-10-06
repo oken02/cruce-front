@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Flex,
   Box,
@@ -25,6 +25,8 @@ function LoginForm() {
   const dispatch = useDispatch();
   let history = useHistory();
   const user = useSelector((state) => state.user);
+  const [loginError, setLoginError] = useState('');
+  const [changed, setChanged] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -42,8 +44,10 @@ function LoginForm() {
 
     onSubmit: (values, { setSubmitting }) => {
       dispatch(loginUser(values)).then((action) => {
-        if (action.error) return;
         setSubmitting(false);
+        setChanged(false);
+        if (action.error)
+          return setLoginError('El email o el password son incorrectos');
         history.push('/dashboard');
       });
     },
@@ -116,6 +120,11 @@ function LoginForm() {
                 <Checkbox>Recuerdame</Checkbox>
                 <Link color={'blue.400'}>Olvide mi password</Link>
               </Stack>
+              {!changed && loginError && (
+                <div style={{ color: 'red' }}>
+                  <span>{loginError}</span>
+                </div>
+              )}
               <Button
                 type="submit"
                 disabled={!formik.isValid || formik.isSubmitting}
