@@ -25,7 +25,7 @@ const NewOrder = () => {
   const [fileData, setFileData] = useState();
   const [fileName, setFileName] = useState();
 
-  const handleSubmit = ({ e, fileData }) => {
+  const handleSubmit = (e) => {
     console.log('DATA ->', fileData);
     e.preventDefault();
     axios
