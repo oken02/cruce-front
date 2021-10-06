@@ -7,32 +7,22 @@ import {
   DrawerOverlay,
   Flex,
   Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Text,
   useColorModeValue,
   useDisclosure,
-  Alert,
-  Badge,
 } from '@chakra-ui/react';
 import {
   MdHome,
-  MdKeyboardArrowRight,
   MdLocalShipping,
   MdStore,
   MdLocationOn,
   MdPerson,
-  MdSettings,
   MdEqualizer,
   MdMotorcycle,
 } from 'react-icons/md';
-
 import { BiLogOut } from 'react-icons/bi';
 
 import React from 'react';
-import LoginForm from './Forms/LoginForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useHistory, Switch } from 'react-router-dom';
 import OrdersList from '../components/Tables/OrdersList';
@@ -158,12 +148,6 @@ export default function Sidebar() {
           color="gray.600"
           aria-label="Main Navigation"
         >
-          {/* <NavItem icon={MdHome}>Home</NavItem>
-
-        <NavItem icon={MdLocationOn}>Pedidos</NavItem>
-        <NavItem icon={MdStore}>Sucursales</NavItem>
-        <NavItem icon={MdLocalShipping}>Mensajerias</NavItem> */}
-
           {itemsSidebar[loggedUser.role].map((item) => (
             <NavItem
               url={`/dashboard${item.url}`}
@@ -204,6 +188,32 @@ export default function Sidebar() {
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
+        <Flex
+          as="header"
+          align="center"
+          justify="space-between"
+          w="full"
+          px="4"
+          bg={useColorModeValue('white', 'gray.800')}
+          borderBottomWidth="1px"
+          borderColor="blackAlpha.300"
+          h="14"
+        >
+          <Button
+            aria-label="Menu"
+            display={{ base: 'inline-flex', md: 'none' }}
+            onClick={sidebar.onOpen}
+            size="md"
+          >
+            Menu
+          </Button>
+
+          <Flex align="right" justify="space-between" w="full" px="4">
+            <Text ml="4" size="sm" name="anubra266" cursor="pointer" />
+            {loggedUser.fullName.toUpperCase()} | {loggedUser.role}
+          </Flex>
+        </Flex>
+
         <Box as="main" p="4">
           <Switch>
             <Route exact path="/dashboard">
