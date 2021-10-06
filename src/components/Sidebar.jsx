@@ -23,22 +23,24 @@ import {
 
 import { BiLogOut } from "react-icons/bi";
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, useHistory, Switch } from "react-router-dom";
-import OrdersList from "../components/Tables/OrdersList";
-import Messengers from "../components/Tables/Messengers";
-import UserCreationForm from "../components/Forms/UserCreationForm";
-import Couriers from "../components/Tables/Couriers";
-import Branches from "../components/Tables/Branches";
-import CourierCreationForm from "../components/Forms/CourierCreationForm";
-import MessengerEditUser from "../components/Forms/MessengerEditUser";
-import { logoutUser } from "../store/reducers/usersReducer";
-import CourierEdit from "./Forms/CourierEdit";
-import OrdersNotAssigned from "../components/Tables/OrdersNotAssigned";
-import NewOrder from "../components/NewOrder";
-import OrdersCourier from "./Tables/OrdersCourier";
-import OrdersMessenger from "./Tables/OrdersMessenger";
+import React from 'react';
+import LoginForm from './Forms/LoginForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, useHistory, Switch } from 'react-router-dom';
+import OrdersList from '../components/Tables/OrdersList';
+import Messengers from '../components/Tables/Messengers';
+import UserCreationForm from '../components/Forms/UserCreationForm';
+import Couriers from '../components/Tables/Couriers';
+import Branches from '../components/Tables/Branches';
+import CourierCreationForm from '../components/Forms/CourierCreationForm';
+import MessengerEditUser from '../components/Forms/MessengerEditUser';
+import { logoutUser } from '../store/reducers/usersReducer';
+import CourierEdit from './Forms/CourierEdit';
+import OrdersNotAssigned from '../components/Tables/OrdersNotAssigned';
+import NewOrder from '../components/NewOrder';
+import OrdersCourier from './Tables/OrdersCourier';
+import OrdersMessenger from './Tables/OrdersMessenger';
+import Order from './Order';
 
 const itemsSidebar = {
   courier: [
@@ -199,6 +201,8 @@ export default function Sidebar() {
               render={() => <OrdersList />}
             />
             <Route exact path="/dashboard/order" render={() => <NewOrder />} />
+            <Route path="/dashboard/order/:id" render={() => <Order />} />
+
             <Route
               exact
               path="/dashboard/messengers"
