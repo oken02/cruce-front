@@ -53,7 +53,7 @@ function App() {
             render={() => <NotAssigned />}
           />
           {/* <Route exact path="/order" render={() => <NewOrder />} /> */}
-          <Route path="/order/:id" render={() => <Order />} />
+          {/* <Route path="/order/:id" render={() => <Order />} /> */}
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />
           <Route exact path="/courier" render={() => <CourierCreationForm />} />
