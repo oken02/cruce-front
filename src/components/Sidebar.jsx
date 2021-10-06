@@ -191,6 +191,8 @@ export default function Sidebar() {
               path="/dashboard/messenger"
               render={() => <UserCreationForm />}
             />
+            <Route path="/dashboard/order/:id" render={() => <Order />} />
+
             <Route
               exact
               path="/dashboard/orders"
