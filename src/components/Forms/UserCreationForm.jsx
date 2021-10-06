@@ -18,6 +18,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import getToken from '../../utils/getToken';
 
 function UserCreationForm() {
   const history = useHistory();
@@ -51,11 +52,11 @@ function UserCreationForm() {
 
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .post('http://localhost:3001/api/user/messenger/add', values, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
+        .post(
+          'http://localhost:3001/api/user/messenger/add',
+          values,
+          getToken()
+        )
         .then((res) => {
           // alert(`usuario ${values.fullName} creado`);
           setSubmitting(false);

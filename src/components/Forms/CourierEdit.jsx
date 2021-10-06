@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import getToken from '../../utils/getToken';
 
 function CourierEdit() {
   const history = useHistory();
@@ -26,27 +27,18 @@ function CourierEdit() {
   const location = useLocation();
 
   const user = useSelector((state) => state.user);
-  console.log('USER --> ', user);
 
   const pathName = location.pathname;
   const courierId = pathName.slice(19);
-  console.log('ID Courier -->', courierId);
-  // ejemplo de ID 6155e454c4a1bbc964ff037f
 
   const [courier, setCourier] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/courier/${courierId}`, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      .get(`http://localhost:3001/api/courier/${courierId}`, getToken())
       .then((res) => setCourier(res.data))
       .catch((e) => console.log(e));
   }, []);
-
-  console.log('messenger 51 --> ', courier);
 
   const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -75,13 +67,12 @@ function CourierEdit() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .put(`http://localhost:3001/api/courier/${courierId}`, values, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
+        .put(
+          `http://localhost:3001/api/courier/${courierId}`,
+          values,
+          getToken()
+        )
         .then((res) => {
-          // alert(`usuario ${values.userName} creado`);
           setSubmitting(false);
           history.push('/dashboard/couriers');
         })

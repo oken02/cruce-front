@@ -13,6 +13,7 @@ import { Button, IconButton } from '@chakra-ui/button';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import { EditIcon } from '@chakra-ui/icons';
+import getToken from '../../utils/getToken';
 
 //Components
 import TablesHead from './TablesHead';
@@ -21,10 +22,12 @@ import AlertDeleteCourier from './Alerts/AlertDeleteCourier';
 
 //Hooks
 import useTables from '../../hooks/useTables';
+import { useSelector } from 'react-redux';
 
 const Couriers = () => {
   const history = useHistory();
   const token = localStorage.getItem('token');
+  const user = useSelector((state) => state.user);
 
   const {
     records,
@@ -40,11 +43,7 @@ const Couriers = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/courier/', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      .get('http://localhost:3001/api/courier/', getToken())
       .then((res) => setCouriers(res.data));
   }, []);
 
@@ -60,13 +59,16 @@ const Couriers = () => {
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
         <h1>Lista de Cadeterías</h1>
-        <Button
-          colorScheme="teal"
-          size="sm"
-          onClick={() => history.push('/dashboard/courier')}
-        >
-          Crear cadetería
-        </Button>
+
+        {user.loggedUser.role === 'courier' ? (
+          <Button
+            colorScheme="teal"
+            size="sm"
+            onClick={() => history.push('/dashboard/courier')}
+          >
+            Crear cadetería
+          </Button>
+        ) : null}
       </Box>
 
       <Card>
