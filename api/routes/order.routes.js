@@ -9,11 +9,11 @@ router.get("/", roleEcommerce, allOrders)
 //Lista de envíos SIN ASIGNAR
 router.get("/noassigned", noAssignedOrderList)
 
-//Lista todos los pedidos de un CADETE
-router.get("/myorders/:id", roleMessenger, myorders)
-
 //Detalla un pedido por ID
 router.get("/:id", orderById)
+
+//Lista todos los pedidos de un CADETE
+router.post("/myorders/:id", roleMessenger, myorders)
 
 //Crea todos los envíos del Excel 
 router.post("/post", roleEcommerce , newOrder)
