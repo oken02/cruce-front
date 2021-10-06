@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   chakra,
   Box,
@@ -11,22 +11,36 @@ import {
   Stack,
   FormControl,
   FormLabel,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  FormHelperText,
-  Textarea,
-  Avatar,
   Icon,
   Button,
   VisuallyHidden,
-  Select,
-  Checkbox,
-  RadioGroup,
-  Radio,
 } from '@chakra-ui/react';
+import handleFile from '../utils/handleFile';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const NewOrder = () => {
+  const token = localStorage.getItem('token');
+  const history = useHistory();
+  const [fileData, setFileData] = useState();
+  const [fileName, setFileName] = useState();
+
+  const handleSubmit = ({ e, fileData }) => {
+    console.log('DATA ->', fileData);
+    e.preventDefault();
+    axios
+      .post('http://localhost:3001/api/order/post', fileData, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        history.push('/dashboard/orders');
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
       <Box>
@@ -56,6 +70,7 @@ const NewOrder = () => {
               shadow="base"
               rounded={[null, 'md']}
               overflow={{ sm: 'hidden' }}
+              onSubmit={(e) => handleSubmit(e)}
             >
               <Stack
                 px={4}
@@ -72,6 +87,7 @@ const NewOrder = () => {
                   >
                     Cargar achivo de Pedidos:
                   </FormLabel>
+
                   <Flex
                     mt={1}
                     justify="center"
@@ -106,7 +122,7 @@ const NewOrder = () => {
                         alignItems="baseline"
                       >
                         <chakra.label
-                          htmlFor="file-upload"
+                          htmlFor="fileSelect"
                           cursor="pointer"
                           rounded="md"
                           fontSize="md"
@@ -115,6 +131,7 @@ const NewOrder = () => {
                           _hover={{
                             color: useColorModeValue('blue.400', 'blue.300'),
                           }}
+                          type="file"
                         >
                           <span>
                             Hacé click aquí para subir un archivo desde tu PC
@@ -122,9 +139,16 @@ const NewOrder = () => {
 
                           <VisuallyHidden>
                             <input
-                              id="file-upload"
-                              name="file-upload"
+                              id="fileSelect"
+                              name="file"
                               type="file"
+                              accept=".xlsx, .xls, .csv"
+                              onChange={(e) => {
+                                setFileName(e.target.files[0].name);
+                                handleFile(e.target.files[0]).then((res) =>
+                                  setFileData(res)
+                                );
+                              }}
                             />
                           </VisuallyHidden>
                         </chakra.label>
@@ -137,6 +161,38 @@ const NewOrder = () => {
                       >
                         Excel hasta 10 mb
                       </Text>
+                      {fileName ? (
+                        <Flex>
+                          <Text
+                            pl={1}
+                            id="file-upload-filename"
+                            rounded="md"
+                            fontSize="md"
+                            fontWeight="semibold"
+                            color="green.600"
+                            pos="relative"
+                            _hover={{
+                              color: 'green.400',
+                            }}
+                          >
+                            {fileName}
+                          </Text>
+                          <Text
+                            pl={1}
+                            id="file-upload-filename"
+                            rounded="md"
+                            fontSize="md"
+                            color="green.600"
+                            pos="relative"
+                            _hover={{
+                              color: 'green.400',
+                            }}
+                          >
+                            cargado con exito. Haga click cn "Subir" para
+                            continuar.
+                          </Text>
+                        </Flex>
+                      ) : null}
                     </Stack>
                   </Flex>
                 </FormControl>

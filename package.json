@@ -37,6 +37,7 @@
     "redux-logger": "^3.0.6",
     "redux-toolkit": "^1.1.2",
     "web-vitals": "^1.1.2",
+    "xlsx": "^0.17.2",
     "yup": "^0.32.9"
   },
   "scripts": {
