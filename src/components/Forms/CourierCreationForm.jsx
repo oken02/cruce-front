@@ -17,6 +17,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import getToken from '../../utils/getToken';
 
 function CourierCreationForm() {
   const history = useHistory();
@@ -52,11 +53,11 @@ function CourierCreationForm() {
       // console.log('VALORES --> ', values);
 
       axios
-        .post('http://localhost:3001/api/courier/courierAdd', values, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
+        .post(
+          'http://localhost:3001/api/courier/courierAdd',
+          values,
+          getToken()
+        )
 
         .then((res) => {
           // alert(`usuario ${values.name} creado`);

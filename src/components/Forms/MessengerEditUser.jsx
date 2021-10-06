@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import getToken from '../../utils/getToken';
 
 function MessengerEditUser() {
   const history = useHistory();
@@ -34,11 +35,10 @@ function MessengerEditUser() {
   const [messenger, setMessenger] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/user/messenger/${messengerId}`, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      .get(
+        `http://localhost:3001/api/user/messenger/${messengerId}`,
+        getToken()
+      )
       .then((res) => {
         setMessenger(res.data);
       })
@@ -80,11 +80,7 @@ function MessengerEditUser() {
         .put(
           `http://localhost:3001/api/user/courier/update/${messengerId}`,
           values,
-          {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          }
+          getToken()
         )
         .then((res) => {
           setSubmitting(false);

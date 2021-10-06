@@ -18,6 +18,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import getToken from '../../utils/getToken';
 
 function BranchCreationForm() {
   const history = useHistory();
@@ -48,11 +49,7 @@ function BranchCreationForm() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .post('http://localhost:3001/api/branch', values, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
+        .post('http://localhost:3001/api/branch', values, getToken())
 
         .then((res) => {
           // alert(`usuario ${values.name} creado`);

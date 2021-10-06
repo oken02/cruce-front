@@ -18,6 +18,7 @@ import {
 import handleFile from '../utils/handleFile';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import getToken from '../utils/getToken';
 
 const NewOrder = () => {
   const token = localStorage.getItem('token');
@@ -29,11 +30,7 @@ const NewOrder = () => {
     console.log('DATA ->', fileData);
     e.preventDefault();
     axios
-      .post('http://localhost:3001/api/order/post', fileData, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      .post('http://localhost:3001/api/order/post', fileData, getToken())
       .then((res) => {
         console.log(res);
         history.push('/dashboard/orders');
