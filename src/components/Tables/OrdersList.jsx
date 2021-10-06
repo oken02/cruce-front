@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 //Components
 import TablesHead from './TablesHead';
 import SearchBar from './SearchBar';
-import AlertDeleteMessenger from './Alerts/AlertDeleteMessenger';
+import AlertDeleteOrder from './Alerts/AlertDeleteOrder';
 
 //Hooks
 import useTables from '../../hooks/useTables';
@@ -98,9 +98,9 @@ const OrderList = () => {
                     </TableCell>
 
                     <TableCell>
-                      <AlertDeleteMessenger
-                      // messID={row._id}
-                      // name={row.fullName}
+                      <AlertDeleteOrder
+                      ordID={row._id}
+                      name={row.orderID}
                       />
 
                       <Link to={`/dashboard/order/${row._id}`}>
