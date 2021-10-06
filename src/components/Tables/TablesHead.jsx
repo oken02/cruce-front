@@ -16,6 +16,8 @@ const labels = {
     { id: "address", label: "Dirección", style: {} },
     { id: "manager", label: "Responsable", style: {} },
     { id: "phone", label: "Teléfono", style: {} },
+    { id: "acciones", label: "Acciones", style: {} },
+
   ],
   messengers: [
     { id: "fullName", label: "Nombre", style: {} },
@@ -49,7 +51,7 @@ const labels = {
     { id: "orderId", label: "ID Pedido", style: {} },
     { id: "date1", label: "Fecha Ingreso", style: {} },
     { id: "date 2", label: "Fecha Entrega", style: {} },
-    { id: "state", label: "Estado", style: {} },
+    { id: "state", label: "Cambiar Estado", style: {} },
     { id: "acciones", label: "Acciones", style: {} },
 
   ],
@@ -65,7 +67,7 @@ const labels = {
 const TablesHead = ({ order, orderBy, onRequestSort }) => {
   const location = useLocation();
   const pathName = location.pathname.slice(11);
-console.log(pathName)
+  
   return (
     <TableHead>
       <TableRow>

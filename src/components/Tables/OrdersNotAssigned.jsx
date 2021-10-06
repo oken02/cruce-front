@@ -9,10 +9,7 @@ import {
   Card,
 } from "@material-ui/core";
 import { Box } from "@chakra-ui/layout";
-import { IconButton } from "@chakra-ui/button";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { EditIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 //Components
@@ -24,9 +21,7 @@ import AlertAssignOrder from "./Alerts/AlertAssignOrder";
 import useTables from "../../hooks/useTables";
 
 const OrdersNotAssigned = () => {
-  const history = useHistory();
   const token = localStorage.getItem("token");
-  
 
   const {
     records,
@@ -49,8 +44,6 @@ const OrdersNotAssigned = () => {
       })
       .then((res) => setOrders(res.data));
   }, []);
-
-  console.log("Sin Asignar>>>", orders)
 
   return (
     <Box p="4">
@@ -77,21 +70,17 @@ const OrdersNotAssigned = () => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
-                      <Link
-                        to={`/dashboard/order/${row._id}`}
-                      >
+                      <Link to={`/dashboard/order/${row._id}`}>
                         {row.orderId}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
+                    <TableCell>
+                      {row.stateHistory[0].date.slice(0, 10)}
+                    </TableCell>
                     <TableCell>{row.client.address.city}</TableCell>
 
                     <TableCell>
-                      <AlertAssignOrder
-                        messID={row._id}
-                      />
-
-                     
+                      <AlertAssignOrder messID={row._id} />
                     </TableCell>
                   </TableRow>
                 );

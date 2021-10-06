@@ -55,14 +55,6 @@ const Messengers = () => {
     }
   }, [messengers]);
 
-  // useEffect(() => {
-  //   if (searchText) {
-  //     const Searched =
-  //   }
-
-  // }, [])
-  console.log(messengers)
-
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
@@ -92,7 +84,6 @@ const Messengers = () => {
             />
             <TableBody>
               {messengers.map((row, index) => {
-                // console.log(row._id)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
