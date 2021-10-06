@@ -48,7 +48,6 @@ const Couriers = () => {
       .then((res) => setCouriers(res.data));
   }, []);
 
-  // console.log(messengers)
 
   useEffect(() => {
     if (couriers) {

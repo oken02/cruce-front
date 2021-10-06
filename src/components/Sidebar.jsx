@@ -7,29 +7,21 @@ import {
   DrawerOverlay,
   Flex,
   Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Text,
   useColorModeValue,
   useDisclosure,
-  Alert,
-  Badge,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   MdHome,
-  MdKeyboardArrowRight,
   MdLocalShipping,
   MdStore,
   MdLocationOn,
   MdPerson,
-  MdSettings,
   MdEqualizer,
   MdMotorcycle,
-} from 'react-icons/md';
+} from "react-icons/md";
 
-import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut } from "react-icons/bi";
 
 import React from 'react';
 import LoginForm from './Forms/LoginForm';
@@ -52,23 +44,23 @@ import Order from './Order';
 
 const itemsSidebar = {
   courier: [
-    { name: 'Home', url: '', icon: MdHome },
-    { name: 'Pedidos', url: '/courierorders', icon: MdMotorcycle },
-    { name: 'Cadetes', url: '/messengers', icon: MdPerson },
-    { name: 'Reportes', url: '/reports', icon: MdEqualizer },
+    { name: "Home", url: "", icon: MdHome },
+    { name: "Pedidos", url: "/courierorders", icon: MdMotorcycle },
+    { name: "Cadetes", url: "/messengers", icon: MdPerson },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
   ],
   messenger: [
-    { name: 'Home', url: '', icon: MdHome },
-    { name: 'Mis Pedidos', url: '/messengerorders', icon: MdMotorcycle },
-    { name: 'Pedidos Sin Asignar', url: '/notassigned', icon: MdLocationOn },
+    { name: "Home", url: "", icon: MdHome },
+    { name: "Mis Pedidos", url: "/messengerorders", icon: MdMotorcycle },
+    { name: "Pedidos Sin Asignar", url: "/notassigned", icon: MdLocationOn },
   ],
 
   ecommerce: [
-    { name: 'Home', url: '', icon: MdHome },
-    { name: 'Pedidos', url: '/orders', icon: MdMotorcycle },
-    { name: 'Sucursales', url: '/branches', icon: MdStore },
-    { name: 'Mensajerías', url: '/couriers', icon: MdLocalShipping },
-    { name: 'Reportes', url: '/reports', icon: MdEqualizer },
+    { name: "Home", url: "", icon: MdHome },
+    { name: "Pedidos", url: "/orders", icon: MdMotorcycle },
+    { name: "Sucursales", url: "/branches", icon: MdStore },
+    { name: "Mensajerías", url: "/couriers", icon: MdLocalShipping },
+    { name: "Reportes", url: "/reports", icon: MdEqualizer },
   ],
 };
 
@@ -81,11 +73,10 @@ export default function Sidebar() {
 
   const logout = () => {
     dispatch(logoutUser());
-    history.push('/login');
+    history.push("/login");
   };
 
   const NavItem = ({ icon, children, url, ...rest }) => {
-    // const { icon, children, ...rest,url } = props;
     return (
       <Flex
         onClick={() => history.push(url)}
@@ -94,26 +85,17 @@ export default function Sidebar() {
         pl="4"
         py="3"
         cursor="pointer"
-        color={useColorModeValue('inherit', 'gray.400')}
+        color={useColorModeValue("inherit", "gray.400")}
         _hover={{
-          bg: useColorModeValue('gray.100', 'gray.900'),
-          color: useColorModeValue('gray.900', 'gray.200'),
+          bg: useColorModeValue("gray.100", "gray.900"),
+          color: useColorModeValue("gray.900", "gray.200"),
         }}
         role="group"
         fontWeight="semibold"
         transition=".15s ease"
         {...rest}
       >
-        {icon && (
-          <Icon
-            mr="2"
-            boxSize="4"
-            //   _groupHover={{
-            //     color: useColorModeValue("gray.600", "gray.300"),
-            //   }}
-            as={icon}
-          />
-        )}
+        {icon && <Icon mr="2" boxSize="4" as={icon} />}
         {children}
       </Flex>
     );
@@ -135,8 +117,8 @@ export default function Sidebar() {
         pb="10"
         overflowX="hidden"
         overflowY="auto"
-        bg={useColorModeValue('white', 'gray.800')}
-        borderColor={useColorModeValue('inherit', 'gray.700')}
+        bg={useColorModeValue("white", "gray.800")}
+        borderColor={useColorModeValue("inherit", "gray.700")}
         borderRightWidth="1px"
         w="60"
         {...props}
@@ -145,7 +127,7 @@ export default function Sidebar() {
           <Text
             fontSize="2xl"
             ml="2"
-            color={useColorModeValue('brand.500', 'white')}
+            color={useColorModeValue("brand.500", "white")}
             fontWeight="semibold"
           >
             CRUCE
@@ -158,12 +140,6 @@ export default function Sidebar() {
           color="gray.600"
           aria-label="Main Navigation"
         >
-          {/* <NavItem icon={MdHome}>Home</NavItem>
-
-        <NavItem icon={MdLocationOn}>Pedidos</NavItem>
-        <NavItem icon={MdStore}>Sucursales</NavItem>
-        <NavItem icon={MdLocalShipping}>Mensajerias</NavItem> */}
-
           {itemsSidebar[loggedUser.role].map((item) => (
             <NavItem
               url={`/dashboard${item.url}`}
@@ -178,7 +154,7 @@ export default function Sidebar() {
             <ButtonGroup variant="outline" spacing="6">
               <Button colorScheme="blue" onClick={logout}>
                 <BiLogOut size="20px" />
-                {'Logout'}
+                {"Logout"}
               </Button>
             </ButtonGroup>
           </Box>
@@ -189,10 +165,10 @@ export default function Sidebar() {
   return (
     <Box
       as="section"
-      bg={useColorModeValue('gray.50', 'gray.700')}
+      bg={useColorModeValue("gray.50", "gray.700")}
       minH="100vh"
     >
-      <SidebarContent display={{ base: 'none', md: 'unset' }} />
+      <SidebarContent display={{ base: "none", md: "unset" }} />
       <Drawer
         isOpen={sidebar.isOpen}
         onClose={sidebar.onClose}
@@ -208,7 +184,7 @@ export default function Sidebar() {
           <Switch>
             <Route exact path="/dashboard">
               <h1>
-                Nombre: {loggedUser.fullName.toUpperCase()} - Rol:{' '}
+                Nombre: {loggedUser.fullName.toUpperCase()} - Rol:{" "}
                 {loggedUser.role}
               </h1>
             </Route>
@@ -217,6 +193,8 @@ export default function Sidebar() {
               path="/dashboard/messenger"
               render={() => <UserCreationForm />}
             />
+            <Route path="/dashboard/order/:id" render={() => <Order />} />
+
             <Route
               exact
               path="/dashboard/orders"

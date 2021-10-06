@@ -12,8 +12,9 @@ import { Box } from '@chakra-ui/layout';
 import { Button, IconButton } from '@chakra-ui/button';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { EditIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 //Components
 import TablesHead from './TablesHead';
@@ -23,7 +24,7 @@ import AlertDeleteMessenger from './Alerts/AlertDeleteMessenger';
 //Hooks
 import useTables from '../../hooks/useTables';
 import getToken from '../../utils/getToken';
-import { useSelector } from 'react-redux';
+
 
 const OrderList = () => {
   const history = useHistory();
@@ -57,7 +58,7 @@ const OrderList = () => {
           <Button
             colorScheme="teal"
             size="sm"
-            onClick={() => history.push('/dashboard/courier')}
+            onClick={() => history.push('/dashboard/order')}
           >
             Subir Pedidos
           </Button>
@@ -80,7 +81,6 @@ const OrderList = () => {
             />
             <TableBody>
               {orders.map((row, index) => {
-                // console.log("COURIER ID NAME",row.courierId.name)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
@@ -104,12 +104,12 @@ const OrderList = () => {
                       />
 
                       <Link to={`/dashboard/order/${row._id}`}>
-                        <IconButton
+                      <IconButton
                           variant="ghost"
                           colorScheme="teal"
                           fontSize="20 px"
                           size="xs"
-                          icon={<EditIcon />}
+                          icon={<SearchIcon />}
                         />
                       </Link>
                     </TableCell>

@@ -12,7 +12,7 @@ import { Box } from "@chakra-ui/layout";
 import { Button, IconButton } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { EditIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 //Components
@@ -24,9 +24,7 @@ import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 import useTables from "../../hooks/useTables";
 
 const OrdersCourier = () => {
-  const history = useHistory();
   const token = localStorage.getItem("token");
-  
 
   const {
     records,
@@ -42,27 +40,22 @@ const OrdersCourier = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/api/order/", {}, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(
+        "http://localhost:3001/api/order/",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => setOrders(res.data));
   }, []);
-
-  console.log("PEDIDOOOSSS CADETERIA", orders)
 
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
         <h1>Todos los Pedidos</h1>
-        {/* <Button
-          colorScheme="teal"
-          size="sm"
-          onClick={() => history.push("/dashboard/messenger")}
-        >
-          Crear Cadete
-        </Button> */}
       </Box>
 
       <Card>
@@ -81,34 +74,31 @@ const OrdersCourier = () => {
             />
             <TableBody>
               {orders.map((row, index) => {
-                // console.log("COURIER ID NAME",row.courierId.name)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
-                      <Link
-                        to={`/dashboard/order/${row._id}`}
-                      >
+                      <Link to={`/dashboard/order/${row._id}`}>
                         {row.orderId}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.stateHistory[0].date.slice(0,10)}</TableCell>
+                    <TableCell>
+                      {row.stateHistory[0].date.slice(0, 10)}
+                    </TableCell>
                     <TableCell>{row.dniCuil}</TableCell>
                     <TableCell>{row.actualState}</TableCell>
-                    <TableCell>{row.userId? row.userId.fullName : ""}</TableCell>
+                    <TableCell>
+                      {row.userId ? row.userId.fullName : ""}
+                    </TableCell>
 
                     <TableCell>
-                      <AlertDeleteMessenger
-                        // messID={row._id}
-                        // name={row.fullName}
-                      />
-
                       <Link to={`/dashboard/order/${row._id}`}>
                         <IconButton
                           variant="ghost"
                           colorScheme="teal"
                           fontSize="20 px"
                           size="xs"
-                          icon={<EditIcon />}
+                          ml={3}
+                          icon={<SearchIcon />}
                         />
                       </Link>
                     </TableCell>
