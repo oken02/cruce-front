@@ -29,7 +29,7 @@ function BranchEdit() {
   const user = useSelector((state) => state.user);
 
   const pathName = location.pathname;
-  const branchId = pathName.slice(19);
+  const branchId = pathName.slice(18);
 
   const [branch, setBranch] = useState([]);
 

@@ -127,7 +127,7 @@ function LoginForm() {
               )}
               <Button
                 type="submit"
-                disabled={!formik.isValid || formik.isSubmitting}
+                disabled={formik.isSubmitting}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
