@@ -21,18 +21,4 @@ router.delete('/delete/:id', roleCourier, deleteUser);
 router.put('/update/:id', roleMessenger, updateUser )
 
 
-router.get("/",async(req,res)=>{
-
-    const {cadeteriaID} = req.payload;
-
-    const cadetes = User.find({
-        role:"cadete",
-        cadeteriaId
-    })
-
-    
-
-
-})
-
 module.exports = router

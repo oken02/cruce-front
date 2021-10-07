@@ -72,12 +72,10 @@ const orderSchema = new Schema({
     },
     stateHistory : [stateSchema],
 
-    //**********/
     actualState : {
         type : String,
         default: "Sin Asignar",
     }
-    //*********/
 })
 
 

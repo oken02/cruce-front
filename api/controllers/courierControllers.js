@@ -21,7 +21,7 @@ const courierCreate = async (req, res, next) => {
 const courierList = async (req, res, next) => {
   try {
     couriers = await Courier.find();
-    res.json(couriers);
+    res.status(200).json(couriers);
   } catch (err) {
     next(err);
   }
@@ -31,7 +31,7 @@ const courierList = async (req, res, next) => {
 const courierFind = async (req, res, next) => {
   try {
     courier = await Courier.findById(req.params.id);
-    res.json(courier);
+    res.status(200).json(courier);
   } catch (err) {
     next(err);
   }
@@ -42,12 +42,11 @@ const courierUpdate = async (req, res, next) => {
   try {
     let id = req.params.id;
     let courier = req.body;
-    //courier._id = id;
 
     await Courier.updateOne({ _id: id }, courier);
     const resultado = await Courier.findById(id);
 
-    res.status(202, 'Acepted').json(resultado);
+    res.status(202).json(resultado);
   } catch (err) {
     next(err);
   }
@@ -58,9 +57,9 @@ const courierDelete = async (req, res, next) => {
     const id = req.params.id;
     await Courier.findByIdAndDelete(id);
     const result = {
-      message: `User with id: ${id._id} deleted`,
+      message: `La mensajería fue eliminada con éxito`,
     };
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }

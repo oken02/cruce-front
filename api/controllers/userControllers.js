@@ -10,7 +10,7 @@ const createMessengerUser = async (req, res,next) => {
     const passwordHashed = await bcrypt.hash(password, saltRounds)
     const courier = await Courier.findById(courierId)
         
-    if(courier === null) res.status(500).send("El usuario no tiene asociado una cadetería")
+    if(courier === null) res.status(404).send("El usuario no tiene asociado una cadetería")
 
     const newMessengerUser = new User({
         fullName : fullName,
@@ -63,7 +63,7 @@ const userMessengerList = async (req, res, next) => {
         const { courierId } = req.payload
         const user = await User.find({role : "messenger", courierId : courierId});
         const users = await Courier.populate(user, { path: "courierId"})
-        res.json(user);
+        res.status(200).json(user);
     } catch (err) { next(err) }
 };
 
@@ -71,7 +71,7 @@ const userMessengerList = async (req, res, next) => {
 const userCourierList = async (req, res, next) => {
     try{
         const user = await User.find({role : "courier" });
-        res.json(user);
+        res.status(200).json(user);
     } catch (err) { next(err) }
 };
 

@@ -10,7 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//FIJARSE EL TEMA DE MIDDLEWARES NECESARIOS
 
 app.use("/api", routes);
 

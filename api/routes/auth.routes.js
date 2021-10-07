@@ -5,7 +5,7 @@ const router = require("express").Router();
 //login de cualquier usuario
 router.post("/login", login);
 
-//crea cualquier tipo de usuario
+//crea cualquier tipo de usuario - ADMIN
 router.post("/create", create);
 
 
