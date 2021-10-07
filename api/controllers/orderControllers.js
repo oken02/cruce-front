@@ -6,7 +6,7 @@ const allOrders = async (req, res, next) => {
         const orders= await Order.find({})
         .populate("userId")
         .populate("courierId")
-        res.send(orders)
+        res.status(200).send(orders)
     }catch(err){next(err)}
 }
 
@@ -17,7 +17,7 @@ const myorders = async (req, res, next) => {
         const {state} = req.body
         const obj = state ? {userId : id , actualState : state} : {userId : id}
         const orders = await Order.find(obj)
-        res.send(orders)
+        res.status(200).send(orders)
     }catch(err){next(err)}
 }
 
@@ -27,7 +27,7 @@ const noAssignedOrderList = async (req, res, next) => {
     try{
         const orders = await Order.find({actualState : "Sin Asignar"})
 
-        res.send(orders)
+        res.status(200).send(orders)
     }
     catch(err){next(err)}
 }
@@ -40,7 +40,7 @@ const orderById = async (req, res, next) => {
         const detailOrder = await Order.findById(id)
         .populate("userId")
         .populate("courierId")
-        res.send(detailOrder)
+        res.status(200).send(detailOrder)
     } catch(err){next(err)}
 }
 
@@ -59,7 +59,7 @@ const orderByCourier = async (req, res, next) => {
         const orders = await Order.find(obj)
         .populate("userId")
         .populate("courierId")
-        res.send(orders)
+        res.status(200).send(orders)
     }
     catch(err){next(err)}
 }
@@ -71,7 +71,7 @@ const allOrdersByState = async (req, res, next) => {
         const orders = await Order.find({actualState : state})
         .populate("userId")
         .populate("courierId")
-        res.send(orders)
+        res.status(200).send(orders)
         
     }catch(err) {next(err)}
 }
@@ -135,7 +135,7 @@ const newOrder = async (req, res, next) => {
                 }}}
 
         const ordenes = await Order.insertMany(nuevosDatos)
-        res.send(ordenes)
+        res.status(201).send(ordenes)
         
     } catch(err) { next(err) }
 }
@@ -158,7 +158,7 @@ const changingState = async (req, res) => {
     }
     await pedido.save()
     
-    res.send(pedido);
+    res.status(202).send(pedido);
   };
 
 //Elimina un pedido
@@ -166,7 +166,7 @@ const deleteOrder = async (req, res, next) => {
     const id = req.params.id;
     try {
       const resDel = await Order.deleteOne({ _id: id });
-      res.json({ msg: "Deleted", resDel });
+      res.status(200).json({ msg: "Deleted", resDel });
     } catch (error) {
       next(error);
     }
@@ -181,7 +181,7 @@ const modifyOrder = async (req, res, next)=>{
         new: true,
       });
 
-      res.json({ OrderUpdated });
+      res.status(201).json({ OrderUpdated });
     } catch (error) {
       next(error);
     }
