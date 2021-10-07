@@ -30,13 +30,13 @@ const Order = () => {
   const user = useSelector((state) => state.user);
 
   const pathName = location.pathname;
-  // const orderId = pathName.slice(19);
+  const orderId = pathName.slice(17);
   // const orderId = '1075992862440-01';
-  const orderId = '615ca50580e3bfe3823a1b86';
+  // const orderId = '615ca50580e3bfe3823a1b86';
 
   const [order, setOrder] = useState({});
 
-  console.log('ORDER --> ', order);
+  console.log('ORDER ID --> ', orderId);
 
   useEffect(() => {
     axios
@@ -45,6 +45,7 @@ const Order = () => {
       .catch((e) => console.log(e));
   }, []);
 
+  console.log("order", order)
   // order._id ? order.orderId : '',
   // orderStatus: order._id ? order.actualState : '',
   // firstName: order._id ? order.client.firstName : '',
@@ -142,13 +143,13 @@ const Order = () => {
                   <Tbody>
                     <Tr>
                       <Td>Mensajeria</Td>
-                      <Td>{order.courierId.name}</Td>
+                      <Td>{order.courierId ? order.courierId.name : "Sin Asignar"}</Td>
                     </Tr>
                   </Tbody>
                   <Tbody>
                     <Tr>
                       <Td>Cadete:</Td>
-                      <Td>{order.userId.fullName}</Td>
+                      <Td>{order.userId ? order.userId.fullName : "Sin Asignar"}</Td>
                     </Tr>
                   </Tbody>
                   <Thead bg="blue.50">
