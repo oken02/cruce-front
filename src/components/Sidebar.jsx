@@ -41,6 +41,7 @@ import OrdersMessenger from './Tables/OrdersMessenger';
 import Order from './Order';
 import BranchCreationForm from './Forms/BranchCreationForm';
 import BranchEdit from './Forms/BranchEdit';
+import Reports from './Reports';
 
 const itemsSidebar = {
   courier: [
@@ -208,11 +209,12 @@ export default function Sidebar() {
 
         <Box as="main" p="4">
           <Switch>
-            <Route exact path="/dashboard">
-              <h1>
+            <Route exact path="/dashboard" render={() => <Reports />} >
+              {/* <h1>
                 Nombre: {loggedUser.fullName.toUpperCase()} - Rol:{' '}
                 {loggedUser.role}
-              </h1>
+              </h1> */}
+              
             </Route>
             <Route
               exact
@@ -282,6 +284,10 @@ export default function Sidebar() {
               path="/dashboard/messengerorders"
               render={() => <OrdersMessenger />}
             />
+
+                                  <Route exact path="/dashboard/reports" render={() => <Reports />} />
+
+
           </Switch>
         </Box>
       </Box>

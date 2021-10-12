@@ -40,7 +40,6 @@ function App() {
 
           <Route exact path="/branch" render={() => <BranchCreationForm />} />
           <Route exact path="/branch/:id" render={() => <Branch />} />
-          <Route exact path="/dashboard/reports" render={() => <Reports />} />
         </Switch>
       </BrowserRouter>
     </div>
