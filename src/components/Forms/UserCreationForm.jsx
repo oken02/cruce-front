@@ -32,6 +32,8 @@ function UserCreationForm() {
       fullName: '',
       dniCuil: '',
       address: '',
+      // role: 'messenger',
+      // courierId:'',
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -257,6 +259,77 @@ function UserCreationForm() {
                       </div>
                     ) : null}
                   </FormControl>
+                  {/* PARA ROL ECOMMERCE  */}
+
+                  {/* <FormControl as={GridItem} colSpan={6}>
+                    <FormLabel
+                      htmlFor="role"
+                      fontSize="sm"
+                      fontWeight="md"
+                      color={useColorModeValue('gray.700', 'gray.50')}
+                    >
+                      ROL:
+                    </FormLabel>
+
+
+                    <Select
+                      id="role"
+                      name="role"
+                      autoComplete="role"
+                      placeholder="Seleccione el rol del usuario"
+                      mt={1}
+                      focusBorderColor="brand.400"
+                      shadow="sm"
+                      size="sm"
+                      w="full"
+                      rounded="md"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.role}
+                    >
+                      <option>ecommerce</option>
+                      <option>courier</option>
+                      <option>messenger</option>
+                    </Select>
+
+                    {formik.touched.role && formik.errors.role ? (
+                      <div>
+                        <Text color="tomato">{formik.errors.role}</Text>
+                      </div>
+                    ) : null}
+                  </FormControl>
+                  
+                <FormControl as={GridItem} colSpan={6}>
+                    <FormLabel
+                      htmlFor="courierId"
+                      fontSize="sm"
+                      fontWeight="md"
+                      color={useColorModeValue('gray.700', 'gray.50')}
+                    >
+                      MENSAJERIA ASOCIADA:
+                    </FormLabel>
+                    <Input
+                      type="text"
+                      name="courierId"
+                      id="courierId"
+                      autoComplete="courierId"
+                      mt={1}
+                      focusBorderColor="brand.400"
+                      shadow="sm"
+                      size="sm"
+                      w="full"
+                      rounded="md"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.courierId}
+                    />
+                    {formik.touched.courierId && formik.errors.courierId ? (
+                      <div>
+                        <Text color="tomato">{formik.errors.courierId}</Text>
+                      </div>
+                    ) : null}
+                </FormControl> */}
+                  
                 </SimpleGrid>
               </Stack>
               <Box

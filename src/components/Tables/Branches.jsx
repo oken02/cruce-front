@@ -49,7 +49,7 @@ const Branches = () => {
       .then((res) => setBranch(res.data));
   }, []);
 
-
+// console.log('BRANCH -> ', branch)
 
   return (
     <Box p="4">
@@ -79,27 +79,27 @@ const Branches = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {/* {branch.map((row, index) => {
+              {branch.map((row, index) => {
                 // console.log(row._id)
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
                       <Link
-                        to={`/dashboard/messenger/${row._id}`}
+                        to={`/dashboard/branch/${row._id}`}
                         style={{ color: blue }}
                       >
-                        {row.fullName.replace(/\b\w/g, l => l.toUpperCase())}{" "}
+                        {row.name.replace(/\b\w/g, l => l.toUpperCase())}{" "}
                       </Link>
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.address}</TableCell>
+                    <TableCell>{row.manager}</TableCell>
                     <TableCell>
                       <AlertDeleteMessenger
                         messID={row._id}
-                        name={row.fullName}
+                        name={row.name}
                       />
 
-                      <Link to={`/dashboard/messenger/${row._id}`}>
+                      <Link to={`/dashboard/branch/${row._id}`}>
                         <IconButton
                           variant="ghost"
                           colorScheme="teal"
@@ -111,7 +111,7 @@ const Branches = () => {
                     </TableCell>
                   </TableRow>
                 );
-              })} */}
+              })}
             </TableBody>
           </Table>
         </TableContainer>

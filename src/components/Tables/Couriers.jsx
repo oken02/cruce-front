@@ -59,13 +59,26 @@ const Couriers = () => {
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
         <h1>Lista de Cadeterías</h1>
+        <Box display="flex" mb="4">
         <Button
           colorScheme="teal"
-          size="sm"
+            size="sm"
+            mr="1"
           onClick={() => history.push('/dashboard/courier')}
         >
-          Crear cadetería
+          Crear Cadetería
         </Button>
+        
+        <Button
+          colorScheme="teal"
+            size="sm"
+            ml="1"
+          onClick={() => history.push('/dashboard/messenger')}
+        >
+          Crear Cadete
+        </Button>
+        </Box>
+        
       </Box>
 
       <Card>
