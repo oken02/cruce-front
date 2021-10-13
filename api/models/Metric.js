@@ -1,7 +1,81 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+
+const orderMetricSchema = new Schema({
+  userId : {
+    type : Schema.Types.ObjectId,
+    ref : "User"
+  },
+  date : Date,
+  state : String, 
+  totalTimeToDelivery : Number,
+})
+
+
+const monthSchema = new Schema({
+  0 : [orderMetricSchema],
+  1 : [orderMetricSchema],
+  2 : [orderMetricSchema],
+  3 : [orderMetricSchema],
+  4 : [orderMetricSchema],
+  5 : [orderMetricSchema],
+  6 : [orderMetricSchema],
+  7 : [orderMetricSchema],
+  8 : [orderMetricSchema],
+  9 : [orderMetricSchema],
+  10 : [orderMetricSchema],
+  11 : [orderMetricSchema],
+})
+
+
+const metricSchema = new Schema({
+  courierId : {
+    type : Schema.Types.ObjectId,
+    ref : "Courier"
+  },
+  year : Number,
+  month : monthSchema
+})
+
+// new Metric.month[9]
 
 
 
 
+const Metric = mongoose.model("Metric", metricSchema);
+
+module.exports = Metric;
+
+
+
+/* {"metrics.month.0.userId" : "id"} */
+
+/* const prueba = async(req, res , next) => {
+  //const id = req.body.id;
+  try {
+      const dato = await Order.find({
+          //orderId : id,
+          "stateHistory.state" : "Devuelto a Sucursal"  
+      })
+      res.send(dato)
+  } catch (err) { next(err) }
+} */
+
+
+/* 
+{
+  courierId : id
+  year : "2021"
+  metrics : {
+    0 : 0 : {
+      envio1
+    },
+    1 : {
+      envio2
+    }
+  }}
+*/
 
 
 /*
