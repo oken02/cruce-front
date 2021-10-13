@@ -84,7 +84,11 @@ const OrdersCourier = () => {
                     <TableCell>
                       {row.stateHistory[0].date.slice(0, 10)}
                     </TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>{row.actualState == "Entregado"
+                        ? row.stateHistory[
+                            row.stateHistory.length - 1
+                          ].date.slice(0, 10)
+                        : " "}</TableCell>
                     <TableCell>{row.actualState}</TableCell>
                     <TableCell>
                       {row.userId ? row.userId.fullName : ""}

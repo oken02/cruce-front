@@ -105,7 +105,13 @@ const OrdersMessenger = () => {
                     <TableCell>
                       {row.stateHistory[0].date.slice(0, 10)}
                     </TableCell>
-                    <TableCell>{row.dniCuil}</TableCell>
+                    <TableCell>
+                      {row.actualState == "Entregado"
+                        ? row.stateHistory[
+                            row.stateHistory.length - 1
+                          ].date.slice(0, 10)
+                        : " "}
+                    </TableCell>
 
                     <TableCell
                       onChange={(e) => {
@@ -113,17 +119,28 @@ const OrdersMessenger = () => {
                       }}
                     >
                       <Select placeholder={row.actualState} size="sm">
-                        {row.actualState ==
+                        {/* {row.actualState ==
                         "Pendiente de Retiro en Sucursal" ? (
                           <option value="En Camino">En Camino</option>
-                        ) : (
+                        ) : ( 
                           <>
                             <option value="Entregado">Entregado</option>
                             <option value="Devuelto a Sucursal">
                               Devuelto a Sucursal
                             </option>
                           </>
-                        )}
+                        )} */}
+                        {row.actualState ==
+                        "Pendiente de Retiro en Sucursal" ? (
+                          <option value="En Camino">En Camino</option>
+                        ) : ( row.actualState == "En Camino" ? 
+                          (<>
+                            <option value="Entregado">Entregado</option>
+                            <option value="Devuelto a Sucursal">
+                              Devuelto a Sucursal
+                            </option>
+                          </>) : row.actualState)
+                        }
                       </Select>
                     </TableCell>
 
