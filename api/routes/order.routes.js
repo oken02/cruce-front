@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { allOrders, newOrder, myorders, changingState , noAssignedOrderList, orderById , deleteOrder, modifyOrder , orderByCourier, allOrdersByState} = require('../controllers/orderControllers');
+const { allOrders, newOrder, myorders, changingState , noAssignedOrderList, orderById, OrderId, allCourierOrders, deleteOrder, modifyOrder , orderByCourier, allOrdersByState} = require('../controllers/orderControllers');
 const { roleMessenger, roleEcommerce, roleCourierAndEcommerce } = require('../middlewares/validateRole');
 
 
@@ -20,6 +20,12 @@ router.post("/post", roleEcommerce , newOrder)
 
 //Todos los pedidos filtrados por estado
 router.post("/ordersbystate", roleEcommerce, allOrdersByState)
+
+//Trae un pedido por OrderId
+router.post("/orderid", OrderId)
+
+//Trae todos los pedidos de un courier pasandole el nombre por body
+router.post("/allorders", allCourierOrders)
 
 //Trae todos los pedidos de una cadetería - si es ecommerce enviar req.body - 
 //también filtra por estado si se lo envía por body

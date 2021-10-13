@@ -1,4 +1,5 @@
-const { Order } = require("../models")
+const { Order, Courier } = require("../models")
+const {elCasiHook} = require("../utils/metrics")
 
 //Trae todos los pedidos SOLO ECOMMERCE
 const allOrders = async (req, res, next) => {
@@ -43,6 +44,28 @@ const orderById = async (req, res, next) => {
         res.status(200).send(detailOrder)
     } catch(err){next(err)}
 }
+//Trae un pedido por OrderId
+const OrderId = async (req, res, next) => {
+    try{
+        const id = req.body.orderId
+        const detailOrder = await Order.findOne({orderId : id})
+        .populate("userId")
+        .populate("courierId")
+        res.status(200).send(detailOrder)
+    } catch(err){next(err)}
+}
+
+//Trae todos los pedidos de un courier pasandole el nombre por body
+const allCourierOrders = async (req, res, next) => {
+    try{
+        const {courierName} = req.body
+        const courierData = await Courier.findOne({ name : courierName })
+        const data = await Order.find({courierId : courierData})
+        .populate("userId")
+        res.status(200).send(data)
+
+    }catch(err){next(err)}
+} 
 
 
 // Trae todos los envios de una cadetería. Puede o no recibir "estado", dependiendo del estado, traera esos pedidos
@@ -142,9 +165,10 @@ const newOrder = async (req, res, next) => {
 
 //cambia el estado de un pedido y lo suma al historial
 const changingState = async (req, res) => {
-    const { id , courierId } = req.payload;
+    const { id , courierId} = req.payload;
     const orderId = req.params.orderId
     const {state} = req.body //Entregado o Devuelto a Sucursal
+
 
     const pedido = await Order.findById(orderId);
     if (pedido.actualState === "Sin Asignar") {
@@ -157,6 +181,11 @@ const changingState = async (req, res) => {
       pedido.actualState = state;
     }
     await pedido.save()
+    
+
+    if(pedido.actualState === "Entregado" || pedido.actualState === "Devuelto a Sucursal"){
+        elCasiHook(pedido.actualState, pedido.stateHistory[1], courierId, id)
+    }
     
     res.status(202).send(pedido);
   };
@@ -193,7 +222,9 @@ module.exports = { allOrders,
      myorders,
      changingState, 
      noAssignedOrderList, 
-     orderById, 
+     orderById,
+     OrderId,
+     allCourierOrders, 
      deleteOrder, 
      orderByCourier, 
      modifyOrder, 
