@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
+import AlertDeleteBranch from "./Alerts/AlertDeleteBranch";
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -94,8 +94,8 @@ const Branches = () => {
                     <TableCell>{row.address}</TableCell>
                     <TableCell>{row.manager}</TableCell>
                     <TableCell>
-                      <AlertDeleteMessenger
-                        messID={row._id}
+                      <AlertDeleteBranch
+                        branchID={row._id}
                         name={row.name}
                       />
 
