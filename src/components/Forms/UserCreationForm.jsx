@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import {
   Box,
   FormControl,
@@ -19,11 +19,15 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import getToken from '../../utils/getToken';
+import { useSelector } from 'react-redux';
+
 
 function UserCreationForm() {
   const history = useHistory();
   const token = localStorage.getItem('token');
-  // console.log(token);
+  const { loggedUser } = useSelector((state) => state.user);
+
+// console.log(loggedUser)
 
   const formik = useFormik({
     initialValues: {
@@ -32,8 +36,8 @@ function UserCreationForm() {
       fullName: '',
       dniCuil: '',
       address: '',
-      // role: 'messenger',
-      // courierId:'',
+      role: loggedUser.role === 'courier'? 'messenger' : '',
+      courierId:loggedUser.role === 'courier' ? loggedUser.courierId : ''  ,
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -53,7 +57,7 @@ function UserCreationForm() {
     }),
 
     onSubmit: (values, { setSubmitting }) => {
-      axios
+      loggedUser.role === 'courier' ? (axios
         .post(
           'http://localhost:3001/api/user/messenger/add',
           values,
@@ -64,10 +68,29 @@ function UserCreationForm() {
           setSubmitting(false);
           history.push('/dashboard/messengers');
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))) : ( axios
+          .post(
+            'http://localhost:3001/api/usercourier/add',
+            values,
+            getToken()
+          )
+          .then((res) => {
+            // alert(`usuario ${values.fullName} creado`);
+            setSubmitting(false);
+            history.push('/dashboard/couriers');
+          })
+          .catch((err) => console.log(err)))
     },
   });
 
+  const [couriers, setCouriers] = useState([]);
+
+  useEffect(() => {
+        axios
+      .get('http://localhost:3001/api/courier/', getToken())
+      .then((res) => setCouriers(res.data))
+  } , []) 
+  console.log(couriers)
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
       <Box mt={[10, 0]}>
@@ -259,16 +282,18 @@ function UserCreationForm() {
                       </div>
                     ) : null}
                   </FormControl>
-                  {/* PARA ROL ECOMMERCE  */}
 
-                  {/* <FormControl as={GridItem} colSpan={6}>
+
+                  {loggedUser.role === 'ecommerce' ? (
+                    <>
+                  <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
                       htmlFor="role"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color='gray.700'
                     >
-                      ROL:
+                      Rol del nuevo usuario:
                     </FormLabel>
 
 
@@ -276,7 +301,7 @@ function UserCreationForm() {
                       id="role"
                       name="role"
                       autoComplete="role"
-                      placeholder="Seleccione el rol del usuario"
+                      // placeholder="Seleccione el rol del usuario"
                       mt={1}
                       focusBorderColor="brand.400"
                       shadow="sm"
@@ -287,9 +312,9 @@ function UserCreationForm() {
                       onBlur={formik.handleBlur}
                       value={formik.values.role}
                     >
-                      <option>ecommerce</option>
-                      <option>courier</option>
-                      <option>messenger</option>
+                      {/* <option>ecommerce</option> */}
+                      <option value="courier" selected>courier</option>
+                      {/* <option>messenger</option> */}
                     </Select>
 
                     {formik.touched.role && formik.errors.role ? (
@@ -304,11 +329,11 @@ function UserCreationForm() {
                       htmlFor="courierId"
                       fontSize="sm"
                       fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
+                      color={'gray.700'}
                     >
                       MENSAJERIA ASOCIADA:
                     </FormLabel>
-                    <Input
+                    <Select
                       type="text"
                       name="courierId"
                       id="courierId"
@@ -322,13 +347,26 @@ function UserCreationForm() {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.courierId}
-                    />
+                        >
+                          {couriers.map((element, index)=> {
+                            return (
+                              <option  key={index} value={element._id}>{element.name}</option>
+                            )
+                          })}
+                    </Select>
+
+                        
                     {formik.touched.courierId && formik.errors.courierId ? (
                       <div>
                         <Text color="tomato">{formik.errors.courierId}</Text>
                       </div>
                     ) : null}
-                </FormControl> */}
+                </FormControl>
+                </>)
+  
+ : "" }
+
+                 
                   
                 </SimpleGrid>
               </Stack>
