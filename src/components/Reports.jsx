@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Stat,
-  StatLabel,
   StatNumber,
   StatHelpText,
-  StatArrow,
-  StatGroup,
+  Heading,
   chakra,
   Box,
   Flex,
   useColorModeValue,
-  Link,
   Button,
   Modal,
   ModalOverlay,
@@ -77,6 +74,8 @@ const Reports = () => {
     }
   }, []);
 
+  const orderForMetrics = ordersFilter ? ordersFilter : orders;
+
   // trae metricas por fechas
   const [fechaDesde, setFechaDesde] = useState();
   const [fechaHasta, setFechaHasta] = useState();
@@ -96,23 +95,41 @@ const Reports = () => {
 
   // Modal para calendario
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // const finalRef = React.useRef();
   const a = fechaDesde ? convertDate(fechaDesde) : '2021-01-01';
   const b = fechaHasta ? convertDate(fechaHasta) : convertDate(new Date());
 
-  console.log('fecha a: ', a);
-  console.log('fecha b: ', b);
+  // console.log('fecha a: ', a);
+  // console.log('fecha b: ', b);
 
   useEffect(() => {
-    axios
-      .post(
-        'http://localhost:3001/api/order/filterecommerce',
-        { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
-        getToken()
-      )
-      .then((res) => setOrdersFilter(res.data))
-      .catch((e) => console.log(e));
+    if (loggedUser.role === 'ecommerce') {
+      axios
+        .post(
+          'http://localhost:3001/api/order/filterecommerce',
+          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          getToken()
+        )
+        .then((res) => setOrdersFilter(res.data))
+        .catch((e) => console.log(e));
+    } else if (loggedUser.role === 'courier') {
+      axios
+        .post(
+          'http://localhost:3001/api/order/filtercourier',
+          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          getToken()
+        )
+        .then((res) => setOrdersFilter(res.data))
+        .catch((e) => console.log(e));
+    } else if (loggedUser.role === 'messenger') {
+      axios
+        .post(
+          'http://localhost:3001/api/order/filtermessenger',
+          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          getToken()
+        )
+        .then((res) => setOrdersFilter(res.data))
+        .catch((e) => console.log(e));
+    }
   }, [fechaDesde, fechaHasta]);
 
   console.log('ORDERS --> ', orders);
@@ -120,14 +137,17 @@ const Reports = () => {
 
   return (
     <>
-      <h1>Acá van los reportes</h1>
+      <Heading as="h4" size="md">
+        Seleccione el periodo para el cual quiere ver las metricas:
+      </Heading>
       <Flex
         bg={useColorModeValue('#F9FAFB', 'gray.600')}
-        p={50}
+        mt={3}
+        mb={3}
         direction={['column', 'column', 'row', 'row']}
         w={['90vw', '90vw', '90vw', 'full']}
-        alignItems="center"
-        justifyContent="center"
+        alignItems="baseline"
+        // justifyContent="center"
       >
         <Button mt={4} onClick={onOpen} m={1}>
           Selecionar fechas
@@ -150,7 +170,13 @@ const Reports = () => {
         </Modal>
       </Flex>
 
-      <h1>Total de pedidos: {orders.length}</h1>
+      <Heading as="h5" size="sm" mb={5}>
+        Para el periodo que va desde {a} hasta {b}, hay{' '}
+        {ordersFilter.length ? ordersFilter.length : orders.length} pedidos.
+      </Heading>
+      <Heading as="h5" size="sm">
+        Los mismos se distribuyen de la siguiente manera:
+      </Heading>
 
       <Flex
         bg={useColorModeValue('#F9FAFB', 'gray.600')}
@@ -160,50 +186,50 @@ const Reports = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Box
-          width="90vw"
-          height="auto"
-          borderWidth="1px"
-          px={4}
-          py={4}
-          bg={useColorModeValue('white', 'gray.800')}
-          shadow="md"
-          rounded="md"
-          m={1}
-        >
-          <Flex justifyContent="space-between" alignItems="center">
-            <chakra.span
-              fontSize="md"
-              fontWeight="semibold"
-              color={useColorModeValue('gray.800', 'gray.400')}
-            >
-              Sin asignar
-            </chakra.span>
-          </Flex>
+        {loggedUser.role === 'messenger' ? (
+          ''
+        ) : (
+          <Box
+            width="90vw"
+            height="auto"
+            borderWidth="1px"
+            px={4}
+            py={4}
+            bg="white"
+            shadow="md"
+            rounded="md"
+            m={1}
+          >
+            <Flex justifyContent="space-between" alignItems="center">
+              <chakra.span fontSize="md" fontWeight="semibold" color="gray.800">
+                Sin asignar
+              </chakra.span>
+            </Flex>
 
-          <Box>
-            <chakra.h1
-              fontSize="lg"
-              fontWeight="bold"
-              mt={2}
-              color={useColorModeValue('gray.800', 'white')}
-              align="baseline"
-            >
-              <Stat>
-                {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
-                <StatNumber>{calculateNotAsign(orders)}</StatNumber>
-                <StatHelpText
-                  fontSize="sm"
-                  fontWeight="regular"
-                  color="gray.500"
-                >
-                  <TriangleUpIcon boxSize={4} />{' '}
-                  {notAsignAvg(orders).toFixed(2)}%
-                </StatHelpText>
-              </Stat>
-            </chakra.h1>
+            <Box>
+              <chakra.h1
+                fontSize="lg"
+                fontWeight="bold"
+                mt={2}
+                color="gray.800"
+                align="baseline"
+              >
+                <Stat>
+                  {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
+                  <StatNumber>{calculateNotAsign(orderForMetrics)}</StatNumber>
+                  <StatHelpText
+                    fontSize="sm"
+                    fontWeight="regular"
+                    color="gray.500"
+                  >
+                    <TriangleUpIcon boxSize={4} />{' '}
+                    {notAsignAvg(orderForMetrics).toFixed(2)}%
+                  </StatHelpText>
+                </Stat>
+              </chakra.h1>
+            </Box>
           </Box>
-        </Box>
+        )}
 
         <Box
           width="90vw"
@@ -236,14 +262,14 @@ const Reports = () => {
             >
               <Stat>
                 {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
-                <StatNumber>{calculatePendings(orders)}</StatNumber>
+                <StatNumber>{calculatePendings(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
                   <TriangleUpIcon boxSize={4} />
-                  {pendingsAvg(orders).toFixed(2)}%
+                  {pendingsAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
             </chakra.h1>
@@ -281,14 +307,14 @@ const Reports = () => {
             >
               <Stat>
                 {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
-                <StatNumber>{calculateOnItsWay(orders)}</StatNumber>
+                <StatNumber>{calculateOnItsWay(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
                   <TriangleUpIcon boxSize={4} />
-                  {onItsWayAvg(orders).toFixed(2)}%
+                  {onItsWayAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
             </chakra.h1>
@@ -326,14 +352,14 @@ const Reports = () => {
             >
               <Stat>
                 {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
-                <StatNumber>{calculateDelivered(orders)}</StatNumber>
+                <StatNumber>{calculateDelivered(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
                   <TriangleUpIcon boxSize={4} />
-                  {deliveredAvg(orders).toFixed(2)}%
+                  {deliveredAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
             </chakra.h1>
@@ -371,14 +397,14 @@ const Reports = () => {
             >
               <Stat>
                 {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
-                <StatNumber>{calculateReturned(orders)}</StatNumber>
+                <StatNumber>{calculateReturned(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
                   <TriangleUpIcon boxSize={4} />
-                  {returnedAvg(orders).toFixed(2)}%
+                  {returnedAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
             </chakra.h1>
@@ -393,7 +419,7 @@ const Reports = () => {
         alignItems="left"
         justifyContent="center"
       >
-        <h1>Hola</h1>
+        <></>
       </Flex>
     </>
   );
