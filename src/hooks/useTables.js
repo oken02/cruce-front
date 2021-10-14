@@ -14,6 +14,7 @@ const useTables = ({tableRecords = [], orderByProp = "id", counts=0}) =>{
 
     const handleSearchText = (e) => {
         setSearchText(e.target.value)
+        console.log("E Target value >>>>", e.target.value)
     }
 
 
