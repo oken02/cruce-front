@@ -1,4 +1,4 @@
-const { Order, Courier } = require("../models")
+const { Order, Courier, User } = require("../models")
 const {elCasiHook} = require("../utils/metrics")
 
 //Trae todos los pedidos SOLO ECOMMERCE
@@ -216,8 +216,71 @@ const modifyOrder = async (req, res, next)=>{
     }
 }
 
+//Filtrado por fecha inicial a fecha final.    --MM//DD//AAAA--
+const orderFilterEcommerce = async (req, res, next) => {
+    const { fechaDesde, fechaHasta , courierName} = req.body
 
-module.exports = { allOrders, 
+    let primerParte
+    let segundaParte
+
+    const mensajeria = await Courier.findOne({ name : courierName })
+
+    //ecommerce
+    if (courierName) {
+        primeraParte = { "stateHistory.0.date" : {$gte: new Date(fechaDesde)}, courierId : mensajeria}
+        segundaParte = {"stateHistory.0.date" : {$lt: new Date(fechaHasta)}, courierId : mensajeria}
+    } else {
+        primeraParte = { "stateHistory.0.date" : {$gte: new Date(fechaDesde)}}
+        segundaParte = {"stateHistory.0.date" : {$lt: new Date(fechaHasta)}}
+    }
+
+    try {
+    const orders = await Order.find(
+        { $and: [primeraParte , segundaParte] }
+    )
+    .populate("userId")
+    .populate("courierId")
+    res.status(200).send(orders)
+    } catch (error){
+        next(error)
+    }
+}
+
+const orderFiltercourier = async (req, res, next) => {
+    const {fechaDesde, fechaHasta} = req.body
+    const {courierId} = req.payload
+
+    try{
+        const orders = await Order.find({
+            $and : [{ "stateHistory.0.date" : {$gte: new Date(fechaDesde)}, courierId : courierId},
+                    { "stateHistory.0.date" : {$lt: new Date(fechaHasta)}, courierId : courierId} ]
+        })
+        .populate("userId")
+        res.status(200).send(orders)
+    } catch (error){
+        next(error)
+        }
+}
+
+const orderFilterMessenger = async (req, res, next) => {
+    const {fechaDesde, fechaHasta} = req.body
+    const {id} = req.payload
+
+    try{
+        const orders = await Order.find({
+            $and : [{ "stateHistory.0.date" : {$gte: new Date(fechaDesde)}, userId : id},
+                    { "stateHistory.0.date" : {$lt: new Date(fechaHasta)}, userId : id} ]
+        })
+
+        res.status(200).send(orders)
+    } catch (error){
+        next(error)
+        }
+}
+
+
+module.exports = { 
+     allOrders, 
      newOrder,
      myorders,
      changingState, 
@@ -228,4 +291,47 @@ module.exports = { allOrders,
      deleteOrder, 
      orderByCourier, 
      modifyOrder, 
-     allOrdersByState}
+     allOrdersByState,
+     orderFilterEcommerce,
+     orderFiltercourier,
+     orderFilterMessenger
+    }
+
+
+
+
+    // CLARAMENTE NO TENGO BUEN INTERNET 
+
+    //NO TENIAMOS EN CUENTA LOS ESTADOS EN LAS DEVOLUCIONES
+
+    //PODEMOS MOSTRAR LOS ENTREGADOS Y DEVUELTOS . NO ASÍ EL RESTO DE ESTADOS
+
+    //A QUE TE REFERIS J CON FECHA DE INGRESO Y FECHA DE ENTREGA? 
+
+    
+            //order por fecha
+            //metrics como está
+
+
+  /*    [
+            {
+            
+                courier : nombre1,
+                entregados : 1000,
+                devueltos : 30,
+                tiempoEnMinutos : 34
+
+            },
+            
+            {
+            
+                courier : nombre2,
+                entregados : 1000,
+                devueltos : 15,
+                tiempoEnMinutos : 42
+
+            },
+        
+    ] */
+
+
