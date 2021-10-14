@@ -42,6 +42,9 @@ const OrderList = () => {
   } = useTables({});
 
   const [orders, setOrders] = useState([]);
+  const [orders2, setOrders2] = useState([]);
+  const [filter, setFilter] = useState([]);
+
 
   useEffect(() => {
     axios
@@ -62,9 +65,24 @@ const OrderList = () => {
       )
       .then((data) => {
         console.log("Estado", data.data);
-        setOrders(data.data);
+        setOrders2(data.data);
       });
   };
+
+  useEffect(() => {
+    if (searchText) {
+      // searching by order ID
+      const Searched = orders.filter((ele) =>
+        ele.orderId.includes(searchText)
+      );
+      // const Courier = orders.filter((ele) =>
+      // ele.courierId.name.includes(searchText));
+      setFilter(Searched);
+      // setFilter(Courier);
+
+    }
+
+  }, [searchText]);
 
   return (
     <Box p="4">
@@ -95,7 +113,7 @@ const OrderList = () => {
                     console.log("E Target", e.target.value);
                   }}
                 >
-                  {/* <option value="Todos">Todos</option> */}
+                  <option value="Todos">Todos</option>
                   <option value="Sin Asignar">Sin Asignar</option>
                   <option value="Pendiente de Retiro en Sucursal">
                     Pendiente de retiro
@@ -125,11 +143,90 @@ const OrderList = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {orders.map((row, index) => {
-                console.log(
-                  "ordenes",
-                  row.stateHistory[row.stateHistory.length - 1].date
-                );
+              {(orders2.length < 1 )? (
+
+                (filter.length < 1) ? (orders.map((row, index) => {
+                  return (
+                    <TableRow hover key={index.toString()} tabIndex={-1}>
+                      <TableCell>
+                        <Link to={`/dashboard/order/${row._id}`}>
+                          {row.orderId}{" "}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        {row.stateHistory[0].date.slice(0, 10)}
+                      </TableCell>
+                      <TableCell>
+                        {row.actualState == "Entregado"
+                          ? row.stateHistory[
+                              row.stateHistory.length - 1
+                            ].date.slice(0, 10)
+                          : " "}
+                      </TableCell>
+                      <TableCell>{row.actualState}</TableCell>
+                      <TableCell>
+                        {row.courierId ? row.courierId.name : ""}
+                      </TableCell>
+  
+                      <TableCell>
+                        <AlertDeleteOrder ordID={row._id} name={row.orderID} />
+  
+                        <Link to={`/dashboard/order/${row._id}`}>
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            fontSize="20 px"
+                            size="xs"
+                            icon={<SearchIcon />}
+                          />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })) :
+
+                (filter.map((row, index) => {
+                  return (
+                    <TableRow hover key={index.toString()} tabIndex={-1}>
+                      <TableCell>
+                        <Link to={`/dashboard/order/${row._id}`}>
+                          {row.orderId}{" "}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        {row.stateHistory[0].date.slice(0, 10)}
+                      </TableCell>
+                      <TableCell>
+                        {row.actualState == "Entregado"
+                          ? row.stateHistory[
+                              row.stateHistory.length - 1
+                            ].date.slice(0, 10)
+                          : " "}
+                      </TableCell>
+                      <TableCell>{row.actualState}</TableCell>
+                      <TableCell>
+                        {row.courierId ? row.courierId.name : ""}
+                      </TableCell>
+  
+                      <TableCell>
+                        <AlertDeleteOrder ordID={row._id} name={row.orderID} />
+  
+                        <Link to={`/dashboard/order/${row._id}`}>
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            fontSize="20 px"
+                            size="xs"
+                            icon={<SearchIcon />}
+                          />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  );
+                }))
+              )
+              :
+              (orders2.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>
@@ -167,7 +264,8 @@ const OrderList = () => {
                     </TableCell>
                   </TableRow>
                 );
-              })}
+              }))
+              }
             </TableBody>
           </Table>
         </TableContainer>
