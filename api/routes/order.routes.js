@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const { allOrders, newOrder, myorders, changingState , noAssignedOrderList, orderById, OrderId, allCourierOrders, deleteOrder, modifyOrder , orderByCourier, allOrdersByState} = require('../controllers/orderControllers');
-const { roleMessenger, roleEcommerce, roleCourierAndEcommerce } = require('../middlewares/validateRole');
+const { allOrders, newOrder, myorders, changingState , noAssignedOrderList, orderById, OrderId, allCourierOrders, deleteOrder, modifyOrder , orderByCourier, allOrdersByState, orderFilterEcommerce, orderFiltercourier, orderFilterMessenger} = require('../controllers/orderControllers');
+const { roleMessenger, roleEcommerce, roleCourierAndEcommerce, roleCourier } = require('../middlewares/validateRole');
 
 
 //Lista TODOS los envíos SOLO ECOMMERCE
@@ -11,6 +11,15 @@ router.get("/noassigned", noAssignedOrderList)
 
 //Detalla un pedido por ID
 router.get("/:id", orderById)
+
+//Trae todas las ordenes entre dos fechas (MM/DD/AAAA) (PUEDE ENVIAR POR BODY NOMBRE CADETERIA)
+router.post("/filterecommerce", roleEcommerce, orderFilterEcommerce)
+
+//Trae todas las ordenes entre dos fechas (MM/DD/AAAA)
+router.post("/filtercourier", roleCourier, orderFiltercourier)
+
+//Trae todas las ordenes de un cadete entre dos fechas (MM//DD//AAAA)
+router.post("/filtermessenger", roleMessenger, orderFilterMessenger)
 
 //Lista todos los pedidos de un CADETE
 router.post("/myorders/:id", roleMessenger, myorders)
