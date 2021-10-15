@@ -7,6 +7,7 @@ const calculateDelivered = (arr) => {
 const deliveredAvg = (arr) => {
   let total = arr.filter((order) => order.actualState === 'Entregado');
   let average = (total.length / arr.length) * 100;
+  if (isNaN(average)) return 0;
   return average;
 };
 
@@ -19,6 +20,7 @@ const calculateNotAsign = (arr) => {
 const notAsignAvg = (arr) => {
   let total = arr.filter((order) => order.actualState === 'Sin Asignar');
   let average = (total.length / arr.length) * 100;
+  if (isNaN(average)) return 0;
   return average;
 };
 
@@ -31,6 +33,7 @@ const calculateOnItsWay = (arr) => {
 const onItsWayAvg = (arr) => {
   let total = arr.filter((order) => order.actualState === 'En Camino');
   let average = (total.length / arr.length) * 100;
+  if (isNaN(average)) return 0;
   return average;
 };
 
@@ -46,6 +49,7 @@ const pendingsAvg = (arr) => {
     (order) => order.actualState === 'Pendiente de Retiro en Sucursal'
   );
   let average = (total.length / arr.length) * 100;
+  if (isNaN(average)) return 0;
   return average;
 };
 
@@ -62,6 +66,7 @@ const returnedAvg = (arr) => {
     (order) => order.actualState === 'Devuelto a Sucursal'
   );
   let average = (total.length / arr.length) * 100;
+  if (isNaN(average)) return 0;
   return average;
 };
 

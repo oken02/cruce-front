@@ -17,6 +17,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Text,
+  StatArrow,
 } from '@chakra-ui/react';
 import { TriangleUpIcon } from '@chakra-ui/icons';
 import { useHistory } from 'react-router-dom';
@@ -95,8 +97,13 @@ const Reports = () => {
 
   // Modal para calendario
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const today = new Date();
+  const tomorrow = new Date(today);
+
   const a = fechaDesde ? convertDate(fechaDesde) : '2021-01-01';
-  const b = fechaHasta ? convertDate(fechaHasta) : convertDate(new Date());
+  const b = fechaHasta
+    ? convertDate(fechaHasta)
+    : convertDate(tomorrow.setDate(tomorrow.getDate() + 1));
 
   // console.log('fecha a: ', a);
   // console.log('fecha b: ', b);
@@ -106,7 +113,7 @@ const Reports = () => {
       axios
         .post(
           'http://localhost:3001/api/order/filterecommerce',
-          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )
         .then((res) => setOrdersFilter(res.data))
@@ -115,7 +122,7 @@ const Reports = () => {
       axios
         .post(
           'http://localhost:3001/api/order/filtercourier',
-          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )
         .then((res) => setOrdersFilter(res.data))
@@ -124,16 +131,13 @@ const Reports = () => {
       axios
         .post(
           'http://localhost:3001/api/order/filtermessenger',
-          { fechaDesde: a ? a : '', fechaHasta: b ? b : '', courierName: '' },
+          { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )
         .then((res) => setOrdersFilter(res.data))
         .catch((e) => console.log(e));
     }
   }, [fechaDesde, fechaHasta]);
-
-  console.log('ORDERS --> ', orders);
-  console.log('ORDERS Filtro --> ', ordersFilter);
 
   return (
     <>
@@ -171,12 +175,11 @@ const Reports = () => {
       </Flex>
 
       <Heading as="h5" size="sm" mb={5}>
-        Para el periodo que va desde {a} hasta {b}, hay{' '}
-        {ordersFilter.length ? ordersFilter.length : orders.length} pedidos.
+        Para el periodo que va desde {a} hasta{' '}
+        {fechaHasta ? convertDate(fechaHasta) : convertDate(today)}, hay{' '}
+        {ordersFilter ? ordersFilter.length : orders.length} pedidos.
       </Heading>
-      <Heading as="h5" size="sm">
-        Los mismos se distribuyen de la siguiente manera:
-      </Heading>
+      <Text size="lg">Los mismos se distribuyen de la siguiente manera:</Text>
 
       <Flex
         bg={useColorModeValue('#F9FAFB', 'gray.600')}
@@ -215,14 +218,20 @@ const Reports = () => {
                 align="baseline"
               >
                 <Stat>
-                  {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
                   <StatNumber>{calculateNotAsign(orderForMetrics)}</StatNumber>
                   <StatHelpText
                     fontSize="sm"
                     fontWeight="regular"
                     color="gray.500"
                   >
-                    <TriangleUpIcon boxSize={4} />{' '}
+                    <StatArrow
+                      boxSize={4}
+                      type={
+                        notAsignAvg(orderForMetrics) < 50
+                          ? 'increase'
+                          : 'decrease'
+                      }
+                    />
                     {notAsignAvg(orderForMetrics).toFixed(2)}%
                   </StatHelpText>
                 </Stat>
@@ -268,7 +277,14 @@ const Reports = () => {
                   fontWeight="regular"
                   color="gray.500"
                 >
-                  <TriangleUpIcon boxSize={4} />
+                  <StatArrow
+                    boxSize={4}
+                    type={
+                      pendingsAvg(orderForMetrics) < 50
+                        ? 'increase'
+                        : 'decrease'
+                    }
+                  />
                   {pendingsAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
@@ -313,7 +329,14 @@ const Reports = () => {
                   fontWeight="regular"
                   color="gray.500"
                 >
-                  <TriangleUpIcon boxSize={4} />
+                  <StatArrow
+                    boxSize={4}
+                    type={
+                      onItsWayAvg(orderForMetrics) < 50
+                        ? 'increase'
+                        : 'decrease'
+                    }
+                  />{' '}
                   {onItsWayAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
@@ -351,14 +374,20 @@ const Reports = () => {
               align="baseline"
             >
               <Stat>
-                {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
                 <StatNumber>{calculateDelivered(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
-                  <TriangleUpIcon boxSize={4} />
+                  <StatArrow
+                    boxSize={4}
+                    type={
+                      deliveredAvg(orderForMetrics) > 50
+                        ? 'increase'
+                        : 'decrease'
+                    }
+                  />{' '}
                   {deliveredAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
@@ -396,14 +425,20 @@ const Reports = () => {
               align="baseline"
             >
               <Stat>
-                {/* <StatLabel>Pedidos sin asignar</StatLabel> */}
                 <StatNumber>{calculateReturned(orderForMetrics)}</StatNumber>
                 <StatHelpText
                   fontSize="sm"
                   fontWeight="regular"
                   color="gray.500"
                 >
-                  <TriangleUpIcon boxSize={4} />
+                  <StatArrow
+                    boxSize={4}
+                    type={
+                      returnedAvg(orderForMetrics) < 50
+                        ? 'increase'
+                        : 'decrease'
+                    }
+                  />{' '}
                   {returnedAvg(orderForMetrics).toFixed(2)}%
                 </StatHelpText>
               </Stat>
