@@ -99,10 +99,11 @@ const Reports = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const today = new Date();
   const tomorrow = new Date(today);
+  const tomorrow2 = new Date(fechaHasta);
 
   const a = fechaDesde ? convertDate(fechaDesde) : '2021-01-01';
   const b = fechaHasta
-    ? convertDate(fechaHasta)
+    ? convertDate(tomorrow2.setDate(tomorrow2.getDate() + 1))
     : convertDate(tomorrow.setDate(tomorrow.getDate() + 1));
 
   // console.log('fecha a: ', a);
