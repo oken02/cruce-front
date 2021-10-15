@@ -1,4 +1,4 @@
-const { Metric } = require("../models")
+const { Metric, User } = require("../models")
 
 const elCasiHook = async (state, obj, courierId, userId) => {
 
@@ -12,8 +12,11 @@ const elCasiHook = async (state, obj, courierId, userId) => {
 
         const tiempoEnMinutos = Math.floor((fechaActualMili - fechaMetricaMili) / 60000)
 
+        const nombreCadete = await User.findById(userId)
+
         const objMetric = {
             userId : userId,
+            fullName : nombreCadete.fullName,
             date : fechaActual,
             state : state,
             totalTimeToDelivery : tiempoEnMinutos
