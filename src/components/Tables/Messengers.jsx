@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 
 //Components
 import TablesHead from "./TablesHead";
-import SearchBar from "./SearchBar";
 import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 
 //Hooks
@@ -33,8 +32,6 @@ const Messengers = () => {
     order,
     orderBy,
     handleSortRequest,
-    searchText,
-    handleSearchText,
   } = useTables({});
 
   const [messengers, setMessengers] = useState([]);
@@ -71,10 +68,7 @@ const Messengers = () => {
       <Card>
         <TableContainer>
           <Box p="3">
-            <SearchBar
-              searchText={searchText}
-              onSearchText={handleSearchText}
-            />
+            
           </Box>
           <Table size="small">
             <TablesHead

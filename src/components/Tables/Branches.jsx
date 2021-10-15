@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 
 //Components
 import TablesHead from "./TablesHead";
-import SearchBar from "./SearchBar";
 import AlertDeleteBranch from "./Alerts/AlertDeleteBranch";
 
 //Hooks
@@ -33,8 +32,6 @@ const Branches = () => {
     order,
     orderBy,
     handleSortRequest,
-    searchText,
-    handleSearchText,
   } = useTables({});
 
   const [branch, setBranch] = useState([]);
@@ -67,10 +64,7 @@ const Branches = () => {
       <Card>
         <TableContainer>
           <Box p="3">
-            <SearchBar
-              searchText={searchText}
-              onSearchText={handleSearchText}
-            />
+           
           </Box>
           <Table size="small">
             <TablesHead

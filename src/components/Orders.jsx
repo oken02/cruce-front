@@ -102,6 +102,14 @@ const Order = () => {
                       <Td>{order.actualState}</Td>
                     </Tr>
                     <Tr>
+                      <Td>Fecha de Ingreso:</Td>
+                      <Td>
+                        {order.client.address.receiverName === ''
+                          ? 'Pendiente de entrega'
+                          : order.client.address.receiverName}
+                      </Td>
+                    </Tr>
+                    <Tr>
                       <Td>Pedido ha sido entregado a:</Td>
                       <Td>
                         {order.client.address.receiverName === ''

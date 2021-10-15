@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux';
 
 //Components
 import TablesHead from './TablesHead';
-import SearchBar from './SearchBar';
 import AlertDeleteCourier from './Alerts/AlertDeleteCourier';
 
 //Hooks
@@ -36,8 +35,6 @@ const Couriers = () => {
     order,
     orderBy,
     handleSortRequest,
-    searchText,
-    handleSearchText,
   } = useTables({});
 
   const [couriers, setCouriers] = useState([]);
@@ -95,10 +92,7 @@ const Couriers = () => {
       <Card>
         <TableContainer>
           <Box p="3">
-            <SearchBar
-              searchText={searchText}
-              onSearchText={handleSearchText}
-            />
+            
           </Box>
           <Table size="small">
             <TablesHead
