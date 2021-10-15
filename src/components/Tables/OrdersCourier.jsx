@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import { Box } from "@chakra-ui/layout";
 import { Button, IconButton } from "@chakra-ui/button";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -18,7 +17,6 @@ import { Link } from "react-router-dom";
 //Components
 import TablesHead from "./TablesHead";
 import SearchBar from "./SearchBar";
-import AlertDeleteMessenger from "./Alerts/AlertDeleteMessenger";
 
 //Hooks
 import useTables from "../../hooks/useTables";
@@ -27,8 +25,6 @@ const OrdersCourier = () => {
   const token = localStorage.getItem("token");
 
   const {
-    records,
-    setRecords,
     order,
     orderBy,
     handleSortRequest,
@@ -37,6 +33,8 @@ const OrdersCourier = () => {
   } = useTables({});
 
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState([]);
+
 
   useEffect(() => {
     axios
@@ -52,6 +50,16 @@ const OrdersCourier = () => {
       .then((res) => setOrders(res.data));
   }, []);
 
+
+  useEffect(() => {
+    if (searchText) {
+      // searching by order ID
+      const Searched = orders.filter((ele) => ele.orderId.includes(searchText));
+      setFilter(Searched);
+    }
+  }, [searchText]);
+
+
   return (
     <Box p="4">
       <Box display="flex" justifyContent="space-between" mb="4">
@@ -60,12 +68,14 @@ const OrdersCourier = () => {
 
       <Card>
         <TableContainer>
-          <Box p="3">
-            <SearchBar
-              searchText={searchText}
-              onSearchText={handleSearchText}
-            />
-          </Box>
+              
+              <Box>
+                <SearchBar
+                  searchText={searchText}
+                  onSearchText={handleSearchText}
+                />
+              </Box>
+            
           <Table size="small">
             <TablesHead
               order={order}
@@ -73,7 +83,44 @@ const OrdersCourier = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {orders.map((row, index) => {
+              {filter.length < 1
+                  ? orders.map((row, index) => {
+                return (
+                  <TableRow hover key={index.toString()} tabIndex={-1}>
+                    <TableCell>
+                      <Link to={`/dashboard/order/${row._id}`}>
+                        {row.orderId}{" "}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      {row.stateHistory[0].date.slice(0, 10)}
+                    </TableCell>
+                    <TableCell>{row.actualState == "Entregado"
+                        ? row.stateHistory[
+                            row.stateHistory.length - 1
+                          ].date.slice(0, 10)
+                        : " "}</TableCell>
+                    <TableCell>{row.actualState}</TableCell>
+                    <TableCell>
+                      {row.userId ? row.userId.fullName : ""}
+                    </TableCell>
+
+                    <TableCell>
+                      <Link to={`/dashboard/order/${row._id}`}>
+                        <IconButton
+                          variant="ghost"
+                          colorScheme="teal"
+                          fontSize="20 px"
+                          size="xs"
+                          ml={3}
+                          icon={<SearchIcon />}
+                        />
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                );
+              }):
+              filter.map((row, index) => {
                 return (
                   <TableRow hover key={index.toString()} tabIndex={-1}>
                     <TableCell>

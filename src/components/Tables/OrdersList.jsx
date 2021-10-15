@@ -49,7 +49,6 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [orders2, setOrders2] = useState([]);
   const [filter, setFilter] = useState([]);
-  const [filterDate, setFilterDate] = useState([])
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -61,7 +60,7 @@ const OrderList = () => {
   const initialDate = ()=> {
     let todayTime = state[0].startDate;
     let month = todayTime .getMonth() + 1;
-    let day = todayTime .getDate() + 1;
+    let day = todayTime .getDate();
     let year = todayTime .getFullYear();
     return month + "/" + day + "/" + year;
 }
