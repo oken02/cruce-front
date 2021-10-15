@@ -16,6 +16,18 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Select, Flex, HStack } from "@chakra-ui/react";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+} from "@chakra-ui/react";
 
 //Components
 import TablesHead from "./TablesHead";
@@ -31,19 +43,37 @@ const OrderList = () => {
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.user);
 
-  const {
-    records,
-    setRecords,
-    order,
-    orderBy,
-    handleSortRequest,
-    searchText,
-    handleSearchText,
-  } = useTables({});
+  const { order, orderBy, handleSortRequest, searchText, handleSearchText } =
+    useTables({});
 
   const [orders, setOrders] = useState([]);
   const [orders2, setOrders2] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [filterDate, setFilterDate] = useState([])
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
+  const initialDate = ()=> {
+    let todayTime = state[0].startDate;
+    let month = todayTime .getMonth() + 1;
+    let day = todayTime .getDate() + 1;
+    let year = todayTime .getFullYear();
+    return month + "/" + day + "/" + year;
+}
+
+const finishDate = ()=> {
+  let todayTime = state[0].endDate;
+  let month = todayTime .getMonth() + 1;
+  let day = todayTime .getDate() + 1;
+  let year = todayTime .getFullYear();
+  return month + "/" + day + "/" + year;
+}
+
 
 
   useEffect(() => {
@@ -72,17 +102,32 @@ const OrderList = () => {
   useEffect(() => {
     if (searchText) {
       // searching by order ID
-      const Searched = orders.filter((ele) =>
-        ele.orderId.includes(searchText)
-      );
-      // const Courier = orders.filter((ele) =>
-      // ele.courierId.name.includes(searchText));
+      const Searched = orders.filter((ele) => ele.orderId.includes(searchText));
       setFilter(Searched);
-      // setFilter(Courier);
-
     }
-
   }, [searchText]);
+
+
+  useEffect (() => {
+    if (state[0].startDate !== null && state[0].endDate !== null) {
+      axios
+      .post(
+        `http://localhost:3001/api/order/filterecommerce`,
+        {fechaDesde: initialDate(),
+        fechaHasta: finishDate(),
+      },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((data) => {
+        setOrders(data.data);
+      })
+      .catch((e)=> console.log(e));
+    }
+  },[state])
 
   return (
     <Box p="4">
@@ -125,8 +170,29 @@ const OrderList = () => {
                   </option>
                 </Select>
               </Box>
-
               <Spacer />
+              <Popover>
+                <PopoverTrigger>
+                  <Button colorScheme="teal" variant="ghost">
+                    Filtrar por fechas
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <DateRange
+                      editableDateInputs={true}
+                      onChange={(item) => setState([item.selection])
+                      }
+                      moveRangeOnFirstSelection={false}
+                      ranges={state}
+                    />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+              <Spacer />
+
               <Box>
                 <SearchBar
                   searchText={searchText}
@@ -143,129 +209,134 @@ const OrderList = () => {
               onRequestSort={handleSortRequest}
             />
             <TableBody>
-              {(orders2.length < 1 )? (
+              {orders2.length < 1
+                ? filter.length < 1
+                  ? orders.map((row, index) => {
+                      return (
+                        <TableRow hover key={index.toString()} tabIndex={-1}>
+                          <TableCell>
+                            <Link to={`/dashboard/order/${row._id}`}>
+                              {row.orderId}{" "}
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            {row.stateHistory[0].date.slice(0, 10)}
+                          </TableCell>
+                          <TableCell>
+                            {row.actualState == "Entregado"
+                              ? row.stateHistory[
+                                  row.stateHistory.length - 1
+                                ].date.slice(0, 10)
+                              : " "}
+                          </TableCell>
+                          <TableCell>{row.actualState}</TableCell>
+                          <TableCell>
+                            {row.courierId ? row.courierId.name : ""}
+                          </TableCell>
 
-                (filter.length < 1) ? (orders.map((row, index) => {
-                  return (
-                    <TableRow hover key={index.toString()} tabIndex={-1}>
-                      <TableCell>
-                        <Link to={`/dashboard/order/${row._id}`}>
-                          {row.orderId}{" "}
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        {row.stateHistory[0].date.slice(0, 10)}
-                      </TableCell>
-                      <TableCell>
-                        {row.actualState == "Entregado"
-                          ? row.stateHistory[
-                              row.stateHistory.length - 1
-                            ].date.slice(0, 10)
-                          : " "}
-                      </TableCell>
-                      <TableCell>{row.actualState}</TableCell>
-                      <TableCell>
-                        {row.courierId ? row.courierId.name : ""}
-                      </TableCell>
-  
-                      <TableCell>
-                        <AlertDeleteOrder ordID={row._id} name={row.orderID} />
-  
-                        <Link to={`/dashboard/order/${row._id}`}>
-                          <IconButton
-                            variant="ghost"
-                            colorScheme="teal"
-                            fontSize="20 px"
-                            size="xs"
-                            icon={<SearchIcon />}
+                          <TableCell>
+                            <AlertDeleteOrder
+                              ordID={row._id}
+                              name={row.orderID}
+                            />
+
+                            <Link to={`/dashboard/order/${row._id}`}>
+                              <IconButton
+                                variant="ghost"
+                                colorScheme="teal"
+                                fontSize="20 px"
+                                size="xs"
+                                icon={<SearchIcon />}
+                              />
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  : filter.map((row, index) => {
+                      return (
+                        <TableRow hover key={index.toString()} tabIndex={-1}>
+                          <TableCell>
+                            <Link to={`/dashboard/order/${row._id}`}>
+                              {row.orderId}{" "}
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            {row.stateHistory[0].date.slice(0, 10)}
+                          </TableCell>
+                          <TableCell>
+                            {row.actualState == "Entregado"
+                              ? row.stateHistory[
+                                  row.stateHistory.length - 1
+                                ].date.slice(0, 10)
+                              : " "}
+                          </TableCell>
+                          <TableCell>{row.actualState}</TableCell>
+                          <TableCell>
+                            {row.courierId ? row.courierId.name : ""}
+                          </TableCell>
+
+                          <TableCell>
+                            <AlertDeleteOrder
+                              ordID={row._id}
+                              name={row.orderID}
+                            />
+
+                            <Link to={`/dashboard/order/${row._id}`}>
+                              <IconButton
+                                variant="ghost"
+                                colorScheme="teal"
+                                fontSize="20 px"
+                                size="xs"
+                                icon={<SearchIcon />}
+                              />
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                : orders2.map((row, index) => {
+                    return (
+                      <TableRow hover key={index.toString()} tabIndex={-1}>
+                        <TableCell>
+                          <Link to={`/dashboard/order/${row._id}`}>
+                            {row.orderId}{" "}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          {row.stateHistory[0].date.slice(0, 10)}
+                        </TableCell>
+                        <TableCell>
+                          {row.actualState == "Entregado"
+                            ? row.stateHistory[
+                                row.stateHistory.length - 1
+                              ].date.slice(0, 10)
+                            : " "}
+                        </TableCell>
+                        <TableCell>{row.actualState}</TableCell>
+                        <TableCell>
+                          {row.courierId ? row.courierId.name : ""}
+                        </TableCell>
+
+                        <TableCell>
+                          <AlertDeleteOrder
+                            ordID={row._id}
+                            name={row.orderID}
                           />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })) :
 
-                (filter.map((row, index) => {
-                  return (
-                    <TableRow hover key={index.toString()} tabIndex={-1}>
-                      <TableCell>
-                        <Link to={`/dashboard/order/${row._id}`}>
-                          {row.orderId}{" "}
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        {row.stateHistory[0].date.slice(0, 10)}
-                      </TableCell>
-                      <TableCell>
-                        {row.actualState == "Entregado"
-                          ? row.stateHistory[
-                              row.stateHistory.length - 1
-                            ].date.slice(0, 10)
-                          : " "}
-                      </TableCell>
-                      <TableCell>{row.actualState}</TableCell>
-                      <TableCell>
-                        {row.courierId ? row.courierId.name : ""}
-                      </TableCell>
-  
-                      <TableCell>
-                        <AlertDeleteOrder ordID={row._id} name={row.orderID} />
-  
-                        <Link to={`/dashboard/order/${row._id}`}>
-                          <IconButton
-                            variant="ghost"
-                            colorScheme="teal"
-                            fontSize="20 px"
-                            size="xs"
-                            icon={<SearchIcon />}
-                          />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  );
-                }))
-              )
-              :
-              (orders2.map((row, index) => {
-                return (
-                  <TableRow hover key={index.toString()} tabIndex={-1}>
-                    <TableCell>
-                      <Link to={`/dashboard/order/${row._id}`}>
-                        {row.orderId}{" "}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      {row.stateHistory[0].date.slice(0, 10)}
-                    </TableCell>
-                    <TableCell>
-                      {row.actualState == "Entregado"
-                        ? row.stateHistory[
-                            row.stateHistory.length - 1
-                          ].date.slice(0, 10)
-                        : " "}
-                    </TableCell>
-                    <TableCell>{row.actualState}</TableCell>
-                    <TableCell>
-                      {row.courierId ? row.courierId.name : ""}
-                    </TableCell>
-
-                    <TableCell>
-                      <AlertDeleteOrder ordID={row._id} name={row.orderID} />
-
-                      <Link to={`/dashboard/order/${row._id}`}>
-                        <IconButton
-                          variant="ghost"
-                          colorScheme="teal"
-                          fontSize="20 px"
-                          size="xs"
-                          icon={<SearchIcon />}
-                        />
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                );
-              }))
-              }
+                          <Link to={`/dashboard/order/${row._id}`}>
+                            <IconButton
+                              variant="ghost"
+                              colorScheme="teal"
+                              fontSize="20 px"
+                              size="xs"
+                              icon={<SearchIcon />}
+                            />
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
             </TableBody>
           </Table>
         </TableContainer>
