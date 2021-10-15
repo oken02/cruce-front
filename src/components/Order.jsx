@@ -67,7 +67,7 @@ const Order = () => {
             <GridItem colSpan={{ md: 3 }}>
               <Box px={[4, 0]}>
                 <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
-                  Pedido {order._id ? `id#${orderId}` : ''}
+                  Pedido {order._id ? `id: ${orderId}` : ''}
                 </Heading>
                 <Text
                   mt={1}
@@ -103,11 +103,19 @@ const Order = () => {
                       <Td>{order.actualState}</Td>
                     </Tr>
                     <Tr>
-                      <Td>Pedido ha sido entregado a:</Td>
+                      <Td>Fecha Ingreso:</Td>
                       <Td>
-                        {order.client.address.receiverName === ''
-                          ? 'Pendiente de entrega'
-                          : order.client.address.receiverName}
+                        {order.stateHistory[0].date.slice(0, 10)}
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>Fecha de entrega:</Td>
+                      <Td>
+                      {order.actualState == "Entregado"
+                              ? order.stateHistory[
+                                  order.stateHistory.length - 1
+                                ].date.slice(0, 10)
+                              : "Pendiente"}
                       </Td>
                     </Tr>
                   </Tbody>
@@ -127,11 +135,13 @@ const Order = () => {
                       <Td>Apellido</Td>
                       <Td>{order.client.lastName}</Td>
                     </Tr>
-                  </Tbody>
-                  <Tbody>
                     <Tr>
                       <Td>Telefono</Td>
                       <Td>{order.client.phone}</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>Dirección</Td>
+                      <Td>{`${order.client.address.street} ${order.client.address.numberStreet}, ${order.client.address.city}`}</Td>
                     </Tr>
                   </Tbody>
                   <Thead>

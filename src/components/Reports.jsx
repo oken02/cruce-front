@@ -541,7 +541,7 @@ const Reports = () => {
             >
               <Stat>
                 <StatNumber>
-                  {otrasMetrics.length ? averageToDelivery(otrasMetrics).toFixed(0) : "0"} min
+                  {otrasMetrics.length ? Math.round(averageToDelivery(otrasMetrics).toFixed(0)/60) : "0"} horas
                   
                 </StatNumber>
               </Stat>
@@ -575,7 +575,7 @@ const Reports = () => {
             >
               <Stat>
                 <StatNumber>
-                  {console.log(otrasMetrics)}
+                  {console.log("Otras metricas",otrasMetrics)}
                   {otrasMetrics.length ? efectivity(otrasMetrics) * 100 : 0} %
                 </StatNumber>
               </Stat>

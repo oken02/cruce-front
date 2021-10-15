@@ -102,7 +102,7 @@ function UserCreationForm() {
           <GridItem colSpan={{ md: 1 }}>
             <Box px={[4, 0]}>
               <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
-                Alta de Nuevo Cadete
+                Alta de Nuevo Usuario
               </Heading>
               <Text
                 mt={1}
