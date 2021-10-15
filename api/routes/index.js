@@ -12,7 +12,7 @@ const authRouter = require("./auth.routes");
 
 
 router.use("/usercourier", [validateJWT, roleEcommerce], UserCourier)
-router.use("/courier", [validateJWT, roleEcommerce ], CourierRouter);
+router.use("/courier", [validateJWT ], CourierRouter);
 router.use("/branch", [validateJWT, roleEcommerce ], BranchRouter);
 router.use("/order", [validateJWT], OrderRouter);
 router.use("/user", [validateJWT] , UserRouter);
