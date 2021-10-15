@@ -37,6 +37,8 @@ import {
   calculateReturned,
   returnedAvg,
   countCouriers,
+  averageToDelivery,
+  efectivity,
 } from '../utils/metrics';
 import { convertDate } from '../utils/convertDate';
 import { Calendar } from '@natscale/react-calendar';
@@ -48,8 +50,9 @@ const Reports = () => {
   const user = useSelector((state) => state.user);
   const [orders, setOrders] = useState([]);
   const [ordersFilter, setOrdersFilter] = useState([]);
+  const [metrics, setMetrics] = useState([]);
+  const [otrasMetrics, setOtrasMetrics] = useState([])
 
-  console.log('ORDERS --> ', orders);
   const { loggedUser } = useSelector((state) => state.user);
   const userId = loggedUser._id;
 
@@ -58,7 +61,8 @@ const Reports = () => {
     if (loggedUser.role === 'ecommerce') {
       axios
         .get('http://localhost:3001/api/order', getToken())
-        .then((res) => setOrders(res.data));
+        .then((res) => setOrders(res.data))
+        .catch((e) => console.log(e));
     } else if (loggedUser.role === 'messenger') {
       axios
         .post(
@@ -75,6 +79,41 @@ const Reports = () => {
         .catch((e) => console.log(e));
     }
   }, []);
+
+  // trae metricas ultimas
+  useEffect(() => {
+    if (loggedUser.role === 'ecommerce') {
+      axios
+        .post(
+          'http://localhost:3001/api/metric/allordersinonemonth',
+          { mes: '9' },
+          getToken()
+        )
+        .then((res) => setOtrasMetrics(res.data))
+        .catch((e) => console.log(e));
+    } else if (loggedUser.role === 'messenger') {
+      axios
+        .post(
+          'http://localhost:3001/api/metric/messengermonth',
+          { mes: '9' },
+          getToken()
+        )
+        .then((res) => setOtrasMetrics(res.data))
+        .catch((e) => console.log(e));
+      // } else  (loggedUser.role === 'courier') {
+      //   axios
+      //     .post('http://localhost:3001/api/order/', {}, getToken())
+      //     .then((res) => setOrders(res.data))
+      //     .catch((e) => console.log(e));
+    }
+    else{
+      axios.post('http://localhost:3001/api/metric/couriermonth', { mes: '9' }, getToken())
+      .then(res => setOtrasMetrics(res.data))
+      .catch(e => console.log(e))
+    }
+  }, []);
+
+  console.log('METRICS --> ', metrics);
 
   const orderForMetrics = ordersFilter ? ordersFilter : orders;
 
@@ -154,7 +193,16 @@ const Reports = () => {
         alignItems="baseline"
         // justifyContent="center"
       >
-        <Button mt={4} onClick={onOpen} m={1}>
+        <Button
+          mt={4}
+          onClick={onOpen}
+          m={1}
+          bg={'blue.400'}
+          color={'white'}
+          _hover={{
+            bg: 'blue.500',
+          }}
+        >
           Selecionar fechas
         </Button>
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -175,12 +223,23 @@ const Reports = () => {
         </Modal>
       </Flex>
 
-      <Heading as="h5" size="sm" mb={5}>
-        Para el periodo que va desde {a} hasta{' '}
-        {fechaHasta ? convertDate(fechaHasta) : convertDate(today)}, hay{' '}
-        {ordersFilter ? ordersFilter.length : orders.length} pedidos.
-      </Heading>
-      <Text size="lg">Los mismos se distribuyen de la siguiente manera:</Text>
+      <Text size="lg" fontWeight="semibold">
+        Para el periodo que va desde{' '}
+        <chakra.span fontWeight="bold">{a} </chakra.span>
+        hasta{' '}
+        <chakra.span fontWeight="bold">
+          {' '}
+          {fechaHasta ? convertDate(fechaHasta) : convertDate(today)}{' '}
+        </chakra.span>
+        , hay{' '}
+        <chakra.span fontWeight="bold">
+          {ordersFilter ? ordersFilter.length : orders.length}
+        </chakra.span>{' '}
+        pedidos.
+      </Text>
+      <Text size="lg" mt={1}>
+        Los mismos se distribuyen de la siguiente manera:
+      </Text>
 
       <Flex
         bg={useColorModeValue('#F9FAFB', 'gray.600')}
@@ -452,10 +511,77 @@ const Reports = () => {
         p={50}
         direction={['column', 'column', 'row', 'row']}
         w={['90vw', '90vw', '90vw', 'full']}
-        alignItems="left"
+        alignItems="center"
         justifyContent="center"
       >
-        <></>
+        <Box
+          width="90vw"
+          height="auto"
+          borderWidth="1px"
+          px={4}
+          py={4}
+          bg="white"
+          shadow="md"
+          rounded="md"
+          m={1}
+        >
+          <Flex justifyContent="space-between" alignItems="center">
+            <chakra.span fontSize="md" fontWeight="semibold" color="gray.800">
+              Tiempo promedio del mes actual
+            </chakra.span>
+          </Flex>
+
+          <Box>
+            <chakra.h1
+              fontSize="lg"
+              fontWeight="bold"
+              mt={2}
+              color="gray.800"
+              align="baseline"
+            >
+              <Stat>
+                <StatNumber>
+                  {otrasMetrics.length ? averageToDelivery(otrasMetrics).toFixed(0) : "0"} min
+                  
+                </StatNumber>
+              </Stat>
+            </chakra.h1>
+          </Box>
+        </Box>
+        <Box
+          width="90vw"
+          height="auto"
+          borderWidth="1px"
+          px={4}
+          py={4}
+          bg="white"
+          shadow="md"
+          rounded="md"
+          m={1}
+        >
+          <Flex justifyContent="space-between" alignItems="center">
+            <chakra.span fontSize="md" fontWeight="semibold" color="gray.800">
+              Efectividad del mes actual
+            </chakra.span>
+          </Flex>
+
+          <Box>
+            <chakra.h1
+              fontSize="lg"
+              fontWeight="bold"
+              mt={2}
+              color="gray.800"
+              align="baseline"
+            >
+              <Stat>
+                <StatNumber>
+                  {console.log(otrasMetrics)}
+                  {otrasMetrics.length ? efectivity(otrasMetrics) * 100 : 0} %
+                </StatNumber>
+              </Stat>
+            </chakra.h1>
+          </Box>
+        </Box>
       </Flex>
     </>
   );
