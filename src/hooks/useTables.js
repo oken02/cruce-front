@@ -9,12 +9,10 @@ const useTables = ({tableRecords = [], orderByProp = "id", counts=0}) =>{
     const [orderBy, setOrderBy] = useState(orderByProp)
     const [pageNo, setPageNo] = useState(1);
     const [pageCount, setPageCount] = useState(counts);
-    const [isRecordNotFound, setIsRecordNotFound] = useState(false);
     const [searchText, setSearchText] = useState('')
 
     const handleSearchText = (e) => {
         setSearchText(e.target.value)
-        console.log("E Target value >>>>", e.target.value)
     }
 
 
@@ -23,8 +21,6 @@ const useTables = ({tableRecords = [], orderByProp = "id", counts=0}) =>{
         setOrder (isAsc ? 'desc' : 'asc');
         setOrderBy (property);
     }
-
-    useEffect(() => { setIsRecordNotFound(records.length === 0); },[records]);
 
     useEffect (() => {
         const filteredData = ArraySort(records, order, orderBy)
@@ -46,8 +42,6 @@ const useTables = ({tableRecords = [], orderByProp = "id", counts=0}) =>{
         pageCount,
         setPageCount,
         handlePagination,
-
-        isRecordNotFound,
 
         searchText,
         handleSearchText,

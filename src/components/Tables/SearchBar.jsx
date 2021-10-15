@@ -11,7 +11,7 @@ const SearchBar = ({ searchText, onSearchText }) => {
         value={searchText}
         size="small"
         onChange={onSearchText}
-        placeholder="Buscar..."
+        placeholder="Buscar Pedido..."
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
