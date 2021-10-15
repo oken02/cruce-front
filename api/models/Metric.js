@@ -7,6 +7,7 @@ const orderMetricSchema = new Schema({
     type : Schema.Types.ObjectId,
     ref : "User"
   },
+  fullName : String,
   date : Date,
   state : String, 
   totalTimeToDelivery : Number,
@@ -44,6 +45,7 @@ const metricSchema = new Schema({
 
 
 const Metric = mongoose.model("Metric", metricSchema);
+
 
 module.exports = Metric;
 

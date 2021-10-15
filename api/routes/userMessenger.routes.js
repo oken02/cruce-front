@@ -2,8 +2,6 @@ const { createMessengerUser, userDetails, userMessengerList, deleteUser, updateU
 const { roleCourier, roleMessenger } = require('../middlewares/validateRole');
 const router = require('express').Router()
 
-const {User} = require("../models")
-
 
 //Lista todos los cadetes
 router.get("/", roleCourier, userMessengerList)

@@ -54,7 +54,10 @@ const stateSchema = new Schema({
 //Verificar el ActualState con hook
 
 const orderSchema = new Schema({
-    orderId : String,
+    orderId : {
+        type : String,
+        unique: true,
+    },
     client : clientSchema,
     product : [productSchema],
     observations : String,
