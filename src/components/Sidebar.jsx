@@ -54,6 +54,7 @@ const itemsSidebar = {
     { name: 'Home', url: '', icon: MdHome },
     { name: 'Mis Pedidos', url: '/messengerorders', icon: MdMotorcycle },
     { name: 'Pedidos Sin Asignar', url: '/notassigned', icon: MdLocationOn },
+    { name: 'Reportes', url: '/reports', icon: MdEqualizer }
   ],
 
   ecommerce: [

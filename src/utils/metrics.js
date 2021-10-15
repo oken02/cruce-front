@@ -1,3 +1,24 @@
+//tiempo promedio de entrega
+
+const averageToDelivery = (arr) =>{
+
+
+  let nuevoArr = arr.map(obj => {
+    return obj.totalTimeToDelivery
+  })
+  const reducer = (accumulator, curr) => accumulator + curr;
+  let suma = nuevoArr.reduce(reducer)
+  return (suma/(nuevoArr.length))
+  
+}
+
+const efectivity = (arr) => {
+  let nuevoArr = arr.filter(obj => obj.state === "Entregado")
+  let ef = nuevoArr.length / arr.length
+  return ef
+}
+
+
 // Calculo de entregados
 const calculateDelivered = (arr) => {
   let total = arr.filter((order) => order.actualState === 'Entregado');
@@ -109,4 +130,6 @@ export {
   calculateReturned,
   returnedAvg,
   countCouriers,
+  averageToDelivery,
+  efectivity
 };
