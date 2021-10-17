@@ -6,12 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import getToken from "../utils/getToken";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
-
-
-// The default icon size is 1em (16px)
-{
-  /* <PhoneIcon /> */
-}
+import credentials from "../credentials";
 
 const geo = navigator.geolocation;
 
@@ -20,7 +15,7 @@ const Maps = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: "AIzaSyDLE9SEU4yqbX05W8lKxDf7-OdJDS34qYw",
+      apiKey: credentials.apiKey,
       version: "weekly",
     });
 
@@ -28,7 +23,7 @@ const Maps = () => {
       console.log("API LOADED");
 
       const map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -12.228484164839372, lng: -76.9272354195376 },
+        center: { lat: -34.87082885485712, lng: -65.09152154527119 },
         zoom: 8,
       });
 
@@ -157,7 +152,6 @@ const Maps = () => {
                     //   console.log("CUREEEEEEEEEE");
                     //   m.setPosition(cadeteriaDirection);
                     // };
-
 
                     // const path = result.routes[0].overview_path;
                     // let start = path[0].toJSON();
