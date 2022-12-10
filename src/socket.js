@@ -3,7 +3,7 @@ import io from "socket.io-client";
 export let socket = null;
 
 export const connect = (userID, fullName) => {
-  socket = io("http://localhost:3001", {
+  socket = io("", {
     query: { id: userID, fullName },
   });
   console.log("SOCKET", socket);
@@ -13,7 +13,7 @@ export const connect = (userID, fullName) => {
 //   socket;
 
 //   connect() {
-//     this.socket = io.connect("http://localhost:3001");
+//     this.socket = io.connect("");
 //   }
 
 //   getOrders() {

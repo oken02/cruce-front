@@ -59,7 +59,7 @@ function UserCreationForm() {
     onSubmit: (values, { setSubmitting }) => {
       loggedUser.role === 'courier' ? (axios
         .post(
-          'http://localhost:3001/api/user/messenger/add',
+          '/api/user/messenger/add',
           values,
           getToken()
         )
@@ -70,7 +70,7 @@ function UserCreationForm() {
         })
         .catch((err) => console.log(err))) : ( axios
           .post(
-            'http://localhost:3001/api/usercourier/add',
+            '/api/usercourier/add',
             values,
             getToken()
           )
@@ -87,7 +87,7 @@ function UserCreationForm() {
 
   useEffect(() => {
         axios
-      .get('http://localhost:3001/api/courier/', getToken())
+      .get('/api/courier/', getToken())
       .then((res) => setCouriers(res.data))
   } , []) 
   console.log(couriers)

@@ -24,7 +24,7 @@ import { socket } from "../../../socket";
 
   
     const onAssign = (id) => {
-        axios.put(`http://localhost:3001/api/order/${id}`, {}, {
+        axios.put(`/api/order/${id}`, {}, {
           headers: {
             Authorization: "Bearer " + token,
           },

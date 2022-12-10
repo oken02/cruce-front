@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import getToken from "../utils/getToken";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
-import credentials from "../credentials";
+// import credentials from "../credentials";
 
 const geo = navigator.geolocation;
 
@@ -15,7 +15,8 @@ const Maps = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: credentials.apiKey,
+      // apiKey: credentials.apiKey,
+      apiKey: "",
       version: "weekly",
     });
 
@@ -67,7 +68,7 @@ const Maps = () => {
           dr.setMap(map);
 
           const res = await axios.post(
-            `http://localhost:3001/api/order/myorders/${loggedUser._id}`,
+            `/api/order/myorders/${loggedUser._id}`,
             {},
             getToken()
           );
@@ -88,7 +89,7 @@ const Maps = () => {
           console.log("WAYPOINTS", wayPoints);
 
           const { data } = await axios.get(
-            `http://localhost:3001/api/courier/${loggedUser.courierId}`,
+            `/api/courier/${loggedUser.courierId}`,
             getToken()
           );
 

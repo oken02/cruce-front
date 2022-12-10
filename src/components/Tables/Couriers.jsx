@@ -41,7 +41,7 @@ const Couriers = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/courier/', getToken())
+      .get('/api/courier/', getToken())
       .then((res) => setCouriers(res.data));
   }, []);
 

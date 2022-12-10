@@ -38,7 +38,7 @@ const Messengers = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/user/messenger/", {
+      .get("/api/user/messenger/", {
         headers: {
           Authorization: "Bearer " + token,
         },

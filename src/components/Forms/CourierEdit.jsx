@@ -35,7 +35,7 @@ function CourierEdit() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/courier/${courierId}`, getToken())
+      .get(`/api/courier/${courierId}`, getToken())
       .then((res) => setCourier(res.data))
       .catch((e) => console.log(e));
   }, []);
@@ -68,7 +68,7 @@ function CourierEdit() {
     onSubmit: (values, { setSubmitting }) => {
       axios
         .put(
-          `http://localhost:3001/api/courier/${courierId}`,
+          `/api/courier/${courierId}`,
           values,
           getToken()
         )

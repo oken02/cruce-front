@@ -36,7 +36,7 @@ function MessengerEditUser() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3001/api/user/messenger/${messengerId}`,
+        `/api/user/messenger/${messengerId}`,
         getToken()
       )
       .then((res) => {
@@ -78,7 +78,7 @@ function MessengerEditUser() {
     onSubmit: (values, { setSubmitting }) => {
       axios
         .put(
-          `http://localhost:3001/api/user/courier/update/${messengerId}`,
+          `/api/user/courier/update/${messengerId}`,
           values,
           getToken()
         )

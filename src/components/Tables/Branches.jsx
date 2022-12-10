@@ -38,7 +38,7 @@ const Branches = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/branch/", {
+      .get("/api/branch/", {
         headers: {
           Authorization: "Bearer " + token,
         },

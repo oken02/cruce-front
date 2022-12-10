@@ -4,7 +4,7 @@ import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 export const createBranch = createAsyncThunk('CREATE_BRANCH', (newBranch) => {
   return axios
-    .post('http://localhost:3001/api/Local', newBranch)
+    .post('/api/Local', newBranch)
     .then((response) => {
       return response.data;
     });

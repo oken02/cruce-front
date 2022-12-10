@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   "LOGIN_USER",
   ({ email, password }) => {
     return axios
-      .post("http://localhost:3001/api/auth/login", { email, password })
+      .post("/api/auth/login", { email, password })
       .then((response) => {
         return response.data; //{ ok: true, user, token }
       });
@@ -24,7 +24,7 @@ export const sendValidation = createAsyncThunk(
     
     return axios
       .post(
-        "http://localhost:3001/api/auth/validate",
+        "/api/auth/validate",
         {},
         {
           headers: {

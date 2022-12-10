@@ -60,13 +60,13 @@ const Reports = () => {
   useEffect(() => {
     if (loggedUser.role === 'ecommerce') {
       axios
-        .get('http://localhost:3001/api/order', getToken())
+        .get('/api/order', getToken())
         .then((res) => setOrders(res.data))
         .catch((e) => console.log(e));
     } else if (loggedUser.role === 'messenger') {
       axios
         .post(
-          `http://localhost:3001/api/order/myorders/${userId}`,
+          `/api/order/myorders/${userId}`,
           {},
           getToken()
         )
@@ -74,7 +74,7 @@ const Reports = () => {
         .catch((e) => console.log(e));
     } else if (loggedUser.role === 'courier') {
       axios
-        .post('http://localhost:3001/api/order/', {}, getToken())
+        .post('/api/order/', {}, getToken())
         .then((res) => setOrders(res.data))
         .catch((e) => console.log(e));
     }
@@ -85,7 +85,7 @@ const Reports = () => {
     if (loggedUser.role === 'ecommerce') {
       axios
         .post(
-          'http://localhost:3001/api/metric/allordersinonemonth',
+          '/api/metric/allordersinonemonth',
           { mes: '9' },
           getToken()
         )
@@ -94,7 +94,7 @@ const Reports = () => {
     } else if (loggedUser.role === 'messenger') {
       axios
         .post(
-          'http://localhost:3001/api/metric/messengermonth',
+          '/api/metric/messengermonth',
           { mes: '9' },
           getToken()
         )
@@ -102,12 +102,12 @@ const Reports = () => {
         .catch((e) => console.log(e));
       // } else  (loggedUser.role === 'courier') {
       //   axios
-      //     .post('http://localhost:3001/api/order/', {}, getToken())
+      //     .post('/api/order/', {}, getToken())
       //     .then((res) => setOrders(res.data))
       //     .catch((e) => console.log(e));
     }
     else{
-      axios.post('http://localhost:3001/api/metric/couriermonth', { mes: '9' }, getToken())
+      axios.post('/api/metric/couriermonth', { mes: '9' }, getToken())
       .then(res => setOtrasMetrics(res.data))
       .catch(e => console.log(e))
     }
@@ -152,7 +152,7 @@ const Reports = () => {
     if (loggedUser.role === 'ecommerce') {
       axios
         .post(
-          'http://localhost:3001/api/order/filterecommerce',
+          '/api/order/filterecommerce',
           { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )
@@ -161,7 +161,7 @@ const Reports = () => {
     } else if (loggedUser.role === 'courier') {
       axios
         .post(
-          'http://localhost:3001/api/order/filtercourier',
+          '/api/order/filtercourier',
           { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )
@@ -170,7 +170,7 @@ const Reports = () => {
     } else if (loggedUser.role === 'messenger') {
       axios
         .post(
-          'http://localhost:3001/api/order/filtermessenger',
+          '/api/order/filtermessenger',
           { fechaDesde: a, fechaHasta: b, courierName: '' },
           getToken()
         )

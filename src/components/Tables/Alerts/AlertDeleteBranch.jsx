@@ -23,7 +23,7 @@ import {
 
   
     const onDelete = (id) => {
-        axios.delete(`http://localhost:3001/api/branch/${id}`,{
+        axios.delete(`/api/branch/${id}`,{
           headers: {
             Authorization: "Bearer " + token,
           },

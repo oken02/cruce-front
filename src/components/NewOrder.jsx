@@ -30,7 +30,7 @@ const NewOrder = () => {
     console.log('DATA ->', fileData);
     e.preventDefault();
     axios
-      .post('http://localhost:3001/api/order/post', fileData, getToken())
+      .post('/api/order/post', fileData, getToken())
       .then((res) => {
         console.log(res);
         history.push('/dashboard/orders');

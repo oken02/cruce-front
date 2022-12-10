@@ -54,7 +54,7 @@ function CourierCreationForm() {
 
       axios
         .post(
-          'http://localhost:3001/api/courier/courierAdd',
+          '/api/courier/courierAdd',
           values,
           getToken()
         )

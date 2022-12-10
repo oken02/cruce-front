@@ -77,14 +77,14 @@ const finishDate = ()=> {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/order", getToken())
+      .get("/api/order", getToken())
       .then((res) => setOrders(res.data));
   }, []);
 
   const onState = (state) => {
     axios
       .post(
-        `http://localhost:3001/api/order/ordersbystate`,
+        `/api/order/ordersbystate`,
         { state: `${state}` },
         {
           headers: {
@@ -111,7 +111,7 @@ const finishDate = ()=> {
     if (state[0].startDate !== null && state[0].endDate !== null) {
       axios
       .post(
-        `http://localhost:3001/api/order/filterecommerce`,
+        `/api/order/filterecommerce`,
         {fechaDesde: initialDate(),
         fechaHasta: finishDate(),
       },

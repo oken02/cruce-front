@@ -49,7 +49,7 @@ function BranchCreationForm() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .post('http://localhost:3001/api/branch', values, getToken())
+        .post('/api/branch', values, getToken())
 
         .then((res) => {
           // alert(`usuario ${values.name} creado`);

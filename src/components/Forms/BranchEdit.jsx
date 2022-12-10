@@ -35,7 +35,7 @@ function BranchEdit() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/branch/${branchId}`, getToken())
+      .get(`/api/branch/${branchId}`, getToken())
       .then((res) => setBranch(res.data))
       .catch((e) => console.log(e));
   }, []);
@@ -67,7 +67,7 @@ function BranchEdit() {
     }),
     onSubmit: (values, { setSubmitting }) => {
       axios
-        .put(`http://localhost:3001/api/branch/${branchId}`, values, getToken())
+        .put(`/api/branch/${branchId}`, values, getToken())
         .then((res) => {
           setSubmitting(false);
           history.push('/dashboard/branches');

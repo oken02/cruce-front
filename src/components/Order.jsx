@@ -40,7 +40,7 @@ const Order = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/order/${orderId}`, getToken())
+      .get(`/api/order/${orderId}`, getToken())
       .then((res) => setOrder(res.data))
       .catch((e) => console.log(e));
   }, []);

@@ -39,7 +39,7 @@ const OrdersCourier = () => {
   useEffect(() => {
     axios
       .post(
-        "http://localhost:3001/api/order/",
+        "/api/order/",
         {},
         {
           headers: {

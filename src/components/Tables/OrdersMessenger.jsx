@@ -45,7 +45,7 @@ const OrdersMessenger = () => {
   useEffect(() => {
     axios
       .post(
-        `http://localhost:3001/api/order/myorders/${userId}`,
+        `/api/order/myorders/${userId}`,
         {},
         {
           headers: {
@@ -59,7 +59,7 @@ const OrdersMessenger = () => {
   const onState = (orderID, state) => {
     axios
       .put(
-        `http://localhost:3001/api/order/${orderID}`,
+        `/api/order/${orderID}`,
         { state: `${state}` },
         {
           headers: {
