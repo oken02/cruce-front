@@ -1,7 +1,6 @@
 {
   "name": "cruce",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
     "@chakra-ui/react": "^1.6.8",
